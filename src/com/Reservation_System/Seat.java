@@ -9,10 +9,10 @@ public class Seat {
 	private final Type type;
 	
 	SeatStatus status;
-	Seat(int id, Type type, SeatStatus status){
+	Seat(int id, Type type){
 		this.id = id;
 		this.type = type;
-		this.status = status;
+		this.status = SeatStatus.AVL;
 	}
 	public Type getType() {
 		return type;

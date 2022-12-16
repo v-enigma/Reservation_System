@@ -1,9 +1,13 @@
 package com.Reservation_System;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.Reservation_System.Enum.BookingStatus;
+import com.Reservation_System.Enum.Gender;
+import com.Reservation_System.Enum.Type;
 
 
 public class Booking {
@@ -64,17 +68,20 @@ public class Booking {
 	}
 	@Override
 	public String toString() {
-		String details="";
+		String details;
 		int i=0;
-		String  topLevel ="CoachNo    SeatNo      Name";
-		details+=topLevel;
+		String  topLevel ="CoachNo    SeatNo      Name\n";
+		details=topLevel;
 		for(UserDetails userdetails: passenger) {
-			String temp = coachIds.get(i)+"          " +seatsAllocated.get(i)+"          "+ userdetails.getName()+"\n";
+			String temp = coachIds.get(i)+"          " +seatsAllocated.get(i).getId()+"          "+ userdetails.getName()+"\n";
 			details+=temp;
+			i++;
 		}
-		String ticket = " Source: "+ this.source +" Destination : "+ this.destination + "PNR " + this.PNR+" \\n " ;
+		
+		String ticket = "Source: "+ this.source +" Destination : "+ this.destination + "PNR " + this.PNR+" \n " ;
 		ticket+=details;
 		return ticket;
 	}
+	
 
 }
