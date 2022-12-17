@@ -12,7 +12,7 @@ public class Train {
 	private final Seating acSeating ;
 	private final Seating sleeperSeating;
 	
-	Train(String name,Route route,Schedule schedule, ACSeating acSeating, SleeperClass sleeperSeating){
+	Train(String name,Route route,Schedule schedule, ACSeating acSeating, SleeperSeating sleeperSeating){
 		this.id =  TrainDB.getInstance().getId();
 		this.name = name;
 		this.route = route;
