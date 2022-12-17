@@ -20,7 +20,7 @@ public class Coach {
 	public List<Integer> getAvailableSeats(){
 		List<Integer> AvailableSeatIDList = new ArrayList<>();
 		for(Seat seat: seats) {
-			if(seat.status == SeatStatus.AVL ) {
+			if(seat.getStatus() == SeatStatus.AVL ) {
 				AvailableSeatIDList.add(seat.getId());
 			}
 		}

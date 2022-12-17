@@ -1,13 +1,8 @@
 package com.Reservation_System;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
 import com.Reservation_System.Enum.BookingStatus;
-import com.Reservation_System.Enum.Gender;
-import com.Reservation_System.Enum.Type;
 
 
 public class Booking {

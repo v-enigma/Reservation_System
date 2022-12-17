@@ -8,7 +8,7 @@ public class Seat {
 	private final int id;
 	private final Type type;
 	
-	SeatStatus status;
+	private SeatStatus status;
 	Seat(int id, Type type){
 		this.id = id;
 		this.type = type;
@@ -28,5 +28,4 @@ public class Seat {
 		return id;
 	}
 	
-
 }
