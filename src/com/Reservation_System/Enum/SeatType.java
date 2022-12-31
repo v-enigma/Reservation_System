@@ -1,6 +1,6 @@
 package com.Reservation_System.Enum;
 
-public enum Type {
+public enum SeatType {
 	UB,
 	LB,
 	MB,

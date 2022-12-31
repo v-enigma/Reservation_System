@@ -1,6 +1,5 @@
 package com.Reservation_System;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import com.Reservation_System.Enum.BookingStatus;
 
@@ -10,21 +9,21 @@ public class Booking {
 	private final User customer;
 	private final List<UserDetails> passenger;
 	private final Train train;
-	private final LocalDateTime dateOfJourney;
+	private final LocalDate dateOfJourney;
 	private final Station source;
 	private final Station destination;
 	private final long PNR;
 	private BookingStatus status = null;
 	private final List<Seat>seatsAllocated;
 	private final List<Integer> coachIds;
-	Booking(Customer customer, List<UserDetails> passenger, Train train, LocalDateTime dJ, Station source, Station destination ,List<Seat> seatsAllocated, List<Integer>coachIds){
+	Booking(Customer customer, List<UserDetails> passenger, Train train, LocalDate dJ, Station source, Station destination, int PNR,List<Seat> seatsAllocated, List<Integer>coachIds){
 		this.customer = customer;
 		this.passenger = passenger;
 		this.train =train;
 		this.dateOfJourney = dJ;
 		this.source = source;
 		this.destination =destination;
-		this.PNR = BookingDB.getInstance().generateId();
+		this.PNR = PNR;
 		this.seatsAllocated = seatsAllocated;
 		this.coachIds = coachIds;
 	}
@@ -34,7 +33,7 @@ public class Booking {
 	public User getCustomer() {
 		return customer;
 	}
-	public LocalDateTime getDateOfJourney() {
+	public LocalDate getDateOfJourney() {
 		return dateOfJourney;
 	}
 	public Station getSource() {

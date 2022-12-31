@@ -1,15 +1,15 @@
 package com.Reservation_System;
 
 import java.util.List;
-import java.util.ArrayList;
-import com.Reservation_System.Enum.SeatStatus;
 
 public class Coach {
 	private final int id;
+	private final String name;
 	private List<Seat> seats;
-	Coach(int id, List<Seat> seats){
+	Coach(int id, List<Seat> seats, String name){
 		this.id = id;
 		this.seats = seats;
+		this.name = name;
 	}
 	public int getId() {
 		return this.id;
@@ -17,15 +17,11 @@ public class Coach {
 	public int getSeatsCount(){
 		return seats.size();
 	}
-	public List<Integer> getAvailableSeats(){
-		List<Integer> AvailableSeatIDList = new ArrayList<>();
-		for(Seat seat: seats) {
-			if(seat.getStatus() == SeatStatus.AVL ) {
-				AvailableSeatIDList.add(seat.getId());
-			}
-		}
-		return AvailableSeatIDList;
+	
+	public String getName() { //updated
+		return name;
 	}
+	
 	
 	
 	

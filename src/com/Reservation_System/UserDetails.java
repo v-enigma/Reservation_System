@@ -1,17 +1,21 @@
 package com.Reservation_System;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import com.Reservation_System.Enum.Gender;
-import com.Reservation_System.Enum.Type;
+import com.Reservation_System.Enum.SeatType;
+
 
 public class UserDetails {
 	private String name;
-	private int age;
+	private LocalDate dateOfBirth;
 	private Gender gender;
-	private Type seatPreference;
+	private SeatType seatPreference;
 	
-	UserDetails(String name, int age, Gender gender, Type seatPreference){
+	UserDetails(String name, LocalDate dateOfBirth, Gender gender, SeatType seatPreference){
 		this.name = name;
-		this.age = age;
+		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
 		this.seatPreference = seatPreference;
 	}
@@ -21,11 +25,14 @@ public class UserDetails {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getAge() {
-		return age;
+	public long getAge() {
+		LocalDate dt = LocalDate.now();
+        long years = ChronoUnit.YEARS.between(dateOfBirth , dt);
+        return years;
 	}
-	public void setAge(int age) {
-		this.age = age;
+	
+	public void dateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 	public Gender getGender() {
 		return gender;
@@ -33,10 +40,10 @@ public class UserDetails {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	public Type getSeatPreference() {
+	public SeatType getSeatPreference() {
 		return seatPreference;
 	}
-	public  void setSeatPreference(Type seatPreference) {
+	public  void setSeatPreference(SeatType seatPreference) {
 		this.seatPreference = seatPreference;
 	}
 	

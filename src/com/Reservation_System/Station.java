@@ -1,14 +1,13 @@
 package com.Reservation_System;
-
-import com.Reservation_System.Enum.SType;
+import com.Reservation_System.Enum.StationType;
 
 public class Station {
 	private final String name;
 	private final String id;
 	private int noOFPlatforms;
-	private SType stype;
+	private StationType stype;
 	
-	Station(String name, String id, int noOfPlatforms, SType stype){
+	public Station(String name, String id, int noOfPlatforms, StationType stype){
 		this.name = name;
 		this.id = id;
 		this.noOFPlatforms = noOfPlatforms;
@@ -27,7 +26,7 @@ public class Station {
 		return noOFPlatforms;
 	}
 
-	public SType getStype() {
+	public StationType getStype() {
 		return stype;
 	}
 
@@ -35,7 +34,7 @@ public class Station {
 		this.noOFPlatforms = noOFPlatforms;
 	}
 
-	public void setStype(SType stype) {
+	public void setStype(StationType stype) {
 		this.stype = stype;
 	}
 	

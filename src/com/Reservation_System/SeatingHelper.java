@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SeatingHelper {
 	
-	public static SeatingHelper SEATING_HELPER = new SeatingHelper();
+	private static SeatingHelper SEATING_HELPER = new SeatingHelper();
 	private SeatingHelper() {
 		
 	}

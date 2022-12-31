@@ -1,6 +1,6 @@
 package com.Reservation_System;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Customer extends User {
 
-	private final List<Booking> confirmedbookings = new ArrayList<>();
+	private final List<Booking> confirmedBookings = new ArrayList<>();
 	private final List<Booking> cancelledBookings = new ArrayList<>();
 
 	Customer(String id, String phoneNumber,  String mailId,UserDetails userDetails) {
@@ -17,24 +17,27 @@ public class Customer extends User {
 		
 	}
 	public List<Booking> getBookings(){
-		return confirmedbookings;
+		return confirmedBookings;
 	}
 	public List<Booking> getCancelledBookings(){
 		return cancelledBookings;
 	}
 	public void addBooking(Booking booking) {
-		confirmedbookings.add(booking);
+		confirmedBookings.add(booking);
 	}
-	public void addCancelledBookings(Booking booking) {
-		cancelledBookings.add(booking);
+	public void addCancelledBookings(long PNR) {
+		Booking booking = getBookingById(PNR, confirmedBookings);
+		if(booking!= null)
+			cancelledBookings.add(booking);
+		
 	}
 	void RemoveBookings(List<Booking> bookingList){  // access specifier default
 		boolean foundFirst =false;
 		Iterator<Booking> bookings = bookingList.iterator();
 		while(bookings.hasNext()) {
 			
-			LocalDateTime DateOfJourney = bookings.next().getDateOfJourney();
-			LocalDateTime today = LocalDateTime.now();
+			LocalDate DateOfJourney = bookings.next().getDateOfJourney();
+			LocalDate today = LocalDate.now();
 			if(foundFirst || ChronoUnit.DAYS.between(today, DateOfJourney)>=60) {
 				foundFirst = true;
 				bookings.remove();
@@ -42,6 +45,23 @@ public class Customer extends User {
 			}
 		}
 		
+	}
+	private Booking getBookingById(long PNR, List<Booking> bookings) {
+		Booking booking = null;
+		boolean found =false;
+		Iterator<Booking> bookingIterator = bookings.iterator();
+		while(bookingIterator.hasNext()) {
+			booking = bookingIterator.next();
+			if(booking.getPNR() == PNR) {
+				bookingIterator.remove();
+				found = true;
+				break;
+			}
+				
+		}
+		if(!found)
+			booking = null;
+		return booking;
 	}
 
 }

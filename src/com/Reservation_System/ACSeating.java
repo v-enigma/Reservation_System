@@ -1,13 +1,10 @@
 package com.Reservation_System;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class ACSeating extends Seating {
 	private boolean foodAvailabile;
 	private boolean MagzinesAvailabile;
-	public ACSeating(HashMap<String, ArrayList<Integer>> bookedSeats) {
-		super(bookedSeats);
+	public ACSeating(  ) {
+		super();
 		foodAvailabile = true;
 		MagzinesAvailabile = true;
 	}

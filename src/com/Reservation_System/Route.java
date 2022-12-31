@@ -10,19 +10,16 @@ import java.util.Set;
 public class Route {
 	
 	private final Map<Station, Integer> routeMap = new LinkedHashMap<>();
-	
 	public void addStationWithDistance(Station station, int distance) {
 		routeMap.put(station, distance);
 	}
-	
 	public int getDistance(Station station) {
 		return routeMap.get(station);
 	}
-	
 	public boolean hasStop(Station station) {
 		return routeMap.containsKey(station);
 	}
-	public Iterator<Station> getAllStops(){
+	public Iterator<Station> getAllStations(){
 		Set<Station> stops = routeMap.keySet();
 		return stops.iterator();
 		
@@ -37,6 +34,19 @@ public class Route {
 			sCodes.add(Id);
 		}
 		return sCodes;
+	}
+	public Map<Station, Integer> addStationWithDistance(List<Station> stations, List<Integer> allDistances) {
+		if(stations.size() == allDistances.size()) {
+			Iterator<Station>stationIterator = stations.iterator();
+			Iterator<Integer>distanceIterator = allDistances.iterator();
+			while(stationIterator.hasNext()) {
+				routeMap.put(stationIterator.next(), distanceIterator.next());
+			}
+		}
+		else {
+			System.out.println(); //has to throw exception after
+		}
+		return routeMap;
 	}
 	public int getStopsCount() {
 		//System.out.println("Stops count "+ routeMap.size());
