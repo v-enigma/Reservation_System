@@ -16,11 +16,11 @@ public class Booking {
 	private BookingStatus status = null;
 	private final List<Seat>allocatedSeats;
 	private final List<Integer> coachIds;
-	Booking(Customer customer, List<UserDetails> passenger, Train train, LocalDate dJ, Station source, Station destination, int PNR,List<Seat> allocatedSeats, List<Integer>coachIds){
+	Booking(Customer customer, List<UserDetails> passenger, Train train, LocalDate journeyDate, Station source, Station destination, int PNR,List<Seat> allocatedSeats, List<Integer>coachIds){
 		this.customer = customer;
 		this.passenger = passenger;
 		this.train =train;
-		this.journeyDate = dJ;
+		this.journeyDate = journeyDate;
 		this.source = source;
 		this.destination =destination;
 		this.PNR = PNR;

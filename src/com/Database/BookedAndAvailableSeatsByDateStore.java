@@ -1,4 +1,4 @@
-package com.Reservation_System;
+package com.Database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.Reservation_System.Enum.SeatType;
 
-public class SeatAllocationHelper {
+public class BookedAndAvailableSeatsByDateStore{ // Store booked seats and available seats for a given date
 	private int numCoaches;
 	private int seatsPerCoach;
 	
@@ -17,7 +17,7 @@ public class SeatAllocationHelper {
 	public int[] lastAssignedSeats = {0,0,0,0,0};
 	public int[]berthAvailability = { (numavailableSeats%8)*2,(numavailableSeats%8)*2, (numavailableSeats%8)*2,(numavailableSeats%8),(numavailableSeats%8)};
 	public int racSeatAvailability ;
-	SeatAllocationHelper( int coachCount, int seatsInCoach){
+	public BookedAndAvailableSeatsByDateStore( int coachCount, int seatsInCoach){
 		this.numCoaches = coachCount;
 		this.seatsPerCoach = seatsInCoach;
 		this.numavailableSeats = coachCount * seatsInCoach;	
@@ -25,7 +25,7 @@ public class SeatAllocationHelper {
 	}
 	public void addCoach(int count) {
 		numCoaches+= count;
-		this.numavailableSeats+=(numCoaches*seatsPerCoach );
+		this.numavailableSeats+=(numCoaches*seatsPerCoach);
 		
 	}
 	

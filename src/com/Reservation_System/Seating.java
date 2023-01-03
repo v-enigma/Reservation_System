@@ -9,6 +9,7 @@ public abstract class Seating {
 	
 	private int availableSeats;
 	
+	
 	Seating(){
 		
 		this.availableSeats = 0;	
@@ -32,5 +33,10 @@ public abstract class Seating {
 		return this.availableSeats;
 	}
 	
-	
+	public int getNumCoaches() {
+		return coaches.size();
+	}
+	public int getSeatsPerCoach() {
+		return coaches.get(0).getSeatsCount();
+	}
 }
