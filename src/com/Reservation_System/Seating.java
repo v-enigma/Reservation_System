@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Seating {
+	
 	private final List<Coach> coaches= new ArrayList<>();
 	
 	private int availableSeats;

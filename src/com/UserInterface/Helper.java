@@ -20,5 +20,8 @@ public class Helper {
 		String empty = scan.nextLine();
 		return empty;
 	}
-
+	static Long getLongInput() {
+		long number = scan.nextLong();
+		return number;
+	}
 }

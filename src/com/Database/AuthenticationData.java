@@ -9,7 +9,7 @@ public class AuthenticationData {
 	Map<String, String>adminCred = new HashMap<>();
 	
 	private AuthenticationData() {
-		
+			
 	}
 	public static AuthenticationData getInstance() {
 		

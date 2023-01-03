@@ -63,4 +63,13 @@ public class StationsData {
 			st++;	
 		}
 	}
+	public String getStationCode(String stationName) {
+		String stationId = "";
+		for(Station station: stations) {
+			if(station.getName().equals(stationName))
+				return station.getId();
+		}
+		return stationId;
+		
+	}
 }

@@ -1,16 +1,22 @@
 package com.UserInterface;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.Database.AuthenticationData;
+import com.Database.StationsData;
+import com.Database.UsersData;
+import com.Reservation_System.Booking;
+import com.Reservation_System.BookingFactory;
 import com.Reservation_System.Train;
+import com.Reservation_System.UserDetails;
 import com.Reservation_System.UserFactory;
 import com.Reservation_System.Enum.Gender;
 import com.Reservation_System.Enum.SeatType;
 
 public class CustomerApp implements Application, Authenticable, Searchable{
-	
+	String userId="";
 	public void init() {
 		System.out.println("  ");
 		int option = 1; //update the code 
@@ -27,9 +33,8 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		}
 	}
 	public void signIn() {
-		String userId = "Venu1297"; // update the code
+		userId = "Venu1297"; // update the code
 		String password = "QWzx0945@";// update the code;
-		
 		boolean success =AuthenticationData.getInstance().customerAuthenticate(userId, password);
 		
 		if(success) {
@@ -64,13 +69,59 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	}
 	private void bookTicket() {
 		System.out.println("Enter source, destination station  and  date of journey\n ");
-		List<Object> objects = getDetails();
+		List<Object> objects = getJourneyDetails();
+		LocalDate localDate = (LocalDate)objects.get(2);
+		LocalDate upperBoundDate = LocalDate.now().plusDays(120);
+		String sourceId = StationsData.getInstance().getStationCode(objects.get(0).toString());
+		String desId = StationsData.getInstance().getStationCode(objects.get(1).toString());
+		while(!(localDate.isBefore(upperBoundDate) || localDate.isEqual(upperBoundDate))) {
+			System.out.println("Enter a valid Date. You are allowed to book only 4 months ahead from today");
+			String date = Helper.getStringInput();
+			localDate  = LocalDate.parse(date);
+		}
 		List<Train> trains =searchTrain(objects);
 		System.out.println("Enter the index of the train printed above to find available seats ");
 		int index = Helper.getIntegerInput();
 		index--;
-		Train train = trains.get(index);
-		
+		Train train = trains.get(index);	
+		List<String>stops = train.getSchedule().getStops();
+		int indexOfSource = stops.indexOf(sourceId);
+		int indexOfDestin = stops.indexOf(desId);
+		System.out.println("Enter passengers count");
+		int passengerCount = Helper.getIntegerInput();
+	    List<UserDetails> passengers = new ArrayList<>();
+	    while(passengerCount> 0) {
+	    	System.out.println("Enter passengerName");
+	    	String name = Helper.getStringInput();
+	    	System.out.println("Enter DateofBirth in DD/MM/YYYY");
+	    	String date = Helper.getStringInput();
+	    	LocalDate dateOfBirth = LocalDate.parse(date);
+	    	System.out.println("Enter Gender");
+	    	char input = Helper.getCharacterInput();
+	    	Gender gender ;
+	    	if(input == 'M')
+	    		gender = Gender.M;
+	    	else if(input == 'F')
+	    		gender = Gender.F;
+	    	else 
+	    		gender = Gender.O;
+	    	System.out.println("Enter seat Preference");
+	    	String seatInput = Helper.getStringInput();
+	    	SeatType seatType ;
+	    	if(seatInput == "LB")
+	    		seatType = SeatType.LB;
+	    	else if(seatInput == "MB")
+	    		seatType = SeatType.MB;
+	    	else if(seatInput == "UB")
+	    		seatType = SeatType.UB;
+	    	else if(seatInput == "SUB")
+	    		seatType = SeatType.SUB;
+	    	else
+	    		seatType = SeatType.SLB;
+	    	passengers.add(   UserFactory.getInstance().buildUserDetails(name, dateOfBirth, gender, seatType));
+	    	passengerCount--;
+	    }
+	    BookingFactory.getInstance().createBooking(UsersData.getInstance().getUser(desId),train, passengers, indexOfSource,indexOfDestin , stops.size()-1);
 		
 	}
 	private void cancel(long PNR) {
@@ -78,19 +129,22 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	}
 	private void search() {
 		System.out.println("Enter source, destination station  and  date of journey\n ");
-		List<Object> objects = getDetails();
+		List<Object> objects = getJourneyDetails();
 		List<Train> trains =searchTrain(objects);
-		System.out.println("If you are intersted in booking the ticket enter Y for yes or N for NO");
-		char interested = Helper.getCharacterInput();
-		if(interested == 'Y' || interested =='y') {
-			
-			System.out.println("Enter the index of the trains printed above");
-			int index = Helper.getIntegerInput();
-			index = index-1;
-			
-			
-			//call booking method
-		}
+		/*
+		 * System.out.
+		 * println("If you are intersted in booking the ticket enter Y for yes or N for NO"
+		 * );
+		 * 
+		 * char interested = Helper.getCharacterInput(); if(interested == 'Y' ||
+		 * interested =='y') {
+		 * 
+		 * System.out.println("Enter the index of the trains printed above"); int index
+		 * = Helper.getIntegerInput(); index = index-1;
+		 * 
+		 * 
+		 * //call booking method }
+		 */		 
 	}
 	private void pastBooking() {
 		
@@ -109,7 +163,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 			bookTicket();
 			break;
 		case 3:
-			long PNR = 0;
+			long PNR = Helper.getLongInput();
 			cancel(PNR);
 			break;
 		case 4:

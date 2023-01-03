@@ -13,7 +13,7 @@ public interface Searchable {
 	default void  pnrSearch() {
 		
 	}
-	default List<Object> getDetails() {
+	default List<Object> getJourneyDetails() {
 		System.out.println("Enter the source station name");
 		String source = "";
 		System.out.println("Enter the destination station name");

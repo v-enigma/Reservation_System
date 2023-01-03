@@ -36,7 +36,7 @@ public class Customer extends User {
 		Iterator<Booking> bookings = bookingList.iterator();
 		while(bookings.hasNext()) {
 			
-			LocalDate DateOfJourney = bookings.next().getDateOfJourney();
+			LocalDate DateOfJourney = bookings.next().getjourneyDate();
 			LocalDate today = LocalDate.now();
 			if(foundFirst || ChronoUnit.DAYS.between(today, DateOfJourney)>=60) {
 				foundFirst = true;

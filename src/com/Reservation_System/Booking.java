@@ -9,22 +9,22 @@ public class Booking {
 	private final User customer;
 	private final List<UserDetails> passenger;
 	private final Train train;
-	private final LocalDate dateOfJourney;
+	private final LocalDate journeyDate;
 	private final Station source;
 	private final Station destination;
 	private final long PNR;
 	private BookingStatus status = null;
-	private final List<Seat>seatsAllocated;
+	private final List<Seat>allocatedSeats;
 	private final List<Integer> coachIds;
-	Booking(Customer customer, List<UserDetails> passenger, Train train, LocalDate dJ, Station source, Station destination, int PNR,List<Seat> seatsAllocated, List<Integer>coachIds){
+	Booking(Customer customer, List<UserDetails> passenger, Train train, LocalDate dJ, Station source, Station destination, int PNR,List<Seat> allocatedSeats, List<Integer>coachIds){
 		this.customer = customer;
 		this.passenger = passenger;
 		this.train =train;
-		this.dateOfJourney = dJ;
+		this.journeyDate = dJ;
 		this.source = source;
 		this.destination =destination;
 		this.PNR = PNR;
-		this.seatsAllocated = seatsAllocated;
+		this.allocatedSeats = allocatedSeats;
 		this.coachIds = coachIds;
 	}
 	public long getPNR() {
@@ -33,8 +33,8 @@ public class Booking {
 	public User getCustomer() {
 		return customer;
 	}
-	public LocalDate getDateOfJourney() {
-		return dateOfJourney;
+	public LocalDate getjourneyDate() {
+		return journeyDate;
 	}
 	public Station getSource() {
 		return source;
@@ -55,7 +55,7 @@ public class Booking {
 		return passenger;
 	}
 	public List<Seat> getAllocatedSeats(){
-		return seatsAllocated;
+		return allocatedSeats;
 	}
 	public List<Integer>getCoachIds() {
 		return coachIds;
@@ -67,7 +67,7 @@ public class Booking {
 		String  topLevel ="CoachNo    SeatNo      Name\n";
 		details=topLevel;
 		for(UserDetails userdetails: passenger) {
-			String temp = coachIds.get(i)+"          " +seatsAllocated.get(i).getId()+"          "+ userdetails.getName()+"\n";
+			String temp = coachIds.get(i)+"          " +allocatedSeats.get(i).getId()+"          "+ userdetails.getName()+"\n";
 			details+=temp;
 			i++;
 		}

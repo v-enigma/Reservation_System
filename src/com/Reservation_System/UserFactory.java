@@ -16,7 +16,7 @@ public class UserFactory {
 	public static UserFactory getInstance() {
 		return USER_FACTORY;
 	}
-	private UserDetails buildUserDetails(String name, LocalDate dateOfBirth, Gender gender, SeatType seatPreference) {
+	public UserDetails buildUserDetails(String name, LocalDate dateOfBirth, Gender gender, SeatType seatPreference) {
 		UserDetails userDetails = new UserDetails( name, dateOfBirth , gender, seatPreference);
 		return userDetails;
 	}

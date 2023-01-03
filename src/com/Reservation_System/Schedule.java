@@ -2,6 +2,7 @@ package com.Reservation_System;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -76,5 +77,15 @@ public class Schedule {
 	public void setTrainId(int trainId) {
 		this.trainId = trainId;
 	}
-	
+	public List<String> getStops(){
+		List<String> stops = new ArrayList<>();
+		Iterator<Map.Entry<String,ScheduleAtStation >>stationIterator = stationsWithArrivalTime.entrySet().iterator();
+		while(stationIterator.hasNext()) {
+			Map.Entry<String, ScheduleAtStation> entry = stationIterator.next();
+			if(entry.getValue().isStop()) {
+				stops.add(entry.getKey());
+			}
+		}
+		return stops;
+	}
 }
