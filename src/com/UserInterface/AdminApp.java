@@ -2,6 +2,7 @@ package com.UserInterface;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.Database.AuthenticationData;
 import com.Database.StationsData;
 import com.Reservation_System.Station;
 import com.Reservation_System.TrainFactory;
@@ -9,15 +10,22 @@ import com.Reservation_System.User;
 import com.Reservation_System.Enum.StationType;
 
 public class AdminApp implements Application, Authenticable{
+	String adminId= null;
 	public void init() {
-		User admin= null;
+		
 		System.out.println("Enter signIn details");
 		signIn();
 		}
 		
 	
 	public void signIn() {
-		
+		adminId = "Venu1297"; // update the code
+		String password = "QWzx0945@";// update the code;
+		boolean success =AuthenticationData.getInstance().adminAuthenticate(adminId, password);
+		if(success) {
+			System.out.println("Welcome "+ adminId);
+			menu();
+		}
 			
 	}
 	public void menu() {
@@ -35,10 +43,10 @@ public class AdminApp implements Application, Authenticable{
 			removeTrain();
 			break;
 		case 4:
-			printChart();
+			getChart();
 		}
 	}
-	private void printChart() {
+	private void getChart() {
 		
 		
 	}
@@ -74,7 +82,7 @@ public class AdminApp implements Application, Authenticable{
 		return StationsData.getInstance().addStation(name, sCode, noOfPlatforms, stype);
 	}
 	private Station validateStationExistence(String stationName) {
-		Station station = StationsData.getInstance().isStationExist(stationName);
+		Station station = StationsData.getInstance().findStation(stationName);
 		while(station== null) {
 			System.out.println("There is no such station in my storage.\n Do you like to add new station? If yes press 'Y' else 'N'." );
 			char input = Helper.getCharacterInput();

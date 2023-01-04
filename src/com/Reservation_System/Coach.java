@@ -22,6 +22,9 @@ public class Coach {
 		return name;
 	}
 	
+	public Seat getSeat(int id) {
+		return seats.get(id);
+	}
 	
 	
 	

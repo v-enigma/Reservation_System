@@ -9,7 +9,7 @@ import com.Reservation_System.Enum.SeatType;
 
 
 public class UserFactory {
-	public final static UserFactory USER_FACTORY = new UserFactory() ;
+	private final static UserFactory USER_FACTORY = new UserFactory() ;
 	private UserFactory() {
 		
 	}

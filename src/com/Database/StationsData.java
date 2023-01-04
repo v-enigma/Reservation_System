@@ -22,13 +22,13 @@ public class StationsData {
 		stations.add(station);
 		return station;
 	}
-	public Station isStationExist(String sName) {
+	public Station findStation(String sName) {
 		Station station= null;
 		Iterator<Station> stationIterator = stations.iterator(); 
 		while(stationIterator.hasNext()) {
 			station = stationIterator.next();
 			if(station.getName().equalsIgnoreCase(sName)) {
-				return station;
+				break;
 			}
 		}
 		return station;

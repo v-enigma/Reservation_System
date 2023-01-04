@@ -15,19 +15,16 @@ public class TrainFactory {
 	public static TrainFactory getInstance() {
 		return TRAIN_FACTORY;
 	}
-	private int getId() {
-		
-		return ++helperId;
-	}
+	
 	
 	private Route buildRoute(List<Station>stations, List<Integer> allDistances) {
 		Route route = new Route();
 		route.addStationWithDistance(stations, allDistances);
 		return route;
 	}
-	private List<Seat> createSeats(int count){
+	private List<Seat> createSeats(int seatsPerCoach){ // needs update on seat type assignment . contradicting the seat type in seat alloaction
 		List<Seat> seats = new ArrayList<>();
-		for(int i=1;i<=count;i++) {
+		for(int i=1;i<=seatsPerCoach;i++) {
 			SeatType stype =null;
 			if(i%8 ==0)
 				stype = SeatType.SUB;
@@ -45,15 +42,15 @@ public class TrainFactory {
 		}
 		return seats;
 	}
-	private Seating buildCoaches(int count, String name, int seatCount) {
+	private Seating buildCoaches(int Coachcount, String name, int seatsPerCoach) {
 		Seating seating = null;
 		if(name =="S")
 			seating = new SleeperSeating();
 		else
 			seating = new ACSeating();
-		for(int i=1;i<=count;i++) {
+		for(int i = 1;i <= Coachcount;i++) {
 			String tempName = name+i;
-			List<Seat> seats = createSeats(seatCount);
+			List<Seat> seats = createSeats(seatsPerCoach);
 			Coach coach = new Coach(i,seats,tempName);
 			seating.addCoach(coach);
 		}

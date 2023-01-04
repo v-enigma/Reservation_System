@@ -39,4 +39,7 @@ public abstract class Seating {
 	public int getSeatsPerCoach() {
 		return coaches.get(0).getSeatsCount();
 	}
+	public Coach getCoach(int id) {
+		return coaches.get(id);
+	}
 }

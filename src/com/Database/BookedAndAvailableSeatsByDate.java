@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.Reservation_System.Enum.SeatType;
 
-public class BookedAndAvailableSeatsByDateStore{ // Store booked seats and available seats for a given date
+public class BookedAndAvailableSeatsByDate{ // Store booked seats and available seats for a given date
 	private int numCoaches;
 	private int seatsPerCoach;
 	
@@ -17,7 +17,7 @@ public class BookedAndAvailableSeatsByDateStore{ // Store booked seats and avail
 	public int[] lastAssignedSeats = {0,0,0,0,0};
 	public int[]berthAvailability = { (numavailableSeats%8)*2,(numavailableSeats%8)*2, (numavailableSeats%8)*2,(numavailableSeats%8),(numavailableSeats%8)};
 	public int racSeatAvailability ;
-	public BookedAndAvailableSeatsByDateStore( int coachCount, int seatsInCoach){
+	public BookedAndAvailableSeatsByDate( int coachCount, int seatsInCoach){
 		this.numCoaches = coachCount;
 		this.seatsPerCoach = seatsInCoach;
 		this.numavailableSeats = coachCount * seatsInCoach;	

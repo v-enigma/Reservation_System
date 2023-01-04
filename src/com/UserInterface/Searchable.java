@@ -3,15 +3,25 @@ package com.UserInterface;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.Database.BookingsData;
 import com.Database.ScheduleData;
 import com.Database.StationsData;
 import com.Database.TrainsData;
+import com.Reservation_System.Booking;
 import com.Reservation_System.Station;
 import com.Reservation_System.Train;
 
 public interface Searchable {
 	default void  pnrSearch() {
+		Long pnr = Helper.getLongInput();
+		Booking booking = BookingsData.getInstance().findBooking(pnr);
+		if(booking == null) 
+			System.out.println("INVALID PNR");
 		
+		else {
+			System.out.println(booking);
+		}
 	}
 	default List<Object> getJourneyDetails() {
 		System.out.println("Enter the source station name");
@@ -32,8 +42,8 @@ public interface Searchable {
 		String source= objects.get(0).toString();
 		String destination =objects.get(1).toString();
 		
-		Station sStation =StationsData.getInstance().isStationExist(destination);
-		Station dStation=StationsData.getInstance().isStationExist(source);
+		Station sStation =StationsData.getInstance().findStation(destination);
+		Station dStation=StationsData.getInstance().findStation(source);
 		//System.out.println("Enter date of journey.Enter the date in DD/MM/YYYY format");
 		//String date = "";
 		LocalDate dateOfJourney = (LocalDate)objects.get(2);

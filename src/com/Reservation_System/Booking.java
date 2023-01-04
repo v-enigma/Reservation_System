@@ -13,10 +13,10 @@ public class Booking {
 	private final Station source;
 	private final Station destination;
 	private final long PNR;
-	private BookingStatus status = null;
+	private List<BookingStatus> status = null;
 	private final List<Seat>allocatedSeats;
-	private final List<Integer> coachIds;
-	Booking(Customer customer, List<UserDetails> passenger, Train train, LocalDate journeyDate, Station source, Station destination, int PNR,List<Seat> allocatedSeats, List<Integer>coachIds){
+	private final List<String> coachIds;
+	Booking(User customer, List<UserDetails> passenger, Train train, LocalDate journeyDate, Station source, Station destination, Long PNR,List<Seat> allocatedSeats,List<BookingStatus>status, List<String>coachIds){
 		this.customer = customer;
 		this.passenger = passenger;
 		this.train =train;
@@ -45,10 +45,10 @@ public class Booking {
 	public Train getTrain() {
 		return train;
 	}
-	public BookingStatus getStatus() {
+	public List<BookingStatus> getStatus() {
 		return status;
 	}
-	public void setStatus(BookingStatus status) {
+	public void setStatus(List<BookingStatus>  status) {
 		this.status = status;
 	}
 	public List<UserDetails> getPassenger(){
@@ -57,7 +57,7 @@ public class Booking {
 	public List<Seat> getAllocatedSeats(){
 		return allocatedSeats;
 	}
-	public List<Integer>getCoachIds() {
+	public List<String>getCoachIds() {
 		return coachIds;
 	}
 	@Override

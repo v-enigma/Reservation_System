@@ -26,12 +26,12 @@ public class Customer extends User {
 		confirmedBookings.add(booking);
 	}
 	public void addCancelledBookings(long PNR) {
-		Booking booking = getBookingById(PNR, confirmedBookings);
+		Booking booking = getBookingById(PNR);
 		if(booking!= null)
 			cancelledBookings.add(booking);
 		
 	}
-	void RemoveBookings(List<Booking> bookingList){  // access specifier default
+	void removeBookings(List<Booking> bookingList){  // access specifier default
 		boolean foundFirst =false;
 		Iterator<Booking> bookings = bookingList.iterator();
 		while(bookings.hasNext()) {
@@ -46,10 +46,11 @@ public class Customer extends User {
 		}
 		
 	}
-	private Booking getBookingById(long PNR, List<Booking> bookings) {
+	
+	private Booking getBookingById(long PNR) {
 		Booking booking = null;
 		boolean found =false;
-		Iterator<Booking> bookingIterator = bookings.iterator();
+		Iterator<Booking> bookingIterator = confirmedBookings.iterator();
 		while(bookingIterator.hasNext()) {
 			booking = bookingIterator.next();
 			if(booking.getPNR() == PNR) {
@@ -59,8 +60,7 @@ public class Customer extends User {
 			}
 				
 		}
-		if(!found)
-			booking = null;
+		
 		return booking;
 	}
 

@@ -2,16 +2,19 @@ package com.Database;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.Reservation_System.BookingFactory;
 import com.Reservation_System.Train;
+import com.Reservation_System.Enum.SeatType;
 
 
 
 public class BookedAndAvailableSeatsByTrainAndDate {
 	
 	private final static BookedAndAvailableSeatsByTrainAndDate allocatedSeatsByTrain = new BookedAndAvailableSeatsByTrainAndDate();
-	private final HashMap<Integer,MultiDayBookingStore > trainBookings = new HashMap<>(); //stores train Id as key and multiple days ahead booking as value
+	private final Map<Integer,MultiDayBookingStore > trainBookings = new HashMap<>(); //stores train Id as key and multiple days ahead booking as value
 	
 	public static BookedAndAvailableSeatsByTrainAndDate getInstance() {
 		return allocatedSeatsByTrain;
@@ -19,20 +22,32 @@ public class BookedAndAvailableSeatsByTrainAndDate {
 	private BookedAndAvailableSeatsByTrainAndDate() {
 		
 	}
-     
-	public void addBooking(Train train, LocalDate dateOfJounery, int seatingType) {
+    private void ensureSeatStoreExists(Train train, LocalDate dateOfJourney,int seatClass) {
+    	int trainNo = train.getId();
+    	if(!trainBookings.containsKey(trainNo))
+    		trainBookings.put(trainNo,BookingFactory.getInstance().getMultiDayBookingStoreInstance() );
+    	BookedAndAvailableSeatsByDate seatStore = getSeatStore(train,dateOfJourney, seatClass);
+		if(seatStore == null) {
+			BookedAndAvailableSeatsByDate seatAllocationHelper = BookingFactory.getInstance().getBookedAndAvailableSeatsByDate(train, seatClass);
+			trainBookings.get(trainNo).addBookedAndAvailableSeatsByDateStore(dateOfJourney, seatAllocationHelper, seatClass);
+		}
+    	
+    }
+    private BookedAndAvailableSeatsByDate getSeatStore(Train train, LocalDate dateOfJourney, int seatClass) {
+    	  int trainNo = train.getId();
+    	  if (seatClass == 1) {
+    	    return trainBookings.get(trainNo).getSleeperSeating(dateOfJourney);
+    	  } else {
+    	    return trainBookings.get(trainNo).getACSeating(dateOfJourney);
+    	  }
+    	}
+	public int getSeatForTrainAndDate(Train train, LocalDate dateOfJourney, int seatClass, SeatType seatType, int sourceIndex, int destinationIndex  ,int trainDestinationIndex) {
 		int trainNo = train.getId();
-		if(!trainBookings.containsKey(trainNo)) 
-			trainBookings.put(trainNo, new MultiDayBookingStore());
-		if(seatingType == 1 )
-			if(trainBookings.get(trainNo).getSleeperSeating(dateOfJounery) == null) {
-				
-				BookedAndAvailableSeatsByDateStore seatAllocationHelper = BookingFactory.getInstance().getSeatAllocationHelper(train, seatingType);
-				trainBookings.get(trainNo).addSeatAllocationHelper(dateOfJounery, seatAllocationHelper );
-			}
-			else {
-				
-			}
+		int seatNo = -1;
+		ensureSeatStoreExists(train,dateOfJourney,seatClass);
+		
+		seatNo = trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findAppropriateSeat(seatType, sourceIndex, destinationIndex, trainDestinationIndex);	
+		return seatNo;
 	}
 	
 	

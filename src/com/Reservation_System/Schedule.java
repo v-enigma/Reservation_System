@@ -31,7 +31,7 @@ public class Schedule {
 			while(stationsIterator.hasNext() ) {
 				Station station = stationsIterator.next();
 				ScheduleAtStation scheduleAtStation = new ScheduleAtStation(arrivalTime.get(i), isStop.get(i), scheduledDays.get(i) );
-				stationsWithArrivalTime.put(station.getId(), scheduleAtStation );
+				stationsWithArrivalTime.put(station.getName(), scheduleAtStation );
 				i++;
 			}
 		
