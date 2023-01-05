@@ -7,7 +7,6 @@ import com.database.StationsData;
 import com.enums.StationType;
 import com.reservation_system.Station;
 import com.reservation_system.TrainFactory;
-import com.reservation_system.User;
 
 public class AdminApp implements Application, Authenticable{
 	String adminId= null;

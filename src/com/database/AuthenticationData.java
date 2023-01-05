@@ -10,6 +10,7 @@ public class AuthenticationData {
 	
 	private AuthenticationData() {
 			customerCred.put("Venu1297", "QWzx0945@");
+			adminCred.put("Venu1297", "1234@QWer");
 	}
 	public static AuthenticationData getInstance() {
 		

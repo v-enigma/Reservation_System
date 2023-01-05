@@ -1,28 +1,28 @@
 package com.user_interface;
-import java.util.Scanner;
-
 public class Main{
 	public static void main(String args[]) {
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Welcome to reservation System");
-		Application app = null;
-		while(true) {
-			System.out.println("Choose your option \n 1.Customer  \n 2.Admin \n 3.Guest");
-			int option = scan.nextInt();
-			System.out.println("Enter to ");
+		
+		System.out.println(PrintStatements.WELCOME_MESSAGE);
+		boolean run = true;
+		while(run) {
+			System.out.println(PrintStatements.APP_OPTIONS);
+			int option = Helper.getIntegerInput();
+			
 			switch(option) {
 			case 1:
-				(new CustomerApp()).init();;
+				(new CustomerApp()).init();
 				break;
 			case 2:
-				app = new AdminApp();
+				new AdminApp().init();
 				break;
 			case 3:
-				app = new GuestApp();
+				(new GuestApp()).init();
+				break;
+			case 4:
+				run = false;
 				break;
 			}
-			if(app!= null)
-				app.init();
+			
 		}	
 	}
 }

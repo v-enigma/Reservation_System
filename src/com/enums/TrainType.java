@@ -5,6 +5,4 @@ public enum TrainType {
 	SuperFast,
 	MAIL,
 	PASSENGER;
-	
-	
 }

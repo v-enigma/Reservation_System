@@ -1,4 +1,4 @@
-package com.reservation_system;
+package com.exceptions;
 
 public class AuthenticationException extends Exception {
 

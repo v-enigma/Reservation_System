@@ -9,7 +9,7 @@ import com.database.StationsData;
 import com.database.UsersData;
 import com.enums.Gender;
 import com.enums.SeatType;
-import com.reservation_system.AuthenticationException;
+import com.exceptions.AuthenticationException;
 import com.reservation_system.BookingFactory;
 import com.reservation_system.Station;
 import com.reservation_system.Train;
@@ -53,7 +53,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 				throw new AuthenticationException();
 			}
 		}catch(AuthenticationException e) {
-			System.out.println("Login failure. Please try agian");
+			System.out.println(PrintStatements.LOGIN_FAILURE);
 			signIn();
 		}
 		
@@ -152,25 +152,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		
 		BookingFactory.getInstance().cancelBooking(PNR, userId);
 	}
-	private void search() {
-		System.out.println("Enter source, destination station  and  date of journey\n ");
-		List<Object> objects = getJourneyDetails();
-		searchTrain(objects);
-		/*
-		 * System.out.
-		 * println("If you are intersted in booking the ticket enter Y for yes or N for NO"
-		 * );
-		 * 
-		 * char interested = Helper.getCharacterInput(); if(interested == 'Y' ||
-		 * interested =='y') {
-		 * 
-		 * System.out.println("Enter the index of the trains printed above"); int index
-		 * = Helper.getIntegerInput(); index = index-1;
-		 * 
-		 * 
-		 * //call booking method }
-		 */		 
-	}
+	
 	private void pastBooking() {
 		
 		BookingFactory.getInstance().getBookings(userId);

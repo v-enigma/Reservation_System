@@ -17,7 +17,7 @@ public interface Searchable {
 		Long pnr = Helper.getLongInput();
 		Booking booking = BookingsData.getInstance().findBooking(pnr);
 		if(booking == null) 
-			System.out.println("INVALID PNR");
+			System.out.println(PrintStatements.PNR_ERROR);
 		
 		else {
 			System.out.println(booking);
@@ -37,7 +37,25 @@ public interface Searchable {
 		objects.add(dateOfJourney);
 		return objects;
 	}
-	
+	default  void search() {
+		System.out.println("Enter source, destination station  and  date of journey\n ");
+		List<Object> objects = getJourneyDetails();
+		searchTrain(objects);
+		/*
+		 * System.out.
+		 * println("If you are intersted in booking the ticket enter Y for yes or N for NO"
+		 * );
+		 * 
+		 * char interested = Helper.getCharacterInput(); if(interested == 'Y' ||
+		 * interested =='y') {
+		 * 
+		 * System.out.println("Enter the index of the trains printed above"); int index
+		 * = Helper.getIntegerInput(); index = index-1;
+		 * 
+		 * 
+		 * //call booking method }
+		 */		 
+	}
 	default List<Train>searchTrain(List< Object> objects ){
 		//System.out.println("I entered into");
 		String source= objects.get(0).toString();
