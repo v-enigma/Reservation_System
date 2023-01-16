@@ -1,25 +1,25 @@
 package com.reservation_system;
 
 public class ACSeating extends Seating {
-	private boolean foodAvailabile;
-	private boolean MagzinesAvailabile;
+	private boolean foodAvailable;
+	private boolean MagazinesAvailable;
 	public ACSeating(  ) {
 		super();
-		foodAvailabile = true;
-		MagzinesAvailabile = true;
+		foodAvailable = true;
+		MagazinesAvailable = true;
 	}
-	public boolean isFoodAvailabile() {
-		return foodAvailabile;
+	public boolean isFoodAvailable() {
+		return foodAvailable;
 	}
 
-	public void setRequireFood(boolean foodAvailabile) {
-		this.foodAvailabile = foodAvailabile;
+	public void setRequireFood(boolean foodAvailable) {
+		this.foodAvailable = foodAvailable;
 	}
-	public boolean AreMagzinesAvailabile() {
-		return MagzinesAvailabile;
+	public boolean AreMagazinesAvailable() {
+		return MagazinesAvailable;
 	}
-	public void setMagzinesAvailabile(boolean magzineAvailability) {
-		MagzinesAvailabile = magzineAvailability;
+	public void setMagazinesAvailable(boolean magazineAvailability) {
+		MagazinesAvailable = magazineAvailability;
 	}
 	
 	

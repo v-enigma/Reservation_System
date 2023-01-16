@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.reservation_system.ArrivalTimeAtStationPerTrain;
 import com.reservation_system.Schedule;
-import com.reservation_system.ScheduleAtStation;
 import com.reservation_system.Station;
 
 
@@ -29,7 +29,7 @@ public class ScheduleData {
 		String dCode = destination.getId();
 		
 		for(Schedule schedule :schedules) {
-			Map<String, ScheduleAtStation>stations = schedule.getStationswithArrivalTime();
+			Map<String, ArrivalTimeAtStationPerTrain >stations = schedule.getStationswithArrivalTime();
 			if(stations.containsKey(sCode) && stations.containsKey(dCode) && stations.get(dCode).isStop() && 
 					stations.get(sCode).isStop()&& stations.get(sCode).getscheduleDays().contains(day)) {
 				trainNumbers.add(schedule.getTrainId());

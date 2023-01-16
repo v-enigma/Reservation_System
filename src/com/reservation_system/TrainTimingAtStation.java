@@ -5,14 +5,15 @@ import java.time.LocalTime;
 import java.util.List;
 
 
-public class ScheduleAtStation { // Schedule At Station stores information for a train for a station
+public class TrainTimingAtStation { // Schedule At Station stores information for a train for a station
 	
 	private LocalTime arrivalTime ;
 	private boolean isStop;
 	private  List<DayOfWeek> scheduleDays ;
-	
-	public ScheduleAtStation(LocalTime arrivalTime, boolean isStop, List<DayOfWeek> scheduleDays) {
+	private LocalTime departureTime;
+	public TrainTimingAtStation(LocalTime arrivalTime, LocalTime departureTime, boolean isStop, List<DayOfWeek> scheduleDays) {
 		this.arrivalTime = arrivalTime;
+		this.departureTime = departureTime;
 		this.isStop = isStop;
 		this.scheduleDays = scheduleDays;
 	}
@@ -37,5 +38,8 @@ public class ScheduleAtStation { // Schedule At Station stores information for a
 		return scheduleDays;
 	}
 	
+	public void setScheduleDays(List<DayOfWeek> scheduleDays) {
+		this.scheduleDays = scheduleDays;
+	}
 	
 }

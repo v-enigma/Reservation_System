@@ -8,7 +8,7 @@ import com.enums.SeatType;
 
 
 public class TrainFactory {
-	private final static TrainFactory TRAIN_FACTORY = new TrainFactory();;
+	private final static TrainFactory TRAIN_FACTORY = new TrainFactory();
 	private static int helperId =1000;
 	private TrainFactory() {
 		
@@ -23,33 +23,33 @@ public class TrainFactory {
 		route.addStationWithDistance(stations, allDistances);
 		return route;
 	}
-	private List<Seat> createSeats(int seatsPerCoach){ // needs update on seat type assignment . contradicting the seat type in seat alloaction
+	private List<Seat> createSeats(int seatsPerCoach){ //needs update on seat type assignment.contradicting the seat type in seat allocation
 		List<Seat> seats = new ArrayList<>();
 		for(int i=1;i<=seatsPerCoach;i++) {
-			SeatType stype =null;
+			SeatType sType =null;
 			if(i%8 ==0)
-				stype = SeatType.SUB;
+				sType = SeatType.SUB;
 		
 			else if(i%8 ==1||i%8 == 4)
-				stype = SeatType.LB;
+				sType = SeatType.LB;
 			else if(i%8 == 2|| i%8 == 5)
-				stype = SeatType.MB;
+				sType = SeatType.MB;
 			else if(i%8 ==3|| i%8 ==6)
-				stype = SeatType.UB;
+				sType = SeatType.UB;
 			else
-				stype = SeatType.SLB;
-			Seat seat = new Seat(i,stype);
+				sType = SeatType.SLB;
+			Seat seat = new Seat(i,sType);
 			seats.add(seat);
 		}
 		return seats;
 	}
-	private Seating buildCoaches(int Coachcount, String name, int seatsPerCoach) {
+	private Seating buildCoaches(int coachCount, String name, int seatsPerCoach) {
 		Seating seating = null;
-		if(name =="S")
+		if(name.equals("S"))
 			seating = new SleeperSeating();
 		else
 			seating = new ACSeating();
-		for(int i = 1;i <= Coachcount;i++) {
+		for(int i = 1;i <= coachCount;i++) {
 			String tempName = name+i;
 			List<Seat> seats = createSeats(seatsPerCoach);
 			Coach coach = new Coach(i,seats,tempName);
@@ -68,8 +68,13 @@ public class TrainFactory {
 	    TrainsData.getInstance().addTrain(train);
 	    
 	}
+	public List<Integer> getTrainsRegIds(int trainNo){
+		return TrainsData.getInstance().getAllTrainRegIdsMappedToTrainNo(trainNo);
+	}
+	public Train getTrain(int trainRegId){
+		return TrainsData.getInstance().getTrainByRegId(trainRegId);
 
-	
+	}
 	  
 
 }

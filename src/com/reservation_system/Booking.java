@@ -14,7 +14,7 @@ public class Booking {
 	private final Station source;
 	private final Station destination;
 	private final long PNR;
-	private List<BookingStatus> status = null;
+	private List<BookingStatus> status ;
 	private final List<Seat>allocatedSeats;
 	private final List<String> coachIds;
 	Booking(User customer, List<UserDetails> passenger, Train train, LocalDate journeyDate, Station source, Station destination, Long PNR,List<Seat> allocatedSeats,List<BookingStatus>status, List<String>coachIds){
@@ -27,6 +27,7 @@ public class Booking {
 		this.PNR = PNR;
 		this.allocatedSeats = allocatedSeats;
 		this.coachIds = coachIds;
+		this.status = status;
 	}
 	public long getPNR() {
 		return PNR;
@@ -34,7 +35,7 @@ public class Booking {
 	public User getCustomer() {
 		return customer;
 	}
-	public LocalDate getjourneyDate() {
+	public LocalDate getJourneyDate() {
 		return journeyDate;
 	}
 	public Station getSource() {
@@ -63,13 +64,13 @@ public class Booking {
 	}
 	@Override
 	public String toString() {
-		String details;
+		StringBuilder details;
 		int i=0;
 		String  topLevel ="CoachNo    SeatNo      Name\n";
-		details=topLevel;
+		details = new StringBuilder(topLevel);
 		for(UserDetails userdetails: passenger) {
 			String temp = coachIds.get(i)+"          " +allocatedSeats.get(i).getId()+"          "+ userdetails.getName()+"\n";
-			details+=temp;
+			details.append(temp);
 			i++;
 		}
 		

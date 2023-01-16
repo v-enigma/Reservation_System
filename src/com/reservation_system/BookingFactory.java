@@ -64,61 +64,118 @@ public class BookingFactory {
 		}
 		return coachName;
 	}
-	private int getStopIndex(Train train,Station station) {
-		List<String> stops = train.getSchedule().getStops();
-		Iterator<String>stopsIterator = stops.iterator();
-		int stopIndex = -1;
-		int index = 0;
-		while( stopsIterator.hasNext()) {
-			String stationName = stopsIterator.next();
-			if(stationName.equalsIgnoreCase(station.getName()))
-				stopIndex = index; 
-			
-			index++;
-		}
-		return stopIndex;
-	}
+
 	//Train train, LocalDate dateOfJourney, int seatClass, SeatType seatType, int sourceIndex, int destinationIndex  ,int trainDestinationIndex
 	//Customer customer, List<UserDetails> passenger, Train train, LocalDate dJ, Station source, Station destination, int PNR,List<Seat> seatsAllocated, List<Integer>coachIds
 	public Booking createBooking(User user,List<UserDetails> passengers,Train train,LocalDate dateOfJourney,Station source, Station destination , int seatClass) {
 		Booking booking =null;
-		
-		int sourceIndex =getStopIndex(train,source);
-		int destinationIndex = getStopIndex(train, destination);
-		int trainDestinationIndex = train.getSchedule().getStops().size()-1;
-		
-		
-		
+		int seatNo = -1;
+		String sourceCode = source.getId();
+		String destinationCode = destination.getId();
+		List<String> stopsCodes = train.getSchedule().getStopsCodes();
 		Iterator<UserDetails>passengersIterator = passengers.iterator();
 		List< Seat> allotedSeats = new ArrayList<>();
 		List<BookingStatus> status = new ArrayList<>();
 		List<String> coachNames = new ArrayList<>();
+		long pnr = generateId();
+		int passengerIndex = 0;
 		while(passengersIterator.hasNext()) {
 			UserDetails ud = passengersIterator.next();
 			SeatType seatType = ud.getSeatPreference();
-			Integer seatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance().getSeatForTrainAndDate(train,dateOfJourney,seatClass,seatType, sourceIndex, destinationIndex, trainDestinationIndex);
-			Seat seat = getSeat(train, seatNo, seatClass);
-			allotedSeats.add(seat);
-			if(seat== null) {
-				status.add(BookingStatus.WL);
-				coachNames.add(null);
-			}
-			else {
+			String stringseatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance().getSeatForTrainAndDate(train,dateOfJourney,seatClass,seatType, sourceCode, destinationCode, stopsCodes);
+			Seat seat = null;
+			if(stringseatNo.charAt(0)== 'C'){
+				seatNo = Integer.parseInt(stringseatNo.substring(1));
+				seat = getSeat(train, seatNo, seatClass);
+				allotedSeats.add(seat);
 				status.add(BookingStatus.CNF);
 				String coach_Name = getCoachName(train, seatNo, seatClass);
 				coachNames.add(coach_Name);
+			}else if(stringseatNo.charAt(0) == 'R'){
+				seatNo = Integer.parseInt(stringseatNo.substring(1));
+				seat = getSeat(train, seatNo, seatClass);
+				allotedSeats.add(seat);
+				status.add(BookingStatus.RAC);
+				String coach_Name = getCoachName(train, seatNo, seatClass);
+				coachNames.add(coach_Name);
+				BookingsData.getInstance().addRAC(pnr,passengerIndex);
+
+			}else if(stringseatNo.charAt(0) == 'W'){
+				seatNo = Integer.parseInt(stringseatNo.substring(1));
+				allotedSeats.add(seat);
+				status.add(BookingStatus.WL);
+				coachNames.add(null);
+				BookingsData.getInstance().addWaitingList(pnr,passengerIndex );
 			}
-				
-			
+
+			if(seat== null) {
+				allotedSeats.add(seat);
+				status.add(BookingStatus.REGRET);
+				coachNames.add(null);
+			}
+		passengerIndex++;
 		}
-		booking = new Booking(user,passengers,train,dateOfJourney,source,destination,generateId(),allotedSeats,status,coachNames);
+		booking = new Booking(user,passengers,train,dateOfJourney,source,destination,pnr,allotedSeats,status,coachNames);
 		addBooking(booking, user);
 		return booking;
 	}
+	private void removeWaitingListBooking(long pnr, int index){
+		BookingsData.getInstance().removeFromWaitingList(pnr, index);
+		//Booking booking = BookingsData.getInstance().findBooking(pnr);
+		//BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking.getSource().getId(), booking.getDestination().getId(),);
+	}
+	private void removeRAC(long pnr, int passengerIndex, int seatNo, int seatClass){
+		BookingsData.getInstance().removeFromRAC(pnr, passengerIndex);
+		//BookingsData.getInstance().cancelBooking(pnr);
+		Booking booking = BookingsData.getInstance().findBooking(pnr);
+		BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking.getTrain(),booking.getJourneyDate(),seatClass,booking.getSource().getId(), booking.getDestination().getId(),seatNo);
+
+	}
+	private void freeConfirmedSeat(long pnr,int passengerIndex , int seatNo, int seatClass ){
+		Booking booking = BookingsData.getInstance().findBooking(pnr);
+		//BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking);
+		BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking.getTrain(),booking.getJourneyDate(),seatClass,booking.getSource().getId(), booking.getDestination().getId(),seatNo);
+
+	}
 	public void cancelBooking(Long PNR, String UserId) { // have to add logic to update removed booking so that waiting list tickets status can be changed
-		Booking booking =BookingsData.getInstance().cancelBooking(PNR); 
-		Customer user =(Customer) UsersData.getInstance().getUser(UserId);
+		Booking booking = BookingsData.getInstance().findBooking(PNR);
+		if(booking == null){
+			System.out.println("No booking match the given PNR");
+			return;
+		}
+		int seatClass = 0;
+		if(booking.getCoachIds().get(0).charAt(0) == 'C' || booking.getCoachIds().get(0).charAt(0) == 'c')
+		  seatClass =1;
+		else
+			seatClass = 2;
+
+		Customer user = (Customer) UsersData.getInstance().getUser(UserId);
 		user.addCancelledBookings(PNR);
+		LocalDate date = booking.getJourneyDate();
+
+		//List<BookingStatus> bs = booking.getStatus();
+		Iterator<BookingStatus> statusIterator = booking.getStatus().iterator();
+		Iterator<Seat> seatIterator = booking.getAllocatedSeats().iterator();
+		int passengerIndex = 0;
+		while(seatIterator.hasNext() && statusIterator.hasNext()){
+			Seat seat = seatIterator.next();
+			BookingStatus status = statusIterator.next();
+			if(seat == null && status == BookingStatus.WL)
+				removeWaitingListBooking(PNR, passengerIndex);
+			if(seat!= null ){
+				switch (status){
+					case RAC:
+						removeRAC(PNR, passengerIndex, seat.getId(),seatClass);
+						break;
+					case CNF:
+						freeConfirmedSeat(PNR, passengerIndex, seat.getId(), seatClass);
+				}
+			}
+
+			passengerIndex++;
+		}
+		BookingsData.getInstance().cancelBooking(PNR);
+
 	}
 	private void addBooking(Booking booking, User user) {
 		BookingsData.getInstance().addBooking(booking);
@@ -150,4 +207,5 @@ public class BookingFactory {
 		MultiDayBookingStore multiDayBookingStore = new MultiDayBookingStore();
 		return multiDayBookingStore;
 	}
+
 }

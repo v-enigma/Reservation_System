@@ -4,10 +4,11 @@ public class GuestApp  implements Application , Searchable{
 
 	@Override
 	public void init() {
-		System.out.println(PrintStatements.GUEST_OPTIONS);
+
 		boolean run = true;
 		
 		while(run) {
+			System.out.println(PrintStatements.GUEST_OPTIONS);
 			int option = Helper.getIntegerInput();
 			switch(option) {
 				case 1:

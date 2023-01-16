@@ -15,10 +15,10 @@ public class Schedule {
 	private final int id;
 	private int trainId;
 	
-	private final Map<String, ScheduleAtStation> stationsWithArrivalTime = new LinkedHashMap<>();
+	private final Map<String, ArrivalTimeAtStationPerTrain > stationsWithArrivalTime = new LinkedHashMap<>(); // station Code mapping to Arrival Time
 	
 	
-	public Schedule(int id,int trainId ,Route route, List<LocalTime> arrivalTime, List<Boolean> isStop, List<List<DayOfWeek>> scheduledDays ){
+	public Schedule(int id,int trainId ,Route route, List<LocalTime> arrivalTime, List<LocalTime> departureTime, List<Boolean> isStop, List<List<DayOfWeek>> scheduledDays ){
 		this.setTrainId(trainId);
 		this.id = id;
 		Iterator<Station> stationsIterator = route.getAllStations();
@@ -30,8 +30,9 @@ public class Schedule {
 			
 			while(stationsIterator.hasNext() ) {
 				Station station = stationsIterator.next();
-				ScheduleAtStation scheduleAtStation = new ScheduleAtStation(arrivalTime.get(i), isStop.get(i), scheduledDays.get(i) );
-				stationsWithArrivalTime.put(station.getName(), scheduleAtStation );
+
+				ArrivalTimeAtStationPerTrain arrivalTimeAtStation = new ArrivalTimeAtStationPerTrain(arrivalTime.get(i),departureTime.get(i), isStop.get(i), scheduledDays.get(i) );
+				stationsWithArrivalTime.put(station.getId(), arrivalTimeAtStation );
 				i++;
 			}
 		
@@ -45,7 +46,7 @@ public class Schedule {
 	
 	private void updateDelay(Station station ,int minutes) {
 		String key = station.getId();
-		ScheduleAtStation scheduleAtStation = stationsWithArrivalTime.get(key);
+		ArrivalTimeAtStationPerTrain scheduleAtStation = stationsWithArrivalTime.get(key);
 		LocalTime lt = scheduleAtStation.getArrivalTime();
 		System.out.println(lt);
 		if(minutes>=60) {
@@ -68,7 +69,7 @@ public class Schedule {
 		//System.out.println(lt);
 	}
 	
-	public Map<String, ScheduleAtStation> getStationswithArrivalTime(){
+	public Map<String, ArrivalTimeAtStationPerTrain> getStationswithArrivalTime(){
 		return this.stationsWithArrivalTime;
 	}
 	public int getTrainId() {
@@ -77,15 +78,16 @@ public class Schedule {
 	public void setTrainId(int trainId) {
 		this.trainId = trainId;
 	}
-	public List<String> getStops(){
+	public List<String> getStopsCodes(){
 		List<String> stops = new ArrayList<>();
-		Iterator<Map.Entry<String,ScheduleAtStation >>stationIterator = stationsWithArrivalTime.entrySet().iterator();
+		Iterator<Map.Entry<String,ArrivalTimeAtStationPerTrain >>stationIterator = stationsWithArrivalTime.entrySet().iterator();
 		while(stationIterator.hasNext()) {
-			Map.Entry<String, ScheduleAtStation> entry = stationIterator.next();
+			Map.Entry<String, ArrivalTimeAtStationPerTrain> entry = stationIterator.next();
 			if(entry.getValue().isStop()) {
 				stops.add(entry.getKey());
 			}
 		}
 		return stops;
 	}
+
 }

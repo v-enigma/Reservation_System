@@ -9,6 +9,9 @@ import com.enums.StationType;
 
 public class StationsData {
 	private static final StationsData STATION_DB = new StationsData();
+	private final String[] stationCodes = {"KOAA","LJN","NDLS","SBC"};
+
+	private final String[] Names = {"Kolkata","Lucknow","New Delhi","Bengaluru","Chennai","Hyderabad","Chengalpattu", "Tambaram", "Poteri","Guduvancheri","Perangalattur","Velachery"};
 	private StationsData() {
 		addStations();
 	}
@@ -35,7 +38,7 @@ public class StationsData {
 	}
 	// dummy initialization
 	private void addStations() {
-		int count  =11;
+		int count  = stationNames.length;
 		char st ='A';
 		int i = 4;
 		StationType  stype= null ;

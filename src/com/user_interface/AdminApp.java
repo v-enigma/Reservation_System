@@ -11,7 +11,7 @@ import com.reservation_system.TrainFactory;
 public class AdminApp implements Application, Authenticable{
 	String adminId= null;
 	public void init() {
-		
+
 		System.out.println("Enter signIn details");
 		signIn();
 		}
@@ -20,17 +20,20 @@ public class AdminApp implements Application, Authenticable{
 	public void signIn() {
 		adminId = "Venu1297"; // update the code
 		String password = "QWzx0945@";// update the code;
-		boolean success =AuthenticationData.getInstance().adminAuthenticate(adminId, password);
+		boolean success = AuthenticationData.getInstance().adminAuthenticate(adminId, password);
 		if(success) {
 			System.out.println("Welcome "+ adminId);
 			menu();
+		}
+		else{
+			System.out.println("Login Failure");
 		}
 			
 	}
 	private void menu() {
 		System.out.println("1.Add Train\n 2.Schedule Train \n 3.Remove Train\n  4. Print Chart  \n");
 		System.out.println("Enter your option ");
-		int option = 1; // has to be updated
+		int option = Helper.getIntegerInput(); // has to be updated
 		switch(option) {
 		case 1:
 			addTrain();
@@ -58,8 +61,21 @@ public class AdminApp implements Application, Authenticable{
 
 
 	private void scheduleTrain() {
-		
-		
+		System.out.println("Enter the Train Number you want to schedule");
+		int trainNo = Helper.getIntegerInput();
+		System.out.println("Available trains for the given train Number");
+		List<Integer> trainRegIds = TrainFactory.getInstance().getTrainsRegIds(trainNo);
+		for(Integer trainRegId: trainRegIds){
+			System.out.println(trainRegId);
+		}
+		System.out.println("Enter your train RegId you want to schedule");
+		int regId = Helper.getIntegerInput();
+		//TrainFactory.getInstance().getTrain(regId);
+
+
+	}
+	private void addArrivalTimeToStationsExceptSource(){
+
 	}
 
 	private Station getAllStationDetails(String name) {
@@ -67,7 +83,7 @@ public class AdminApp implements Application, Authenticable{
 		String sCode = Helper.getStringInput();
 		System.out.println("Enter no of stations in the platform");
 		int noOfPlatforms = Helper.getIntegerInput();
-		System.out.println("Enter station type .\n J for Junction.\n T for Terminus.\n C for Central.\n  S for station. \n");
+		System.out.println(PrintStatements.STATION_TYPE);
 		char stationType = Helper.getCharacterInput();
 		StationType stype = null;
 		if(stationType == 'J')
@@ -83,7 +99,7 @@ public class AdminApp implements Application, Authenticable{
 	private Station validateStationExistence(String stationName) {
 		Station station = StationsData.getInstance().findStation(stationName);
 		while(station== null) {
-			System.out.println("There is no such station in my storage.\n Do you like to add new station? If yes press 'Y' else 'N'." );
+			System.out.println(PrintStatements.STATION_NOT_FOUND);
 			char input = Helper.getCharacterInput();
 			if(input == 'Y'|| input =='y') {
 				station =getAllStationDetails(stationName);
@@ -101,11 +117,13 @@ public class AdminApp implements Application, Authenticable{
 		int trainId = Helper.getIntegerInput();
 		System.out.println("Enter the name of the train");
 		String trainName = Helper.getStringInput();
-		System.out.println("Enter the source and destination stations to add train ");
+		System.out.println("Enter the source  of the train ");
+
 		String source = Helper.getStringInput();
+
 		Station sStation =validateStationExistence(source);
-		String intermediateStation="";
-		List<Station> allStations = new ArrayList<Station>();
+		String intermediateStation;
+		List<Station> allStations = new ArrayList<>();
 		List<Integer> distanceInKm = new ArrayList<>();
 		allStations.add(sStation);
 		distanceInKm.add(0);
@@ -113,8 +131,10 @@ public class AdminApp implements Application, Authenticable{
 		int noOfStations = Helper.getIntegerInput();
 		while(noOfStations>0) {
 			System.out.println("Enter intermediate stations including destination Station");
-			intermediateStation = Helper.getLineInput();
+			intermediateStation = Helper.getStringInput();
+
 			validateStationExistence(intermediateStation);
+			System.out.println(intermediateStation);
 			System.out.println("Enter distance form source");
 			int distance = Helper.getIntegerInput();
 			allStations.add(sStation);

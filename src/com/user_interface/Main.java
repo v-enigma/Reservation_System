@@ -1,6 +1,6 @@
 package com.user_interface;
 public class Main{
-	public static void main(String args[]) {
+	public static void main(String... args) {
 		
 		System.out.println(PrintStatements.WELCOME_MESSAGE);
 		boolean run = true;

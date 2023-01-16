@@ -17,19 +17,27 @@ public class MultiDayBookingStore { // 120 Days Ahead occupied seats and unoccup
 		return multiDayACBookings.get(date);
 	}
 	
-	public void addBookedAndAvailableSeatsByDateStore (LocalDate localDate, BookedAndAvailableSeatsByDate seatallocationHelper ,int seatClass ) {
+	public void addBookedAndAvailableSeatsByDateStore (LocalDate localDate, BookedAndAvailableSeatsByDate seatAllocationHelper ,int seatClass ) {
 		if(seatClass ==1) {
-			multiDaySleeperBookings.put(localDate, seatallocationHelper);
+			multiDaySleeperBookings.put(localDate, seatAllocationHelper);
 		}
 		else {
-			multiDayACBookings.put(localDate, seatallocationHelper);
+			multiDayACBookings.put(localDate, seatAllocationHelper);
 		}
 	}
-	public BookedAndAvailableSeatsByDate getBookedAndAvailableSeatsByDateStore(LocalDate date, int seatingType) {
-		BookedAndAvailableSeatsByDate bookedandAvailableSeats = null;
-		if(seatingType ==1) {
+	public BookedAndAvailableSeatsByDate getBookedAndAvailableSeatsByDateStore(LocalDate date, int seatClass) {
+		BookedAndAvailableSeatsByDate bookedAndAvailableSeats = null;
+		if(seatClass ==1) {
 			
 		}
-		return bookedandAvailableSeats;
+		return bookedAndAvailableSeats;
+	}
+	public void freeSeat(LocalDate dateOfJourney, int seatClass , String sourceCode, String destinationCode, int seatNo){
+		if(seatClass == 1){
+			multiDaySleeperBookings.get(dateOfJourney).freeSeat( sourceCode, destinationCode, seatNo);
+		}
+		else{
+			multiDayACBookings.get(dateOfJourney).freeSeat(sourceCode, destinationCode, seatNo);
+		}
 	}
 }

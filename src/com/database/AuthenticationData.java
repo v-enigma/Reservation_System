@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AuthenticationData {
-	private final static AuthenticationData authenticationDB =new AuthenticationData();;
+	private final static AuthenticationData authenticationDB = new AuthenticationData();;
 	Map<String , String> customerCred = new HashMap<>();
 	Map<String, String>adminCred = new HashMap<>();
 	
 	private AuthenticationData() {
 			customerCred.put("Venu1297", "QWzx0945@");
-			adminCred.put("Venu1297", "1234@QWer");
+			adminCred.put("Venu1297", "QWzx0945@");
 	}
 	public static AuthenticationData getInstance() {
 		

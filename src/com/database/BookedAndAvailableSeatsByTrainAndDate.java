@@ -2,6 +2,7 @@ package com.database;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.reservation_system.BookingFactory;
@@ -13,8 +14,7 @@ import com.enums.SeatType;
 public class BookedAndAvailableSeatsByTrainAndDate {
 	
 	private final static BookedAndAvailableSeatsByTrainAndDate allocatedSeatsByTrain = new BookedAndAvailableSeatsByTrainAndDate();
-	private final Map<Integer,MultiDayBookingStore > trainBookings = new HashMap<>(); //stores train Id as key and multiple days ahead booking as value
-	
+	private final Map<Integer,MultiDayBookingStore > trainBookings = new HashMap<>(); //Stores the train number as the key and multiple days ahead booking as the value.
 	public static BookedAndAvailableSeatsByTrainAndDate getInstance() {
 		return allocatedSeatsByTrain;
 	}
@@ -40,16 +40,36 @@ public class BookedAndAvailableSeatsByTrainAndDate {
     	    return trainBookings.get(trainNo).getACSeating(dateOfJourney);
     	  }
     	}
-	public int getSeatForTrainAndDate(Train train, LocalDate dateOfJourney, int seatClass, SeatType seatType, int sourceIndex, int destinationIndex  ,int trainDestinationIndex) {
+	public String getSeatForTrainAndDate(Train train, LocalDate dateOfJourney, int seatClass, SeatType seatType, String sourceCode, String destinationCode,  List<String> stopsCodes) {
+		String stringSeatNo = null;
 		int trainNo = train.getId();
 		int seatNo = -1;
 		ensureSeatStoreExists(train,dateOfJourney,seatClass);
-		
-		seatNo = trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findAppropriateSeat(seatType, sourceIndex, destinationIndex, trainDestinationIndex);	
-		return seatNo;
+
+		seatNo = trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findAppropriateSeat(seatType, sourceCode, destinationCode, stopsCodes);
+		if(seatNo >0){
+
+			return "C"+seatNo;
+		}
+		seatNo = trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findRACSeats();
+			if(seatNo > 0){
+				return "R"+seatNo;
+			}
+
+		seatNo = trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findWaitingListSeats();
+		if (seatNo == -1) {
+			stringSeatNo = "N" + seatNo;
+		} else
+			stringSeatNo = "W" + seatNo;
+
+
+		return stringSeatNo;
 	}
 	
-	
+	public void freeSeat(Train train, LocalDate dateOfJourney, int seatClass, String sourceCode, String destinationCode,int seatNo){
+
+		trainBookings.get(train.getId()).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).freeSeat(sourceCode,destinationCode,seatNo);
+	}
 	
     
 	/*

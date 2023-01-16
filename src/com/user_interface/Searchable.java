@@ -14,6 +14,7 @@ import com.reservation_system.Train;
 
 public interface Searchable {
 	default void  pnrSearch() {
+		System.out.println(PrintStatements.PNR_SEARCH);
 		Long pnr = Helper.getLongInput();
 		Booking booking = BookingsData.getInstance().findBooking(pnr);
 		if(booking == null) 
@@ -31,6 +32,7 @@ public interface Searchable {
 		System.out.println("Enter date of journey.Enter the date in YYYY-MM-DD format");
 		String date = Helper.getStringInput();
 		LocalDate dateOfJourney = LocalDate.parse(date);
+		System.out.println(dateOfJourney);
 		List<Object> objects = new ArrayList<>();
 		objects.add(source);
 		objects.add(destination);
@@ -77,6 +79,8 @@ public interface Searchable {
 		else {	
 		
 			List<Integer> trainNumbers = ScheduleData.getInstance().findtrainsBetweenStations(sStation, dStation,dateOfJourney);
+			if(trainNumbers.size() == 0 )
+				System.out.println(PrintStatements.NO_TRAINS);
 			int count =0;
 			for(int trainNumber: trainNumbers) {
 				count++;

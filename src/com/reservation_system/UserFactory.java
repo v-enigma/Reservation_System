@@ -29,6 +29,8 @@ public class UserFactory {
     	boolean stage2 = UsersData.getInstance().addUser(user);
     	return stage1 && stage2;
     }
-   
+   public User getUser(String userId){
+	   return UsersData.getInstance().getUser(userId);
+   }
 
 }
