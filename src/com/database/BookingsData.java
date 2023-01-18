@@ -1,10 +1,7 @@
 package com.database;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import com.reservation_system.Booking;
 import com.reservation_system.Seat;
@@ -14,41 +11,41 @@ public class BookingsData {
 	private final HashMap<Long, Booking > bookings = new HashMap<>();
 	private static final BookingsData BookingData = new BookingsData();
 	private HashMap<Long, Booking> cancelledBookings = new HashMap<>();
-	private ArrayList<Node> rac =new ArrayList<>();
-	private ArrayList<Node> waitingList = new ArrayList<>();
+	private ArrayList<RACRecord> rac = new ArrayList<>();
+	private ArrayList<RACRecord> waitingList = new ArrayList<>();
 	private BookingsData() {
 		
 	}
-	public Node removeFromWaitingList(long pnr, int index){
-		Iterator<Node> waitingListIterator = waitingList.iterator();
+	public RACRecord removeFromWaitingList(long pnr, int index){
+		Iterator<RACRecord> waitingListIterator = waitingList.iterator();
 		while(waitingListIterator.hasNext()){
-			Node node = waitingListIterator.next();
-			if(node.getPNR() == pnr && node.getPassengerIndex() == index){
+			RACRecord RACRecord = waitingListIterator.next();
+			if(RACRecord.getPNR() == pnr && RACRecord.getPassengerIndex() == index){
 				waitingListIterator.remove();
-				return node;
+				return RACRecord;
 			}
 		}
 		return null;
 	}
-	public Node removeFromRAC(long pnr, int index){
-		Iterator<Node> racIterator = rac.iterator();
+	public RACRecord removeFromRAC(long pnr, int index){
+		Iterator<RACRecord> racIterator = rac.iterator();
 		while(racIterator.hasNext()){
-			Node node = racIterator.next();
-			if(node.getPNR() == pnr && node.getPassengerIndex() == index){
+			RACRecord RACRecord = racIterator.next();
+			if(RACRecord.getPNR() == pnr && RACRecord.getPassengerIndex() == index){
 				racIterator.remove();
-				return node;
+				return RACRecord;
 			}
 
 		}
 		return null;
 	}
 	public void addRAC(long pnr, int passengerIndex){
-		Node node = new Node(pnr, passengerIndex);
-		rac.add(node);
+		RACRecord RACRecord = new RACRecord(pnr, passengerIndex);
+		rac.add(RACRecord);
 	}
 	public void addWaitingList(long pnr, int passengerIndex){
-		Node node = new Node(pnr, passengerIndex);
-		waitingList.add(node);
+		RACRecord RACRecord = new RACRecord(pnr, passengerIndex);
+		waitingList.add(RACRecord);
 	}
 	public static BookingsData getInstance() {
 		return BookingData;
@@ -93,5 +90,18 @@ public class BookingsData {
 			cancelledBookings.put(PNR,booking);
 		}
 		return booking;
+	}
+	public List<Booking> filterBookingsByTrainNoAndDate(int trainNo, LocalDate dateOfJourney){
+		List<Booking> matchedBookings = new ArrayList<>();
+		Iterator bookingsIterator = bookings.entrySet().iterator();
+		while(bookingsIterator.hasNext()) {
+			Map.Entry<Long, Booking> bookingRecord = (Map.Entry<Long,Booking>) bookingsIterator.next();
+			if (bookingRecord.getValue().getTrain().getId() == trainNo && bookingRecord.getValue().getJourneyDate().equals(dateOfJourney)) {
+				matchedBookings.add(bookingRecord.getValue());
+				}
+			}
+			return matchedBookings;
+
+
 	}
 }

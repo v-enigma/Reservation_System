@@ -1,9 +1,9 @@
 package com.database;
 
-class Node {
+ final class RACRecord {
     private Long pnr;
     private int passengerIndex;
-    Node(long pnr, int passengerIndex){
+   protected RACRecord(long pnr, int passengerIndex){
         this.pnr = pnr;
         this.passengerIndex = passengerIndex;
     }

@@ -1,17 +1,49 @@
 package com.database;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import com.reservation_system.Station;
 import com.enums.StationType;
+import sun.security.provider.certpath.AdjacencyList;
 
 public class StationsData {
 	private static final StationsData STATION_DB = new StationsData();
-	private final String[] stationCodes = {"KOAA","LJN","NDLS","SBC"};
+	//private final String[] stationCodes = {};
 
-	private final String[] Names = {"Kolkata","Lucknow","New Delhi","Bengaluru","Chennai","Hyderabad","Chengalpattu", "Tambaram", "Poteri","Guduvancheri","Perangalattur","Velachery"};
+	//private final String[] names = {"Wadi", "Hyderabad","Secunderabad","Nellore"};
+
+
+	/*private final  HashMap<String, Set<Edge>> railwayNetwork = new HashMap<>();
+	private void populate(){
+		for(String name : names){
+			railwayNetwork.put(name, new HashSet<>());
+		}
+
+
+	}*/
+	/*List<List<String>> findAllPaths(String start, String end){
+		HashSet<String> visited = new HashSet<>();
+		ArrayList<String> pathList = new ArrayList<>();
+		pathList.add(start);
+		List<List<String>> allPaths = new ArrayList<>();
+		findAllPathsUtils(start, end, visited, pathList, allPaths);
+		return allPaths;
+	}
+	void findAllPathsUtils( String start, String end, HashSet<String> visited, ArrayList<String>localPathList,List<List<String>> allPaths){
+		if(start.equals(end)){
+			allPaths.add((List<String>) localPathList.clone());
+		}
+		visited.add(start);
+
+		for(Edge adjacent : railwayNetwork.get(start)){
+				if(!visited.contains(adjacent.getDestination())){
+						localPathList.add(adjacent.getDestination());
+						findAllPathsUtils(adjacent.getDestination(), end, visited, localPathList,allPaths);
+						localPathList.remove(adjacent.getDestination());
+				}
+		}
+	}*/
+
 	private StationsData() {
 		addStations();
 	}
@@ -25,10 +57,18 @@ public class StationsData {
 		stations.add(station);
 		return station;
 	}
+	public List<Station> getStationListFromNameList(List<String> stationNames){
+		List<Station> stations = new ArrayList<>();
+		for(String stationName : stationNames){
+			Station station =findStation(stationName);
+			stations.add(station);
+		}
+		return stations;
+	}
 	public Station findStation(String sName) {
 		Station station= null;
 		Iterator<Station> stationIterator = stations.iterator(); 
-		while(stationIterator.hasNext()) {
+		while (stationIterator.hasNext()) {
 			station = stationIterator.next();
 			if(station.getName().equalsIgnoreCase(sName)) {
 				break;
@@ -38,7 +78,7 @@ public class StationsData {
 	}
 	// dummy initialization
 	private void addStations() {
-		int count  = stationNames.length;
+		int count  = 26;
 		char st ='A';
 		int i = 4;
 		StationType  stype= null ;
@@ -73,6 +113,10 @@ public class StationsData {
 				return station.getId();
 		}
 		return stationId;
-		
+
+	}
+	public List<Station> getAllStations(){
+
+		return stations;
 	}
 }

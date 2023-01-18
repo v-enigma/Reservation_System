@@ -16,9 +16,9 @@ public class Route {
 	public int getDistance(Station station) {
 		return routeMap.get(station);
 	}
-	public boolean hasStop(Station station) {
+	/*public boolean hasStop(Station station) {
 		return routeMap.containsKey(station);
-	}
+	}*/
 	public Iterator<Station> getAllStations(){
 		Set<Station> stops = routeMap.keySet();
 		return stops.iterator();

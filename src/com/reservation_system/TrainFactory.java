@@ -2,9 +2,13 @@ package com.reservation_system;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import com.database.NetworkStorage;
+import com.database.StationsData;
 import com.database.TrainsData;
 import com.enums.SeatType;
+import sun.rmi.runtime.NewThreadAction;
 
 
 public class TrainFactory {
@@ -57,14 +61,37 @@ public class TrainFactory {
 		}
 		return seating;
 	}
-	
-	public void createTrain(int trainId,String name,List<Station> stations,List<Integer> allDistances, int acCoachCount, int sleeperCoachCount ,int acCoachSeatCount , int sleeperCoachSeatCount) {
+	public boolean ensureRouteExistence(String sourceName, String destinationName){
+		List<String>stations =NetworkStorage.getInstance().getAvailableRouteBetweenStations(sourceName, destinationName);
+		if(stations!= null)
+			return true;
+		else
+			return false;
+	}
+	private List<Integer> generateDistance(int count){
+		Random rand = new Random();
+		List<Integer> allDistances = new ArrayList<>();
+		allDistances.add(0);
+		for(int i=1;i<count;i++){
+			int distance = rand.nextInt(100)+10;
+			allDistances.add(distance);
+		}
+		return allDistances;
+	}
+	public void createTrain(int trainId,String name, int acCoachCount,Station source, Station destination, int sleeperCoachCount ,int acCoachSeatCount , int sleeperCoachSeatCount) {
 	    Train train =null;
 	    int id = trainId;
-	    Route route = buildRoute(stations, allDistances);
+
+
+		List<String> stationsNames = NetworkStorage.getInstance().getAvailableRouteBetweenStations(source.getName(), destination.getId());
+		List<Integer> allDistances = generateDistance(stationsNames.size());
+
+	    List<Station> stations = StationsData.getInstance().getStationListFromNameList(stationsNames);
+
+		Route route = buildRoute(stations, allDistances);
 	    Seating sleeperSeating = buildCoaches(sleeperCoachCount, "S",  sleeperCoachSeatCount);
 	    Seating acSeating = buildCoaches(acCoachCount,"B", acCoachSeatCount);
-	    train = new Train(id,name,route, acSeating, sleeperSeating,TrainsData.getHelperId());//Think of the logic for the number and Id;
+	    train = new Train(id,name,route, acSeating, sleeperSeating,TrainsData.getHelperId());//Think  logic for  number and id;
 	    TrainsData.getInstance().addTrain(train);
 	    
 	}
@@ -75,6 +102,14 @@ public class TrainFactory {
 		return TrainsData.getInstance().getTrainByRegId(trainRegId);
 
 	}
-	  
+	public boolean validateTrain(int TrainNo){
+		if(TrainsData.getInstance().findTrainById(TrainNo)!= null){
+			return true;
+		}
+		else{
+			return false;
+		}
+
+	}
 
 }

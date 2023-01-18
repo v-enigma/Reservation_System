@@ -207,5 +207,10 @@ public class BookingFactory {
 		MultiDayBookingStore multiDayBookingStore = new MultiDayBookingStore();
 		return multiDayBookingStore;
 	}
-
+	public void printTrainBookingsFromTrain(int trainNo, LocalDate dateOfJourney){
+		List<Booking> bookings = BookingsData.getInstance().filterBookingsByTrainNoAndDate(trainNo, dateOfJourney);
+		for(Booking booking : bookings){
+			System.out.println(booking);
+		}
+	}
 }
