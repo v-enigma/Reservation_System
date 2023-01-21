@@ -25,7 +25,8 @@ public class Coach {
 	public Seat getSeat(int id) {
 		return seats.get(id);
 	}
-	
+
+
 	
 	
 		

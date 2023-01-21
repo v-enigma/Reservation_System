@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.enums.StationType;
 import com.reservation_system.TrainTimingAtStation;
 import com.reservation_system.Schedule;
 import com.reservation_system.Station;
@@ -25,24 +26,32 @@ public class ScheduleData {
 	public static ScheduleData getInstance() {
 		return SCHEDULE_TB;
 	}
-	public  List<Integer> findtrainsBetweenStations(Station source, Station destination, LocalDate date) {
+	public  List<Integer> findTrainsBetweenStations(Station source, Station destination, LocalDate date) {
 		DayOfWeek day = date.getDayOfWeek();
+		System.out.println(day);
 		List<Integer> trainNumbers = new ArrayList<>();
 		String sCode = source.getId();
 		String dCode = destination.getId();
 		
 		for(Schedule schedule :schedules) {
-			Map<String, TrainTimingAtStation >stations = schedule.getStationswithArrivalTime();
+
+			Map<String, TrainTimingAtStation > stations = schedule.getStationsWithArrivalTime();
 			if(stations.containsKey(sCode) && stations.containsKey(dCode) && stations.get(dCode).isStop() && 
 					stations.get(sCode).isStop()&& stations.get(sCode).getscheduleDays().contains(day)) {
 				trainNumbers.add(schedule.getTrainId());
+				System.out.println(trainNumbers);
 				
 			}
 		}
 		return trainNumbers;
 		
 	}
-	
+	/*public static void main(String[] args){
+		Station source = new Station("A","A",2, StationType.CENTRAL);
+		Station destination = new Station("E","E", 3, StationType.STATION);
+
+
+	}*/
 	
 	
 }

@@ -78,22 +78,20 @@ public class TrainFactory {
 		}
 		return allDistances;
 	}
-	public void createTrain(int trainId,String name, int acCoachCount,Station source, Station destination, int sleeperCoachCount ,int acCoachSeatCount , int sleeperCoachSeatCount) {
+	public boolean createTrain(int trainId,String name, int acCoachCount,Station source, Station destination, int sleeperCoachCount ,int acCoachSeatCount , int sleeperCoachSeatCount) {
 	    Train train =null;
+		boolean hasCreated = false;
 	    int id = trainId;
-
-
 		List<String> stationsNames = NetworkStorage.getInstance().getAvailableRouteBetweenStations(source.getName(), destination.getId());
 		List<Integer> allDistances = generateDistance(stationsNames.size());
-
+		System.out.println(stationsNames);
 	    List<Station> stations = StationsData.getInstance().getStationListFromNameList(stationsNames);
-
 		Route route = buildRoute(stations, allDistances);
 	    Seating sleeperSeating = buildCoaches(sleeperCoachCount, "S",  sleeperCoachSeatCount);
 	    Seating acSeating = buildCoaches(acCoachCount,"B", acCoachSeatCount);
-	    train = new Train(id,name,route, acSeating, sleeperSeating,TrainsData.getHelperId());//Think  logic for  number and id;
-	    TrainsData.getInstance().addTrain(train);
-	    
+	    train = new Train(id,name,route, acSeating, sleeperSeating,TrainsData.getHelperId());
+	    hasCreated = TrainsData.getInstance().addTrain(train);
+	    return true;
 	}
 	public List<Integer> getTrainsRegIds(int trainNo){
 		return TrainsData.getInstance().getAllTrainRegIdsMappedToTrainNo(trainNo);

@@ -21,10 +21,16 @@ public class NetworkStorage {
        List<String> adjacentStations = new ArrayList<>();
         for(Station station : stations){
             if(count%5 == 0){
+                adjacentStations.add(station.getName());
                 allRoutes.add(adjacentStations);
+                System.out.println(adjacentStations);
                 adjacentStations = new ArrayList<>();
-            }
 
+
+            }
+            else {
+                adjacentStations.add(station.getName());
+            }
 
 
             count++;
@@ -46,7 +52,7 @@ public class NetworkStorage {
                    sourceIndex = destinationIndex;
                    destinationIndex = temp;
                }
-                  stationList = stationsInRoute.subList(sourceIndex,destinationIndex);
+                  stationList = stationsInRoute.subList(sourceIndex,destinationIndex+1);
                   if(reverse)
                       Collections.reverse(stationList);
                    return stationList;

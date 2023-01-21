@@ -1,5 +1,6 @@
 package com.database;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +23,15 @@ public class TrainsData {
 		return ++helperId;
 		
 	}
-	public void addTrain(Train train) {
-		
-		allTrains.put(train.getRegId(), train);
-		if(train.getId()>0  &&   idToRegIdMap.containsKey(train.getId())) {
-			idToRegIdMap.get(train.getId()).add(train.getRegId());
+	public boolean addTrain(Train train) {
+		boolean hasAdded = false;
+		if(allTrains.put(train.getRegId(), train) == null)
+			hasAdded = true;
+		if(!idToRegIdMap.containsKey(train.getId())) {
+			idToRegIdMap.put(train.getId(), new ArrayList<>());
 		}
+		hasAdded = hasAdded && idToRegIdMap.get(train.getId()).add(train.getRegId());
+		return hasAdded;
 	}
 	public List<Integer> getAllTrainRegIdsMappedToTrainNo(int trainNo){
 		if(idToRegIdMap.containsKey(trainNo)){

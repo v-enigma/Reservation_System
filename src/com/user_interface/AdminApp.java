@@ -37,21 +37,28 @@ public class AdminApp implements Application, Authenticable{
 			
 	}
 	private void menu() {
-		System.out.println("1.Add Train\n 2.Schedule Train \n 3.Remove Train\n  4. Print Chart  \n");
-		System.out.println("Enter your option ");
-		int option = Helper.getIntegerInput(); // has to be updated
-		switch(option) {
-		case 1:
-			addTrain();
-			break;
-		case 2:
-			scheduleTrain();
-			break;
-		case 3:
-			removeTrain();
-			break;
-		case 4:
-			printChart();
+		boolean run = true;
+		while(run) {
+			System.out.println("1.Add Train\n2.Schedule Train\n3.Remove Train\n4. Print Chart.\n5. Exit\n");
+			System.out.println("Enter your option ");
+			int option = Helper.getIntegerInput(); // has to be updated
+			switch (option) {
+				case 1:
+					addTrain();
+					break;
+				case 2:
+					scheduleTrain();
+					break;
+				case 3:
+					removeTrain();
+					break;
+				case 4:
+					printChart();
+					break;
+				case 5:
+					run = false;
+					break;
+			}
 		}
 	}
 	private void printChart() {
@@ -115,17 +122,17 @@ public class AdminApp implements Application, Authenticable{
 		String day = Helper.getStringInput();
 		day = day.toUpperCase();
 		DayOfWeek dayOfWeek = getDay(day);
-		if( dayOfWeek== null){
+		if( dayOfWeek == null){
 			return InputValidDay();
 		}
 		else{
 			return dayOfWeek;
 		}
 	}
-	private List<DayOfWeek> getScheduledDaysInWeek(){
+	private List<DayOfWeek> setScheduledDaysInWeek(int noOfDays){
 		List<DayOfWeek> scheduledDaysInWeek = new ArrayList<>();
-		System.out.println("Enter No of days the train will train in a week ?");
-		int noOfDays = Helper.getIntegerInput();
+		System.out.println("Enter days the train will train in a week ?");
+		//int noOfDays = Helper.getIntegerInput();
 		while(noOfDays > 0){
 			DayOfWeek dayofWeek = InputValidDay();
 			scheduledDaysInWeek.add(dayofWeek);
@@ -134,12 +141,29 @@ public class AdminApp implements Application, Authenticable{
 		return scheduledDaysInWeek;
 	}
 	private String validateTimeFormat(String time){
-		String regex = "[0-9][0-9]:[0-9][0-9]";
+		String regex = "[0-9]{2}:[0-9]{2}";
 		do{
 			System.out.println("Enter time(HH:MM)   in 24HRS format");
 			time = Helper.getStringInput();
 		}while(!Pattern.matches(regex,time));
 		return time;
+	}
+	private void setStopInJourney(List<Boolean> isStopList, String code){
+		System.out.println("Is "+ code+ "  a stop ? . Enter Yes or No");
+		String isStop = Helper.getStringInput();
+
+		if(isStop.equalsIgnoreCase("Yes")) {
+			isStopList.add(true);
+		}
+		else
+			isStopList.add(false);
+	}
+	private void setArrivalTimeForAllStops(String code, List<LocalTime> arrivalTimeList){
+		System.out.println("Enter arrival Time (HH,MM) for " + code);
+		String time = "0";
+		time = validateTimeFormat(time);
+		LocalTime arrivalTime = LocalTime.parse(time);
+		arrivalTimeList.add(arrivalTime);
 	}
 	private void scheduleTrain() {
 		System.out.println("Enter the Train Number you want to schedule");
@@ -150,11 +174,11 @@ public class AdminApp implements Application, Authenticable{
 			System.out.println(trainRegId);
 		}
 		List<LocalTime> arrivalTimeList = new ArrayList<>();
-
-		arrivalTimeList.add(LocalTime.parse("00:00"));
 		System.out.println("Enter your train RegId you want to schedule");
 		int regId = Helper.getIntegerInput();
-
+		arrivalTimeList.add(LocalTime.parse("00:00"));
+		System.out.println("Enter No of days the train will run in a week ?");
+		int noOfDaysScheduled = Helper.getIntegerInput();
 		List<String> stationCodes = TrainFactory.getInstance().getTrain(regId).getRoute().getStationCodesInRoute();
 		System.out.println(stationCodes);
 		boolean isFirstIteration = true;
@@ -163,35 +187,29 @@ public class AdminApp implements Application, Authenticable{
 		LocalTime sourceDepartureTime = LocalTime.parse("00:00");
 		for(String code : stationCodes){
 			if(isFirstIteration){
-				System.out.println("Enter departure Time (HH,MM) for " + code);
+				System.out.println("Enter the departure time of " + code+".");
 				String time= "0";
-				time =validateTimeFormat(time);
+				time = validateTimeFormat(time);
 				sourceDepartureTime = LocalTime.parse(time);
+				isFirstIteration = false;
 			}
 			else {
-				System.out.println("Enter arrival Time (HH,MM) for " + code);
-				String time = "0";
-				time = validateTimeFormat(time);
-				LocalTime arrivalTime = LocalTime.parse(time);
-				arrivalTimeList.add(arrivalTime);
-
+				setArrivalTimeForAllStops(code, arrivalTimeList);
 			}
-			System.out.println("Is "+ code+ "a stop ? . Enter Yes or No");
-			String isStop = Helper.getStringInput();
-			if(isStop.equalsIgnoreCase("Yes"))
+			if(!(code.equals(stationCodes.get(0) )|| code.equals(stationCodes.get(stationCodes.size()-1))))
+				setStopInJourney(isStopList,code);
+			else{
 				isStopList.add(true);
-			else
-				isStopList.add(false);
-			List<DayOfWeek> dayOfWeeks = getScheduledDaysInWeek();
-			allStopsScheduledDays.add(dayOfWeeks);
+			}
+			List<DayOfWeek> daysOfWeek = setScheduledDaysInWeek(noOfDaysScheduled);
+			allStopsScheduledDays.add(daysOfWeek);
 
 		}
 		ScheduleHelper.getInstance().createSchedule(regId, trainNo,arrivalTimeList,sourceDepartureTime,isStopList,allStopsScheduledDays);
 
-
 	}
 
-	private Station getAllStationDetails(String name) {
+	private Station setDetailsForStation(String name) {
 		System.out.println("Enter station code");
 		String sCode = Helper.getStringInput();
 		System.out.println("Enter no of stations in the platform");
@@ -215,7 +233,7 @@ public class AdminApp implements Application, Authenticable{
 			System.out.println(PrintStatements.STATION_NOT_FOUND);
 			char input = Helper.getCharacterInput();
 			if(input == 'Y'|| input =='y') {
-				station =getAllStationDetails(stationName);
+				station = setDetailsForStation(stationName);
 			}
 			else {
 				System.out.println("Enter valid  station");
@@ -226,6 +244,7 @@ public class AdminApp implements Application, Authenticable{
 	}
 	
 	private void addTrain() {
+		boolean hasAdded = false;
 		System.out.println("Enter the train number");
 		int trainId = Helper.getIntegerInput();
 		System.out.println("Enter the name of the train");
@@ -235,21 +254,26 @@ public class AdminApp implements Application, Authenticable{
 		String source = Helper.getStringInput();
 
 		Station sStation =validateStationExistence(source);
+		System.out.println("Enter the destination  of the train ");
 		String destination = Helper.getStringInput();
 		Station desStation = validateStationExistence(destination);
 		TrainFactory.getInstance().ensureRouteExistence(source, destination);
 		//List<Integer> distanceInKm = new ArrayList<>();
 		//allStations.add(sStation);
 		//distanceInKm.add(0);
-		System.out.println("Enter number of intermediate stations including destination Station");
+		//System.out.println("Enter number of intermediate stations including destination Station");
 		//int noOfStations = Helper.getIntegerInput();
 
 		System.out.println("Enter no of AC coaches");
 		int acCoachCount = Helper.getIntegerInput();
 		System.out.println("Enter no of Sleeper coaches");
 		int sleeperCount = Helper.getIntegerInput();
-		TrainFactory.getInstance().createTrain(trainId,trainName, acCoachCount,sStation, desStation, sleeperCount,64,72);
-		
+		hasAdded = TrainFactory.getInstance().createTrain(trainId,trainName, acCoachCount,sStation, desStation, sleeperCount,64,72);
+		if(hasAdded){
+			System.out.println("Added Successfully");
+		}else{
+			System.out.println("Failed to add the train.");
+		}
 		/*
 		Scanner scan = new Scanner(System.in);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy);

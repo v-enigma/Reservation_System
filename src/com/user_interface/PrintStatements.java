@@ -20,6 +20,9 @@ package com.user_interface;
 	 static final String STATION_NOT_FOUND ="There is no such station in my storage.\n Do you like to add new station? If yes press 'Y' else 'N'." ;
 	 static final String STATION_TYPE ="Enter station type .\n J for Junction.\n T for Terminus.\n C for Central.\n  S for station. \n";
 	 static final String NO_TRAINS ="NO TRAINS AVAILABLE BETWEEN  GIVEN SOURCE AND DESTINATION";
+	 static final String PASSWORD_RULES ="";
+	 static final String SEAT_PREFERENCE ="Enter seat Preference.\nLB for LowerBerth.\nMB for MiddleBerth.\nUB for UpperBerth.\nSUB for Side Upper Berth.\nSLB for Side lower Berth\n";
+
 
  }
 

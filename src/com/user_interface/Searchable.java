@@ -43,28 +43,15 @@ public interface Searchable {
 		System.out.println("Enter source, destination station  and  date of journey\n ");
 		List<Object> objects = getJourneyDetails();
 		searchTrain(objects);
-		/*
-		 * System.out.
-		 * println("If you are intersted in booking the ticket enter Y for yes or N for NO"
-		 * );
-		 * 
-		 * char interested = Helper.getCharacterInput(); if(interested == 'Y' ||
-		 * interested =='y') {
-		 * 
-		 * System.out.println("Enter the index of the trains printed above"); int index
-		 * = Helper.getIntegerInput(); index = index-1;
-		 * 
-		 * 
-		 * //call booking method }
-		 */		 
+
 	}
-	default List<Train>searchTrain(List< Object> objects ){
+	default List<Train>searchTrain(List<Object> objects ){
 		//System.out.println("I entered into");
-		String source= objects.get(0).toString();
-		String destination =objects.get(1).toString();
-		
-		Station sStation =StationsData.getInstance().findStation(destination);
-		Station dStation=StationsData.getInstance().findStation(source);
+
+		String source = objects.get(0).toString();
+		String destination = objects.get(1).toString();
+		Station sStation = StationsData.getInstance().findStation(source);
+		Station dStation = StationsData.getInstance().findStation(destination);
 		//System.out.println("Enter date of journey.Enter the date in DD/MM/YYYY format");
 		//String date = "";
 		LocalDate dateOfJourney = (LocalDate)objects.get(2);
@@ -78,7 +65,7 @@ public interface Searchable {
 		
 		else {	
 		
-			List<Integer> trainNumbers = ScheduleData.getInstance().findtrainsBetweenStations(sStation, dStation,dateOfJourney);
+			List<Integer> trainNumbers = ScheduleData.getInstance().findTrainsBetweenStations(sStation, dStation,dateOfJourney);
 			if(trainNumbers.size() == 0 )
 				System.out.println(PrintStatements.NO_TRAINS);
 			int count =0;

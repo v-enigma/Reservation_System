@@ -33,11 +33,18 @@ public class BookingFactory {
 	}
 	private Seat getSeat(Train train, int seatNo, int seatClass) {
 		int coachCount = getCoachCount(train, seatClass);
-		int coachId = seatNo/coachCount;
-		coachId++;
-		int seatNoInCoach = seatNo%coachCount;// edge case of 0 remainder has to be handled
-		
+		int seatsPerCoach = 0;
 		Seat seat = null;
+		if(seatClass == 1)
+			seatsPerCoach = train.getSleeperSeating().getSeatsPerCoach();
+		else{
+			seatsPerCoach = train.getAcSeating().getSeatsPerCoach();
+		}
+		int coachId = seatNo/(coachCount * seatsPerCoach);
+		coachId++;
+		int seatNoInCoach = seatNo%( seatsPerCoach);// edge case of 0 remainder has to be handled
+		
+
 		
 		if(seatClass == 1) {
 			seat =train.getSleeperSeating().getCoach(coachId).getSeat(seatNoInCoach);
@@ -82,17 +89,18 @@ public class BookingFactory {
 		while(passengersIterator.hasNext()) {
 			UserDetails ud = passengersIterator.next();
 			SeatType seatType = ud.getSeatPreference();
-			String stringseatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance().getSeatForTrainAndDate(train,dateOfJourney,seatClass,seatType, sourceCode, destinationCode, stopsCodes);
+			String stringSeatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance().getSeatForTrainAndDate(train,dateOfJourney,seatClass,seatType, sourceCode, destinationCode, stopsCodes);
+			System.out.println("Seat no:  "+ stringSeatNo);
 			Seat seat = null;
-			if(stringseatNo.charAt(0)== 'C'){
-				seatNo = Integer.parseInt(stringseatNo.substring(1));
+			if(stringSeatNo.charAt(0) == 'C'){
+				seatNo = Integer.parseInt(stringSeatNo.substring(1));
 				seat = getSeat(train, seatNo, seatClass);
 				allotedSeats.add(seat);
 				status.add(BookingStatus.CNF);
 				String coach_Name = getCoachName(train, seatNo, seatClass);
 				coachNames.add(coach_Name);
-			}else if(stringseatNo.charAt(0) == 'R'){
-				seatNo = Integer.parseInt(stringseatNo.substring(1));
+			}else if(stringSeatNo.charAt(0) == 'R'){
+				seatNo = Integer.parseInt(stringSeatNo.substring(1));
 				seat = getSeat(train, seatNo, seatClass);
 				allotedSeats.add(seat);
 				status.add(BookingStatus.RAC);
@@ -100,8 +108,8 @@ public class BookingFactory {
 				coachNames.add(coach_Name);
 				BookingsData.getInstance().addRAC(pnr,passengerIndex);
 
-			}else if(stringseatNo.charAt(0) == 'W'){
-				seatNo = Integer.parseInt(stringseatNo.substring(1));
+			}else if(stringSeatNo.charAt(0) == 'W'){
+				seatNo = Integer.parseInt(stringSeatNo.substring(1));
 				allotedSeats.add(seat);
 				status.add(BookingStatus.WL);
 				coachNames.add(null);
@@ -190,7 +198,7 @@ public class BookingFactory {
 		BookedAndAvailableSeatsByDate seatAllocationHelper = null;
 		int numCoaches =-1;
 		int seatPerCoach = -1;
-		if(seatClass ==1) {
+		if(seatClass == 1) {
 			 numCoaches = train.getSleeperSeating().getNumCoaches();
 			 seatPerCoach = train.getSleeperSeating().getSeatsPerCoach();
 			
@@ -213,4 +221,5 @@ public class BookingFactory {
 			System.out.println(booking);
 		}
 	}
+
 }

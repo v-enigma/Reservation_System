@@ -5,11 +5,13 @@ import java.util.List;
 
 public abstract class Seating {
 	
-	private final List<Coach> coaches= new ArrayList<>();
+	protected final List<Coach> coaches= new ArrayList<>();
 	
-	private int availableSeats;
-	
-	
+	protected int availableSeats;
+
+	public int getSeatsPerCoach() {
+		return coaches.get(0).getSeatsCount();
+	}
 	Seating(){
 		
 		this.availableSeats = 0;	
@@ -20,7 +22,7 @@ public abstract class Seating {
 		
 	}
 	public void incrementAvailableSeats() {
-		if(coaches.size()> 0 && this.availableSeats < coaches.size()* coaches.get(0).getSeatsCount())
+		if(coaches.size() > 0 && this.availableSeats < coaches.size()* coaches.get(0).getSeatsCount())
 			this.availableSeats++;
 	}
 	public void decrementAvailableSeats() {
@@ -36,10 +38,11 @@ public abstract class Seating {
 	public int getNumCoaches() {
 		return coaches.size();
 	}
-	public int getSeatsPerCoach() {
-		return coaches.get(0).getSeatsCount();
-	}
+
 	public Coach getCoach(int id) {
 		return coaches.get(id);
+	}
+	public void getCoachNumber(int seatNo){
+
 	}
 }

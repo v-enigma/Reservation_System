@@ -4,4 +4,5 @@ public class SleeperSeating extends Seating {
 	SleeperSeating() {
 		super();
 	}
+
 }

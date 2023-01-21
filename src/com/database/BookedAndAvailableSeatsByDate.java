@@ -108,60 +108,65 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 		List<Integer> matchedPreference = new ArrayList<>();
 		List<Integer> otherSeats = new ArrayList<>();
 		List<List<Integer>>availableSeatsInBookedSeats = new ArrayList<>();
-		availableSeatsInBookedSeats.add(matchedPreference);
-		availableSeatsInBookedSeats.add(otherSeats);
+		/*availableSeatsInBookedSeats.add(matchedPreference);
+		availableSeatsInBookedSeats.add(otherSeats);*/
 		boolean found = false;
 		while(sPointer >= 0 && !found) {
 			sourceCode = stopsCodes.get(sPointer);
 			List<Integer>potentialSeatNumbers = bookedSeatMap.get(sourceCode);
-			for(Integer seatNo: potentialSeatNumbers) {
-				List<String>multipleDestinations = seatDestinationMap.get(seatNo);
-				int currentStationPointer = sPointer;
-				currentStationPointer++;
-				String station = stopsCodes.get(currentStationPointer);
-				while(currentStationPointer <= stopsCodes.size()-1){
-					if(multipleDestinations.contains(station) ){
-						if(currentStationPointer<= dPointer){
-							//already booked seat
-							continue;
-						}
-						else{
-							int stationIndex = multipleDestinations.indexOf(station);
-							String potentialSeatSource = seatAndSourceMap.get(seatNo).get(stationIndex);
-							int potentialSeatSourceIndex = stopsCodes.indexOf(potentialSeatSource);
-							if(potentialSeatSourceIndex < dPointer) {
-								// already booked seat
+			if(potentialSeatNumbers!= null)
+				for(Integer seatNo: potentialSeatNumbers) {
+					List<String>multipleDestinations = seatDestinationMap.get(seatNo);
+					int currentStationPointer = sPointer;
+					currentStationPointer++;
+					String station = stopsCodes.get(currentStationPointer);
+					while(currentStationPointer <= stopsCodes.size()-1){
+						if(multipleDestinations.contains(station) ){
+							if(currentStationPointer<= dPointer){
+								//already booked seat
 								continue;
 							}
 							else{
-								currentStationPointer = stopsCodes.size();
+								int stationIndex = multipleDestinations.indexOf(station);
+								String potentialSeatSource = seatAndSourceMap.get(seatNo).get(stationIndex);
+								int potentialSeatSourceIndex = stopsCodes.indexOf(potentialSeatSource);
+								if(potentialSeatSourceIndex < dPointer) {
+									// already booked seat
+									continue;
+								}
+								else{
+									currentStationPointer = stopsCodes.size();
+								}
+
 							}
+							break;
 
 						}
-						break;
+						currentStationPointer++;
+					}
+					while(!multipleDestinations.contains(station) && currentStationPointer <= stopsCodes.size()-1 ) {
+						currentStationPointer++;
+						station = stopsCodes.get(currentStationPointer);
+					}
+					if(currentStationPointer > stopsCodes.size()-1) {
+						if(index == -1)
+							otherSeats.add(seatNo);
+						else if ((seatNo%seatsPerCoach)%8 == index || ((seatNo%seatsPerCoach)%8)+3 == index ) {
+							matchedPreference.add(seatNo);
+						}
+						else {
+							otherSeats.add(seatNo);
+						}
+						found = true;
+					}
 
-					}
-					currentStationPointer++;
 				}
-				while(!multipleDestinations.contains(station) && currentStationPointer <= stopsCodes.size()-1 ) {
-					currentStationPointer++;
-					station = stopsCodes.get(currentStationPointer);
-				}
-				if(currentStationPointer > stopsCodes.size()-1) {
-					if(index == -1)
-						otherSeats.add(seatNo);
-					else if ((seatNo%seatsPerCoach)%8 == index || ((seatNo%seatsPerCoach)%8)+3 == index ) {
-						matchedPreference.add(seatNo);
-					}
-					else {
-						otherSeats.add(seatNo);
-					}
-					found = true;
-				}
-					
+				sPointer--;
+
 			}
-			sPointer--;
-
+		if(matchedPreference.size() > 0 || otherSeats.size() > 0) {
+			availableSeatsInBookedSeats.add(matchedPreference);
+			availableSeatsInBookedSeats.add(otherSeats);
 		}
 		return availableSeatsInBookedSeats;
 	}
@@ -240,7 +245,7 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 	}
 
 	public Integer findAppropriateSeat(SeatType seatPreference, String sourceCode, String destinationCode, List<String>stopCodes) {
-		Integer seat;
+		Integer seat =-1;
 		int index = -999;
 		if(seatPreference == null)
 			index =-1;
@@ -255,8 +260,8 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 		else if (seatPreference == SeatType.SLB)
 			index = 4;
 		List<List<Integer>> seatFromBookedSeats = findAvailableSeatsInBookedMap(index, sourceCode, destinationCode, stopCodes);
-
-		seat = getSeatFromBookedSeats(index, seatFromBookedSeats);
+		if( seatFromBookedSeats.size() > 0 )
+			seat = getSeatFromBookedSeats(index, seatFromBookedSeats);
 		if(seat < 0){
 			seat = findAvailableSeatFromUnoccupied(index, sourceCode,destinationCode);
 		}

@@ -69,7 +69,7 @@ public class Schedule {
 		//System.out.println(lt);
 	}
 	
-	public Map<String, TrainTimingAtStation> getStationswithArrivalTime(){
+	public Map<String, TrainTimingAtStation> getStationsWithArrivalTime(){
 		return this.stationsWithArrivalTime;
 	}
 	public int getTrainId() {
@@ -89,5 +89,6 @@ public class Schedule {
 		}
 		return stops;
 	}
+
 
 }

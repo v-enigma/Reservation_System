@@ -8,6 +8,7 @@ public class ACSeating extends Seating {
 		foodAvailable = true;
 		MagazinesAvailable = true;
 	}
+
 	public boolean isFoodAvailable() {
 		return foodAvailable;
 	}

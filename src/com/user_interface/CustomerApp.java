@@ -16,7 +16,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		//update the code 
 		boolean run = true;
 		while (run) {
-			System.out.println(" Enter your code\n 1. To SignIn\n 2.SignUp\n 3.Exit\n ");
+			System.out.println("Enter your code\n1.SignIn\n2.SignUp\n3.Exit\n");
 			int option = Helper.getIntegerInput(); 
 			switch (option) 
 			{
@@ -56,22 +56,21 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	}
 	 void signUp() {
 		System.out.println("Enter userId");
-		String userId = "Venu1297";
+		String userId = Helper.getStringInput();
 		while(AuthenticationData.getInstance().isUserIdExists(userId)) {
 			System.out.println(PrintStatements.USER_NOT_FOUND);
 			userId = Helper.getStringInput();
-			
 		}
-		System.out.println("");
-		String password = "QWzx0945@";//Helper.getStringInput();//needs update. Have to implement regex to match 8 characters pattern
-		String name = "Venugopal";//Helper.getStringInput();;
-		String mail = "venu9821@gmail.com ";// Helper.getStringInput();
-		String phone = "8179639025";//Helper.getStringInput();
-		String dateOfBirth = "1998-04-12"; //Helper.get
-		Gender gender = Gender.M; 
+		System.out.println(PrintStatements.PASSWORD_RULES);
+		String password = Helper.getPassword();
+		String name = Helper.getStringInput();
+		String mail = Helper.getEmailInput();
+		String phone = Helper.getPhoneNumber();
+		LocalDate dateOfBirth = Helper.getDateInput(); //Helper.get
+		Gender gender = Helper.getGender();
 		//System.out.println("Do you have any seat preference?");
 		SeatType seatPreference = SeatType.LB;
-		boolean add =UserFactory.getInstance().createUser(userId,phone, mail, name, LocalDate.parse(dateOfBirth), gender, seatPreference,password );
+		boolean add =UserFactory.getInstance().createUser(userId,phone, mail, name, dateOfBirth, gender, seatPreference,password );
 		if(add) {
 			System.out.println("Created Successfully.");
 			signIn();
@@ -84,7 +83,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		LocalDate upperBoundDate = LocalDate.now().plusDays(120);
 		Station jSource = StationsData.getInstance().findStation(objects.get(0).toString());
 		Station jDestination = StationsData.getInstance().findStation(objects.get(1).toString());
-		while (!(journeyDate.isAfter(upperBoundDate) || journeyDate.isEqual(upperBoundDate) || journeyDate.isBefore(LocalDate.now()))) {
+		while ((journeyDate.isAfter(upperBoundDate) || journeyDate.isEqual(upperBoundDate) || journeyDate.isBefore(LocalDate.now()))) {
 			System.out.println(PrintStatements.DATE_VALIDATION);
 			String date = Helper.getStringInput();
 			journeyDate = LocalDate.parse(date);
@@ -111,40 +110,14 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	    List<UserDetails> passengers = new ArrayList<>();
 	    while(passengerCount> 0) {
 	    	System.out.println("Enter passengerName");
-	    	String name = Helper.getStringInput();
+	    	String name = Helper.getLineInput();
+			System.out.println(name);
 	    	System.out.println("Enter Date of Birth in YYYY-MM-DD");
-	    	String date = Helper.getStringInput();
-	    	LocalDate dateOfBirth = LocalDate.parse(date);
-	    	System.out.println("Enter Gender");
-	    	char input = Helper.getCharacterInput();
-	    	Gender gender ;
-	    	if(input == 'M')
-	    		gender = Gender.M;
-	    	else if(input == 'F')
-	    		gender = Gender.F;
-	    	else 
-	    		gender = Gender.O;
-	    	System.out.println("Enter seat Preference");
-	    	String seatInput = Helper.getStringInput();
-	    	SeatType seatType = null;
-			switch(seatInput){
-				case "LB":
-					seatType = SeatType.LB;
-					break;
-				case "MB":
-					seatType = SeatType.MB;
-					break;
-				case "UB":
-					seatType = SeatType.UB;
-					break;
-				case "SUB":
-					seatType = SeatType.SUB;
-					break;
-				case "SLB":
-					seatType = SeatType.SLB;
-					break;
-			}
-	    	passengers.add(   UserFactory.getInstance().buildUserDetails(name, dateOfBirth, gender, seatType));
+	    	LocalDate dateOfBirth = Helper.getDateInput();
+	    	//System.out.println("Enter Gender");
+	    	Gender gender = Helper.getGender();
+	    	SeatType seatType = Helper.getSeatType();
+	    	passengers.add( UserFactory.getInstance().buildUserDetails(name, dateOfBirth, gender, seatType));
 	    	passengerCount--;
 	    }
 	    return passengers;
@@ -193,12 +166,15 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		}
 	}
 	private void updateName(String name){
+
 		UserFactory.getInstance().getUser(userId).getUserDetails().setName(name);
 	}
 	private void updateEmail(String email){
+
 		UserFactory.getInstance().getUser(userId).setMailId(email);
 	}
-	private void updatePhone(String phone){
+	private void updatePhone( String phone){
+
 		 UserFactory.getInstance().getUser(userId).setPhoneNumber(phone);
 
 	}
@@ -215,10 +191,11 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 				updateEmail(updatedEmail);
 				break;
 			case 3:
-				String updatedPhone = Helper.getStringInput();
+				String updatedPhone = Helper.getPhoneNumber();
 				updatePhone(updatedPhone);
 				break;
 		}
+
 	}
 
 	

@@ -23,8 +23,12 @@ public class BookedAndAvailableSeatsByTrainAndDate {
 	}
     private void ensureSeatStoreExists(Train train, LocalDate dateOfJourney,int seatClass) {
     	int trainNo = train.getId();
-    	if(!trainBookings.containsKey(trainNo))
-    		trainBookings.put(trainNo,BookingFactory.getInstance().getMultiDayBookingStoreInstance() );
+    	if(!trainBookings.containsKey(trainNo)) {
+			trainBookings.put(trainNo, BookingFactory.getInstance().getMultiDayBookingStoreInstance());
+			//if(seatClass == 1)
+				//trainBookings.get(trainNo).
+						//createBookedAndAvailableSeatsByDate(train.getSleeperSeating().getNumCoaches(), train.getSleeperSeating().getSeatsPerCoach())
+		}
     	BookedAndAvailableSeatsByDate seatStore = getSeatStore(train,dateOfJourney, seatClass);
 		if(seatStore == null) {
 			BookedAndAvailableSeatsByDate seatAllocationHelper = BookingFactory.getInstance().getBookedAndAvailableSeatsByDate(train, seatClass);
@@ -35,9 +39,9 @@ public class BookedAndAvailableSeatsByTrainAndDate {
     private BookedAndAvailableSeatsByDate getSeatStore(Train train, LocalDate dateOfJourney, int seatClass) {
     	  int trainNo = train.getId();
     	  if (seatClass == 1) {
-    	    return trainBookings.get(trainNo).getSleeperSeating(dateOfJourney);
+    	    return trainBookings.get(trainNo).getSleeperSeating(train,dateOfJourney);
     	  } else {
-    	    return trainBookings.get(trainNo).getACSeating(dateOfJourney);
+    	    return trainBookings.get(trainNo).getACSeating(train,dateOfJourney);
     	  }
     	}
 	public String getSeatForTrainAndDate(Train train, LocalDate dateOfJourney, int seatClass, SeatType seatType, String sourceCode, String destinationCode,  List<String> stopsCodes) {
@@ -72,8 +76,9 @@ public class BookedAndAvailableSeatsByTrainAndDate {
 	}
 	
    public void getBookingsByDate(int trainNo, LocalDate dateOfJourney){
-		BookedAndAvailableSeatsByDate allocatedAcSeats= trainBookings.get(trainNo).getACSeating(dateOfJourney);
-		BookedAndAvailableSeatsByDate allocatedSleeperSeats = trainBookings.get(trainNo).getSleeperSeating(dateOfJourney);
+		Train train = TrainsData.getInstance().findTrainById(trainNo);
+		BookedAndAvailableSeatsByDate allocatedAcSeats= trainBookings.get(trainNo).getACSeating(train,dateOfJourney);
+		BookedAndAvailableSeatsByDate allocatedSleeperSeats = trainBookings.get(trainNo).getSleeperSeating(train,dateOfJourney);
 
    }
 	/*
