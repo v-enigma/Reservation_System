@@ -41,17 +41,22 @@ public class BookingFactory {
 			seatsPerCoach = train.getAcSeating().getSeatsPerCoach();
 		}
 		int coachId = seatNo/(coachCount * seatsPerCoach);
-		coachId++;
-		int seatNoInCoach = seatNo%( seatsPerCoach);// edge case of 0 remainder has to be handled
-		
 
+		int seatNoInCoach = seatNo%( seatsPerCoach);// edge case of 0 remainder has to be handled
+
+		if(seatNoInCoach ==0) {
+			seatNoInCoach = seatsPerCoach;
+			coachId--;
+		}
 		
 		if(seatClass == 1) {
-			seat =train.getSleeperSeating().getCoach(coachId).getSeat(seatNoInCoach);
+
+			seat = train.getSleeperSeating().getCoach(coachId).getSeat(seatNoInCoach-1);
 		}
 		else {
-			seat = train.getAcSeating().getCoach(coachId).getSeat(seatNoInCoach);
+			seat = train.getAcSeating().getCoach(coachId).getSeat(seatNoInCoach-1);
 		}
+
 		return seat;
 	}
 	private String getCoachName(Train train, int seatNo, int seatClass) {
@@ -59,13 +64,15 @@ public class BookingFactory {
 		
 		if(seatClass == 1) {
 			int seatPerCoach = train.getSleeperSeating().getSeatsPerCoach();
-			int coachIndex =seatNo%seatPerCoach;
+			int coachIndex =seatNo/seatPerCoach;
+			if(seatNo%seatPerCoach == 0 )
+				coachIndex--;
 			Coach coach =train.getSleeperSeating().getCoach(coachIndex);
 			coachName = coach.getName();
 		}
 		else {
 			int seatPerCoach = train.getAcSeating().getSeatsPerCoach();
-			int coachIndex = seatNo%seatPerCoach;
+			int coachIndex = seatNo/seatPerCoach;
 			Coach coach = train.getAcSeating().getCoach(coachIndex);
 			coachName = coach.getName();
 		}
@@ -86,6 +93,7 @@ public class BookingFactory {
 		List<String> coachNames = new ArrayList<>();
 		long pnr = generateId();
 		int passengerIndex = 0;
+		//LocalDate trainStartDate = train.get
 		while(passengersIterator.hasNext()) {
 			UserDetails ud = passengersIterator.next();
 			SeatType seatType = ud.getSeatPreference();
@@ -187,6 +195,7 @@ public class BookingFactory {
 	}
 	private void addBooking(Booking booking, User user) {
 		BookingsData.getInstance().addBooking(booking);
+		((Customer)(user)).addBooking(booking);
 	}
 	
 	public void getBookings(String userId) {

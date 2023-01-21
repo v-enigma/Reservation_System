@@ -30,8 +30,8 @@ public interface Searchable {
 		System.out.println("Enter the destination station name");
 		String destination= Helper.getStringInput();
 		System.out.println("Enter date of journey.Enter the date in YYYY-MM-DD format");
-		String date = Helper.getStringInput();
-		LocalDate dateOfJourney = LocalDate.parse(date);
+		LocalDate dateOfJourney = Helper.getJourneyDate();
+
 		System.out.println(dateOfJourney);
 		List<Object> objects = new ArrayList<>();
 		objects.add(source);
@@ -47,6 +47,8 @@ public interface Searchable {
 	}
 	default List<Train>searchTrain(List<Object> objects ){
 		//System.out.println("I entered into");
+
+
 
 		String source = objects.get(0).toString();
 		String destination = objects.get(1).toString();

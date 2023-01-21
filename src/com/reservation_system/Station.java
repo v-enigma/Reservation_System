@@ -23,21 +23,14 @@ public class Station {
 		return id;
 	}
 
-	public int getNoOFPlatforms() {
-		return noOFPlatforms;
-	}
 
 	public StationType getStype() {
 		return stype;
 	}
 
-	public void setNoOFPlatforms(int noOFPlatforms) {
-		this.noOFPlatforms = noOFPlatforms;
-	}
 
-	public void setStype(StationType stype) {
-		this.stype = stype;
-	}
+
+
 	
 
 }

@@ -74,7 +74,7 @@ public class Booking {
 			i++;
 		}
 		
-		String ticket = "Source: "+ this.source +" Destination : "+ this.destination + "PNR " + this.PNR+" \n " ;
+		String ticket = "Source: "+ this.source.getName() +" Destination : "+ this.destination.getName() + "PNR " + this.PNR+" \n " ;
 		ticket+=details;
 		return ticket;
 	}

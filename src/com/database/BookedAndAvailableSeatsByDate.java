@@ -151,7 +151,10 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 					if(currentStationPointer > stopsCodes.size()-1) {
 						if(index == -1)
 							otherSeats.add(seatNo);
-						else if ((seatNo%seatsPerCoach)%8 == index || ((seatNo%seatsPerCoach)%8)+3 == index ) {
+						else if ((seatNo%seatsPerCoach)%8 == index-1|| ((seatNo%seatsPerCoach)%8)+5 == index-1 ) {
+							matchedPreference.add(seatNo);
+						}
+						else if(((seatNo%seatsPerCoach)%8 == 0 && index == 4) || ((seatNo%seatsPerCoach)%8 == 7 && index == 3)){
 							matchedPreference.add(seatNo);
 						}
 						else {

@@ -12,18 +12,16 @@ public class UsersData {
 	private UsersData() {
 		
 		this.users = new HashSet<>();
-		
 	}
+
 	public static UsersData getInstance() {
+
 		return USER_DB;
 	}
 	public boolean addUser(User user) {
 		return users.add(user);
 	}
-	/*
-	 * public static void main(String[] args) { System.out.println("Hello I ");
-	 * UserDB.getInstance(); }
-	 */
+
 	public User getUser(String userId) {
 		User user = null;
 		Iterator<User> userIterator = users.iterator();

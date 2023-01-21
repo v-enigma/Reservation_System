@@ -131,7 +131,7 @@ public class AdminApp implements Application, Authenticable{
 	}
 	private List<DayOfWeek> setScheduledDaysInWeek(int noOfDays){
 		List<DayOfWeek> scheduledDaysInWeek = new ArrayList<>();
-		System.out.println("Enter days the train will train in a week ?");
+		System.out.println("Enter the name of the day the train will run in a week ?");
 		//int noOfDays = Helper.getIntegerInput();
 		while(noOfDays > 0){
 			DayOfWeek dayofWeek = InputValidDay();
@@ -143,14 +143,14 @@ public class AdminApp implements Application, Authenticable{
 	private String validateTimeFormat(String time){
 		String regex = "[0-9]{2}:[0-9]{2}";
 		do{
-			System.out.println("Enter time(HH:MM)   in 24HRS format");
+			System.out.println("Enter time(HH:MM) in 24HRS format");
 			time = Helper.getStringInput();
 		}while(!Pattern.matches(regex,time));
 		return time;
 	}
 	private void setStopInJourney(List<Boolean> isStopList, String code){
 		System.out.println("Is "+ code+ "  a stop ? . Enter Yes or No");
-		String isStop = Helper.getStringInput();
+		String isStop = Helper.getYesOrNo();
 
 		if(isStop.equalsIgnoreCase("Yes")) {
 			isStopList.add(true);
@@ -168,8 +168,13 @@ public class AdminApp implements Application, Authenticable{
 	private void scheduleTrain() {
 		System.out.println("Enter the Train Number you want to schedule");
 		int trainNo = Helper.getIntegerInput();
-		System.out.println("Available trains for the given train Number");
+
 		List<Integer> trainRegIds = TrainFactory.getInstance().getTrainsRegIds(trainNo);
+		if(trainRegIds == null){
+			System.out.println("Train with the given number does not exist");
+			return;
+		}
+		System.out.println("Available trains for the given train Number");
 		for(Integer trainRegId: trainRegIds){
 			System.out.println(trainRegId);
 		}
@@ -251,28 +256,29 @@ public class AdminApp implements Application, Authenticable{
 		String trainName = Helper.getStringInput();
 		System.out.println("Enter the source  of the train ");
 
-		String source = Helper.getStringInput();
+		String source = Helper.getStringInput().toUpperCase();
 
-		Station sStation =validateStationExistence(source);
+		Station sStation = validateStationExistence(source);
 		System.out.println("Enter the destination  of the train ");
-		String destination = Helper.getStringInput();
+		String destination = Helper.getStringInput().toUpperCase();
 		Station desStation = validateStationExistence(destination);
-		TrainFactory.getInstance().ensureRouteExistence(source, destination);
-		//List<Integer> distanceInKm = new ArrayList<>();
-		//allStations.add(sStation);
-		//distanceInKm.add(0);
-		//System.out.println("Enter number of intermediate stations including destination Station");
-		//int noOfStations = Helper.getIntegerInput();
+		boolean hasRoute = TrainFactory.getInstance().ensureRouteExistence(source, destination);
 
-		System.out.println("Enter no of AC coaches");
-		int acCoachCount = Helper.getIntegerInput();
-		System.out.println("Enter no of Sleeper coaches");
-		int sleeperCount = Helper.getIntegerInput();
-		hasAdded = TrainFactory.getInstance().createTrain(trainId,trainName, acCoachCount,sStation, desStation, sleeperCount,64,72);
-		if(hasAdded){
-			System.out.println("Added Successfully");
-		}else{
-			System.out.println("Failed to add the train.");
+		if(hasRoute) {
+
+			System.out.println("Enter no of AC coaches");
+			int acCoachCount = Helper.getIntegerInput();
+			System.out.println("Enter no of Sleeper coaches");
+			int sleeperCount = Helper.getIntegerInput();
+			hasAdded = TrainFactory.getInstance().createTrain(trainId, trainName, acCoachCount, sStation, desStation, sleeperCount, 64, 72);
+			if (hasAdded) {
+				System.out.println("Added Successfully");
+			} else {
+				System.out.println("Failed to add the train.");
+			}
+		}
+		else{
+			System.out.println("There is no route between the  source "+ source +"  and destination "+ destination );
 		}
 		/*
 		Scanner scan = new Scanner(System.in);

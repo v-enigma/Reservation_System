@@ -36,7 +36,7 @@ public class MultiDayBookingStore { // 120 Days Ahead occupied seats and unoccup
 	}
 	
 	public void addBookedAndAvailableSeatsByDateStore (LocalDate localDate, BookedAndAvailableSeatsByDate seatAllocationHelper ,int seatClass ) {
-		if(seatClass ==1) {
+		if(seatClass == 1) {
 			multiDaySleeperBookings.put(localDate, seatAllocationHelper);
 		}
 		else {

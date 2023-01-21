@@ -42,7 +42,5 @@ public abstract class Seating {
 	public Coach getCoach(int id) {
 		return coaches.get(id);
 	}
-	public void getCoachNumber(int seatNo){
 
-	}
 }

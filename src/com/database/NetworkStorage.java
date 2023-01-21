@@ -23,7 +23,7 @@ public class NetworkStorage {
             if(count%5 == 0){
                 adjacentStations.add(station.getName());
                 allRoutes.add(adjacentStations);
-                System.out.println(adjacentStations);
+                //System.out.println(adjacentStations);
                 adjacentStations = new ArrayList<>();
 
 
@@ -58,6 +58,10 @@ public class NetworkStorage {
                    return stationList;
 
             }
+            if(stationsInRoute.contains(source) || stationsInRoute.contains(destination)){
+                return stationList;
+            }
+
         }
         return stationList;
     }

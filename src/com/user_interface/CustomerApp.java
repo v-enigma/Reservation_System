@@ -80,14 +80,15 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		System.out.println(PrintStatements.JOURNEY_DETAILS);
 		List<Object> objects = getJourneyDetails();
 		LocalDate journeyDate = (LocalDate) objects.get(2);
-		LocalDate upperBoundDate = LocalDate.now().plusDays(120);
 		Station jSource = StationsData.getInstance().findStation(objects.get(0).toString());
 		Station jDestination = StationsData.getInstance().findStation(objects.get(1).toString());
+		/*LocalDate upperBoundDate = LocalDate.now().plusDays(120);
+
 		while ((journeyDate.isAfter(upperBoundDate) || journeyDate.isEqual(upperBoundDate) || journeyDate.isBefore(LocalDate.now()))) {
 			System.out.println(PrintStatements.DATE_VALIDATION);
 			String date = Helper.getStringInput();
 			journeyDate = LocalDate.parse(date);
-		}
+		}*/
 		List<Train> trains = searchTrain(objects);
 		if (trains != null && trains.size() > 0) {
 			System.out.println(PrintStatements.TRAIN_INDEX);
@@ -128,8 +129,9 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	}
 	
 	private void pastBooking() {
-		
-		BookingFactory.getInstance().getBookings(userId);
+
+		String allBookings = UserFactory.getInstance().getBookings(userId);
+		System.out.println(allBookings);
 	}
 	
 	private  void menu() {

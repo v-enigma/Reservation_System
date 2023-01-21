@@ -32,7 +32,7 @@ public class TrainFactory {
 		for(int i=1;i<=seatsPerCoach;i++) {
 			SeatType sType =null;
 			if(i%8 ==0)
-				sType = SeatType.SUB;
+				sType = SeatType.SLB;
 		
 			else if(i%8 ==1||i%8 == 4)
 				sType = SeatType.LB;
@@ -41,7 +41,7 @@ public class TrainFactory {
 			else if(i%8 ==3|| i%8 ==6)
 				sType = SeatType.UB;
 			else
-				sType = SeatType.SLB;
+				sType = SeatType.SUB;
 			Seat seat = new Seat(i,sType);
 			seats.add(seat);
 		}
