@@ -16,7 +16,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		//update the code 
 		boolean run = true;
 		while (run) {
-			System.out.println("Enter your code\n1.SignIn\n2.SignUp\n3.Exit\n");
+			System.out.println(PrintStatements.OPTIONS);
 			int option = Helper.getIntegerInput(); 
 			switch (option) 
 			{
@@ -99,7 +99,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 			 * List<String>stops = train.getSchedule().getStops(); int indexOfSource =
 			 * stops.indexOf(sourceId); int indexOfDestin = stops.indexOf(desId);
 			 */
-			System.out.println("Enter booking class.\n 1.Sleeper \n 2.AC  ");
+			System.out.println(PrintStatements.BOOKING_CLASS);
 			int seatClass = Helper.getIntegerInput();
 			List<UserDetails> passengers = getPassengerDetails();
 			BookingFactory.getInstance().createBooking(UserFactory.getInstance().getUser(userId), passengers, train, journeyDate, jSource, jDestination, seatClass);
@@ -113,7 +113,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	    	System.out.println("Enter passengerName");
 	    	String name = Helper.getLineInput();
 			System.out.println(name);
-	    	System.out.println("Enter Date of Birth in YYYY-MM-DD");
+	    	System.out.println(PrintStatements.DATE_OF_BIRTH);
 	    	LocalDate dateOfBirth = Helper.getDateInput();
 	    	//System.out.println("Enter Gender");
 	    	Gender gender = Helper.getGender();
@@ -149,6 +149,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 					bookTicket();
 					break;
 				case 3:
+					System.out.println(PrintStatements.CANCEL_PNR);
 					long PNR = Helper.getLongInput();
 					cancel(PNR);
 					break;

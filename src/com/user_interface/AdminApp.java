@@ -131,7 +131,7 @@ public class AdminApp implements Application, Authenticable{
 	}
 	private List<DayOfWeek> setScheduledDaysInWeek(int noOfDays){
 		List<DayOfWeek> scheduledDaysInWeek = new ArrayList<>();
-		System.out.println("Enter the name of the day the train will run in a week ?");
+		System.out.println(PrintStatements.WEEK_DAY);
 		//int noOfDays = Helper.getIntegerInput();
 		while(noOfDays > 0){
 			DayOfWeek dayofWeek = InputValidDay();
@@ -143,7 +143,7 @@ public class AdminApp implements Application, Authenticable{
 	private String validateTimeFormat(String time){
 		String regex = "[0-9]{2}:[0-9]{2}";
 		do{
-			System.out.println("Enter time(HH:MM) in 24HRS format");
+			System.out.println(PrintStatements.TIME_FORMAT);
 			time = Helper.getStringInput();
 		}while(!Pattern.matches(regex,time));
 		return time;
@@ -166,26 +166,31 @@ public class AdminApp implements Application, Authenticable{
 		arrivalTimeList.add(arrivalTime);
 	}
 	private void scheduleTrain() {
-		System.out.println("Enter the Train Number you want to schedule");
+		System.out.println(PrintStatements.SCHEDULE_TRAIN);
 		int trainNo = Helper.getIntegerInput();
 
 		List<Integer> trainRegIds = TrainFactory.getInstance().getTrainsRegIds(trainNo);
 		if(trainRegIds == null){
-			System.out.println("Train with the given number does not exist");
+			System.out.println(PrintStatements.TRAIN_NUMBER_ERROR);
 			return;
 		}
-		System.out.println("Available trains for the given train Number");
+		System.out.println(PrintStatements.TRAINS_AVAILABLE);
 		for(Integer trainRegId: trainRegIds){
 			System.out.println(trainRegId);
 		}
+
+		System.out.println(PrintStatements.REG_ID);
+		int regId = Helper.getIntegerInput(); // validation missing
+		while(!trainRegIds.contains(regId)){
+			System.out.println(PrintStatements.DATE_OF_BIRTH);
+			regId = Helper.getIntegerInput();
+		}
 		List<LocalTime> arrivalTimeList = new ArrayList<>();
-		System.out.println("Enter your train RegId you want to schedule");
-		int regId = Helper.getIntegerInput();
 		arrivalTimeList.add(LocalTime.parse("00:00"));
-		System.out.println("Enter No of days the train will run in a week ?");
+		System.out.println(PrintStatements.FREQUENCY);
 		int noOfDaysScheduled = Helper.getIntegerInput();
 		List<String> stationCodes = TrainFactory.getInstance().getTrain(regId).getRoute().getStationCodesInRoute();
-		System.out.println(stationCodes);
+		//System.out.println(stationCodes);
 		boolean isFirstIteration = true;
 		List<Boolean> isStopList = new ArrayList<>();
 		List<List<DayOfWeek>> allStopsScheduledDays = new ArrayList<>();
@@ -241,7 +246,7 @@ public class AdminApp implements Application, Authenticable{
 				station = setDetailsForStation(stationName);
 			}
 			else {
-				System.out.println("Enter valid  station");
+				System.out.println(PrintStatements.VALID_STATION);
 				stationName = Helper.getStringInput();
 			}
 		}
@@ -250,25 +255,25 @@ public class AdminApp implements Application, Authenticable{
 	
 	private void addTrain() {
 		boolean hasAdded = false;
-		System.out.println("Enter the train number");
+		System.out.println(PrintStatements.TRAIN_NUMBER);
 		int trainId = Helper.getIntegerInput();
-		System.out.println("Enter the name of the train");
+		System.out.println(PrintStatements.TRAIN_NAME);
 		String trainName = Helper.getStringInput();
-		System.out.println("Enter the source  of the train ");
+		System.out.println(PrintStatements.TRAIN_SOURCE);
 
 		String source = Helper.getStringInput().toUpperCase();
 
 		Station sStation = validateStationExistence(source);
-		System.out.println("Enter the destination  of the train ");
+		System.out.println(PrintStatements.TRAIN_DESTINATION);
 		String destination = Helper.getStringInput().toUpperCase();
 		Station desStation = validateStationExistence(destination);
 		boolean hasRoute = TrainFactory.getInstance().ensureRouteExistence(source, destination);
 
 		if(hasRoute) {
 
-			System.out.println("Enter no of AC coaches");
+			System.out.println(PrintStatements.AC_COACH_COUNT);
 			int acCoachCount = Helper.getIntegerInput();
-			System.out.println("Enter no of Sleeper coaches");
+			System.out.println(PrintStatements.SLEEPER_COACH_COUNT);
 			int sleeperCount = Helper.getIntegerInput();
 			hasAdded = TrainFactory.getInstance().createTrain(trainId, trainName, acCoachCount, sStation, desStation, sleeperCount, 64, 72);
 			if (hasAdded) {

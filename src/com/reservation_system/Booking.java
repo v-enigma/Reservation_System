@@ -64,8 +64,9 @@ public class Booking {
 	}
 	@Override
 	public String toString() {
-		StringBuilder details;
+		StringBuilder details ;
 		int i=0;
+
 		String  topLevel ="CoachNo    SeatNo      Name\n";
 		details = new StringBuilder(topLevel);
 		for(UserDetails userdetails: passenger) {
@@ -74,8 +75,9 @@ public class Booking {
 			i++;
 		}
 		
-		String ticket = "Source: "+ this.source.getName() +" Destination : "+ this.destination.getName() + "PNR " + this.PNR+" \n " ;
+		String ticket = "Source: "+ this.source.getName() +" Destination : "+ this.destination.getName() + "   PNR : " + this.PNR+" \n " ;
 		ticket+=details;
+		ticket+="\n";
 		return ticket;
 	}
 	

@@ -121,10 +121,12 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 					currentStationPointer++;
 					String station = stopsCodes.get(currentStationPointer);
 					while(currentStationPointer <= stopsCodes.size()-1){
-						if(multipleDestinations.contains(station) ){
+						station = stopsCodes.get(currentStationPointer);
+						if(multipleDestinations.contains(station)   ){
 							if(currentStationPointer<= dPointer){
 								//already booked seat
-								continue;
+								currentStationPointer = -1;
+								break;
 							}
 							else{
 								int stationIndex = multipleDestinations.indexOf(station);
@@ -132,35 +134,37 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 								int potentialSeatSourceIndex = stopsCodes.indexOf(potentialSeatSource);
 								if(potentialSeatSourceIndex < dPointer) {
 									// already booked seat
-									continue;
+									currentStationPointer =-1;
+									break;
 								}
 								else{
 									currentStationPointer = stopsCodes.size();
 								}
 
 							}
-							break;
+							break; //why break here?
 
 						}
 						currentStationPointer++;
 					}
-					while(!multipleDestinations.contains(station) && currentStationPointer <= stopsCodes.size()-1 ) {
+					while(!multipleDestinations.contains(station) && currentStationPointer <= stopsCodes.size()-1  && currentStationPointer >= 0 ) {
 						currentStationPointer++;
 						station = stopsCodes.get(currentStationPointer);
 					}
 					if(currentStationPointer > stopsCodes.size()-1) {
-						if(index == -1)
+						if(index == -1) {
+							found = true;
 							otherSeats.add(seatNo);
-						else if ((seatNo%seatsPerCoach)%8 == index-1|| ((seatNo%seatsPerCoach)%8)+5 == index-1 ) {
-							matchedPreference.add(seatNo);
 						}
-						else if(((seatNo%seatsPerCoach)%8 == 0 && index == 4) || ((seatNo%seatsPerCoach)%8 == 7 && index == 3)){
+						else if ((seatNo%seatsPerCoach)%8 == index-1|| ((seatNo%seatsPerCoach)%8)+5 == index-1 ||
+								((seatNo%seatsPerCoach)%8 == 0 && index == 4) || ((seatNo%seatsPerCoach)%8 == 7 && index == 3)){
+							found = true;
 							matchedPreference.add(seatNo);
 						}
 						else {
 							otherSeats.add(seatNo);
 						}
-						found = true;
+
 					}
 
 				}
@@ -204,6 +208,7 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 	private int getSeatFromBookedSeats(int index, List<List<Integer>> seatFromBookedSeats){ // The Index is -1 for no preference
 		if(index == -1){
 			if(seatFromBookedSeats.get(1).size()> 0)
+
 				return seatFromBookedSeats.get(1).get(0);
 			else{
 				return -1;
@@ -241,9 +246,9 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 
 		seat = tempSeat;
 
-		if(seat > 0){
+		/*if(seat > 0){
             updateSeatStorage(seat, sourceCode,destinationCode);
-		}
+		}*/
 		return seat;
 	}
 
@@ -263,14 +268,16 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 		else if (seatPreference == SeatType.SLB)
 			index = 4;
 		List<List<Integer>> seatFromBookedSeats = findAvailableSeatsInBookedMap(index, sourceCode, destinationCode, stopCodes);
-		if( seatFromBookedSeats.size() > 0 )
+		if( seatFromBookedSeats.size() > 0 ) {
 			seat = getSeatFromBookedSeats(index, seatFromBookedSeats);
+
+		}
 		if(seat < 0){
 			seat = findAvailableSeatFromUnoccupied(index, sourceCode,destinationCode);
 		}
 		if(seat < 0 && index != -1 && seatFromBookedSeats.get(1).size()>0)
 			seat  = seatFromBookedSeats.get(1).get(0);
-
+		updateSeatStorage(seat, sourceCode,destinationCode);
 	  return seat;
 	}
 	public void freeSeat(String sourceCode, String destinationCode, int seatNo){

@@ -45,7 +45,7 @@ public class MultiDayBookingStore { // 120 Days Ahead occupied seats and unoccup
 	}
 	public BookedAndAvailableSeatsByDate getBookedAndAvailableSeatsByDateStore(LocalDate date, int seatClass) {
 		BookedAndAvailableSeatsByDate bookedAndAvailableSeats = null;
-		if(seatClass ==1) {
+		if(seatClass == 1) {
 			bookedAndAvailableSeats = multiDaySleeperBookings.get(date);
 		}
 		else

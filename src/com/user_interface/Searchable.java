@@ -74,6 +74,7 @@ public interface Searchable {
 			for(int trainNumber: trainNumbers) {
 				count++;
 				Train train = TrainsData.getInstance().findTrainById(trainNumber);
+				System.out.println(PrintStatements.TOP_HEADING);
 				trainDetails(count, train);
 				trains.add(train);
 				

@@ -84,7 +84,7 @@ public class TrainFactory {
 	    int id = trainId;
 		List<String> stationsNames = NetworkStorage.getInstance().getAvailableRouteBetweenStations(source.getName(), destination.getId());
 		List<Integer> allDistances = generateDistance(stationsNames.size());
-		System.out.println(stationsNames);
+		//System.out.println(stationsNames);
 	    List<Station> stations = StationsData.getInstance().getStationListFromNameList(stationsNames);
 		Route route = buildRoute(stations, allDistances);
 	    Seating sleeperSeating = buildCoaches(sleeperCoachCount, "S",  sleeperCoachSeatCount);

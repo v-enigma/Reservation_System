@@ -22,7 +22,26 @@ package com.user_interface;
 	 static final String NO_TRAINS ="NO TRAINS AVAILABLE BETWEEN  GIVEN SOURCE AND DESTINATION";
 	 static final String PASSWORD_RULES ="";
 	 static final String SEAT_PREFERENCE ="Enter seat Preference.\nLB for LowerBerth.\nMB for MiddleBerth.\nUB for UpperBerth.\nSUB for Side Upper Berth.\nSLB for Side lower Berth\n";
-
+	 static final String TOP_HEADING =" SLNO\t Train Number \t Train Name";
+	 static final String SCHEDULE_TRAIN = "Enter the Train Number you want to schedule";
+	 static final String TRAINS_AVAILABLE = "Available trains for the given train Number";
+	 static final String TRAIN_NUMBER_ERROR =" Train with the given number does not exist";
+	 static final String REG_ID ="Enter your train RegId you want to schedule";
+	 static final String FREQUENCY = "Enter No of days the train will run in a week .";
+	 static final String  TRAIN_NUMBER = "Enter the train number";
+	 static final String TRAIN_NAME = "Enter the name of the train";
+	 static final String TRAIN_SOURCE = "Enter the source  of the train ";
+	 static final String TRAIN_DESTINATION ="Enter the destination  of the train ";
+	 static final String AC_COACH_COUNT = "Enter no of AC coaches";
+	 static final String SLEEPER_COACH_COUNT = "Enter no of Sleeper coaches";
+	 static final String REG_ID_ERROR ="PLEASE ENTER CORRECT REGISTRATION ID FROM THE ABOVE TRAINS";
+	 static final String CANCEL_PNR = "PLEASE PROVIDE PNR TO CANCEL TICKET";
+	 static final String BOOKING_CLASS = "Enter booking class.\n 1.Sleeper \n 2.AC  ";
+	 static final String DATE_OF_BIRTH = "Enter Date of Birth in YYYY-MM-DD";
+	 static final String VALID_STATION = "Enter valid  station";
+	 static final String TIME_FORMAT = "Enter time(HH:MM) in 24HRS format";
+	 static final String WEEK_DAY = "Enter the name of the day the train will run in a week ?";
+	 static final String OPTIONS = "Enter your code\n1.SignIn\n2.SignUp\n3.Exit\n";
 
  }
 
