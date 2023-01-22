@@ -182,7 +182,7 @@ public class AdminApp implements Application, Authenticable{
 		System.out.println(PrintStatements.REG_ID);
 		int regId = Helper.getIntegerInput(); // validation missing
 		while(!trainRegIds.contains(regId)){
-			System.out.println(PrintStatements.DATE_OF_BIRTH);
+			System.out.println(PrintStatements.REG_ID_ERROR);
 			regId = Helper.getIntegerInput();
 		}
 		List<LocalTime> arrivalTimeList = new ArrayList<>();

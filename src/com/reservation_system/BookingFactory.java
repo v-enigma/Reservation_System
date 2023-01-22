@@ -98,7 +98,7 @@ public class BookingFactory {
 			UserDetails ud = passengersIterator.next();
 			SeatType seatType = ud.getSeatPreference();
 			String stringSeatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance().getSeatForTrainAndDate(train,dateOfJourney,seatClass,seatType, sourceCode, destinationCode, stopsCodes);
-			System.out.println("Seat no:  "+ stringSeatNo);
+
 			Seat seat = null;
 			if(stringSeatNo.charAt(0) == 'C'){
 				seatNo = Integer.parseInt(stringSeatNo.substring(1));
@@ -160,7 +160,7 @@ public class BookingFactory {
 			return;
 		}
 		int seatClass = 0;
-		if(booking.getCoachIds().get(0).charAt(0) == 'C' || booking.getCoachIds().get(0).charAt(0) == 'c')
+		if(booking.getCoachIds().get(0).charAt(0) == 'S' || booking.getCoachIds().get(0).charAt(0) == 's')
 		  seatClass =1;
 		else
 			seatClass = 2;

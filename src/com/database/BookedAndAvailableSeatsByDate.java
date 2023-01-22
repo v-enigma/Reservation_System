@@ -281,7 +281,7 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 	  return seat;
 	}
 	public void freeSeat(String sourceCode, String destinationCode, int seatNo){
-		bookedSeatMap.get(destinationCode).remove(seatNo);
+		bookedSeatMap.get(destinationCode).remove((Object)seatNo);
 		if(isSeatHasOneBooking(seatNo)){
 			int index = -1 ;
 			switch(seatNo%8){

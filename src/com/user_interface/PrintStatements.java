@@ -21,7 +21,7 @@ package com.user_interface;
 	 static final String STATION_TYPE ="Enter station type .\n J for Junction.\n T for Terminus.\n C for Central.\n  S for station. \n";
 	 static final String NO_TRAINS ="NO TRAINS AVAILABLE BETWEEN  GIVEN SOURCE AND DESTINATION";
 	 static final String PASSWORD_RULES ="";
-	 static final String SEAT_PREFERENCE ="Enter seat Preference.\nLB for LowerBerth.\nMB for MiddleBerth.\nUB for UpperBerth.\nSUB for Side Upper Berth.\nSLB for Side lower Berth\n";
+	 static final String SEAT_PREFERENCE ="Enter seat Preference.\nLB for LowerBerth.\nMB for MiddleBerth.\nUB for UpperBerth.\nSUB for Side Upper Berth.\nSLB for Side lower Berth\n None for No preference";
 	 static final String TOP_HEADING =" SLNO\t Train Number \t Train Name";
 	 static final String SCHEDULE_TRAIN = "Enter the Train Number you want to schedule";
 	 static final String TRAINS_AVAILABLE = "Available trains for the given train Number";
@@ -42,6 +42,7 @@ package com.user_interface;
 	 static final String TIME_FORMAT = "Enter time(HH:MM) in 24HRS format";
 	 static final String WEEK_DAY = "Enter the name of the day the train will run in a week ?";
 	 static final String OPTIONS = "Enter your code\n1.SignIn\n2.SignUp\n3.Exit\n";
+	 static final String EMPTY_BOOKINGS = " PAST BOOKINGS ARE EMPTY.";
 
  }
 

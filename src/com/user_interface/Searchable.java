@@ -32,7 +32,7 @@ public interface Searchable {
 		System.out.println("Enter date of journey.Enter the date in YYYY-MM-DD format");
 		LocalDate dateOfJourney = Helper.getJourneyDate();
 
-		System.out.println(dateOfJourney);
+		//System.out.println(dateOfJourney);
 		List<Object> objects = new ArrayList<>();
 		objects.add(source);
 		objects.add(destination);

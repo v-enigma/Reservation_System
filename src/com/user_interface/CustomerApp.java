@@ -112,7 +112,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	    while(passengerCount> 0) {
 	    	System.out.println("Enter passengerName");
 	    	String name = Helper.getLineInput();
-			System.out.println(name);
+			//System.out.println(name);
 	    	System.out.println(PrintStatements.DATE_OF_BIRTH);
 	    	LocalDate dateOfBirth = Helper.getDateInput();
 	    	//System.out.println("Enter Gender");
@@ -131,15 +131,20 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	private void pastBooking() {
 
 		String allBookings = UserFactory.getInstance().getBookings(userId);
-		System.out.println(allBookings);
+		if(allBookings.isEmpty())
+			System.out.println(PrintStatements.EMPTY_BOOKINGS);
+		else
+			System.out.println(allBookings);
 	}
 	
 	private  void menu() {
-		System.out.println("Enter your option ");
+
 		//System.out.println(PrintStatements.CUSTOMER_OPTIONS);
 		boolean repeat = true;
 		while(repeat){
+
 			System.out.println(PrintStatements.CUSTOMER_OPTIONS);
+			System.out.println("Enter your option ");
 			int option = Helper.getIntegerInput();
 			switch(option) {
 				case 1:

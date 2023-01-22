@@ -206,6 +206,8 @@ public class Helper {
 				seatType = SeatType.SUB;
 			else if(seatInput.equalsIgnoreCase("SLB"))
 				seatType = SeatType.SLB;
+			else if(seatInput.equalsIgnoreCase("None"))
+				seatType = null;
 			else
 				throw new Exception ();
 		}catch (Exception e){
