@@ -29,7 +29,7 @@ public class ScheduleData {
 	}
 	public  List<Integer> findTrainsBetweenStations(Station source, Station destination, LocalDate date) {
 		DayOfWeek day = date.getDayOfWeek();
-		System.out.println(day);
+		//System.out.println(day);
 		List<Integer> trainNumbers = new ArrayList<>();
 		String sCode = source.getId();
 		String dCode = destination.getId();

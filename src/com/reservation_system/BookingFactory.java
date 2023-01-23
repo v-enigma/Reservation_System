@@ -80,7 +80,7 @@ public class BookingFactory {
 	}
 
 	 
-	public void createBooking(User user,List<UserDetails> passengers,Train train,LocalDate dateOfJourney,Station source, Station destination , int seatClass) {
+	public String createBooking(User user,List<UserDetails> passengers,Train train,LocalDate dateOfJourney,Station source, Station destination , int seatClass) {
 		Booking booking =null;
 		int seatNo = -1;
 		String sourceCode = source.getId();
@@ -132,7 +132,7 @@ public class BookingFactory {
 		}
 		booking = new Booking(user,passengers,train,dateOfJourney,source,destination,pnr,allottedSeats,status,coachNames);
 		addBooking(booking, user);
-		
+		return booking.toString();
 	}
 	private void removeWaitingListBooking(long pnr, int index){
 		BookingsData.getInstance().removeFromWaitingList(pnr, index);
@@ -159,7 +159,9 @@ public class BookingFactory {
 			return;
 		}
 		int seatClass = 0;
-		if(booking.getCoachIds().get(0).charAt(0) == 'S' || booking.getCoachIds().get(0).charAt(0) == 's')
+		Seat seatCheck =booking.getAllocatedSeats().get(0);
+
+		if( booking.getCoachIds().get(0).charAt(0) == 'S'|| booking.getCoachIds().get(0).charAt(0)== 's')
 		  seatClass =1;
 		else
 			seatClass = 2;

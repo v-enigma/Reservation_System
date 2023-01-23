@@ -102,7 +102,8 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 			System.out.println(PrintStatements.BOOKING_CLASS);
 			int seatClass = Helper.getIntegerInput();
 			List<UserDetails> passengers = getPassengerDetails();
-			BookingFactory.getInstance().createBooking(UserFactory.getInstance().getUser(userId), passengers, train, journeyDate, jSource, jDestination, seatClass);
+			String allocatedSeatDetails  = BookingFactory.getInstance().createBooking(UserFactory.getInstance().getUser(userId), passengers, train, journeyDate, jSource, jDestination, seatClass);
+			System.out.println(allocatedSeatDetails);
 		}
 	}
 	private List<UserDetails> getPassengerDetails(){
