@@ -159,8 +159,6 @@ public class BookingFactory {
 			return;
 		}
 		int seatClass = 0;
-		Seat seatCheck =booking.getAllocatedSeats().get(0);
-
 		if( booking.getCoachIds().get(0).charAt(0) == 'S'|| booking.getCoachIds().get(0).charAt(0)== 's')
 		  seatClass =1;
 		else
