@@ -3,7 +3,7 @@ package com.reservation_system;
 public class User {
 	private final String id;
 	private String phoneNumber;
-	private  UserDetails userDetails;
+	private final UserDetails userDetails;
 	private String mailId;
 	User (String id, String phoneNumber, String mailId,UserDetails userDetails){
 		this.userDetails = userDetails;

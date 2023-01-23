@@ -50,4 +50,12 @@ public class TrainsData {
 		}
 		return train;
 	}
+	public boolean removeTrain(int regId, int trainNo){
+		if(allTrains.containsKey(regId) && idToRegIdMap.containsKey(trainNo)){
+			allTrains.remove(regId);
+			idToRegIdMap.get(trainNo).remove((Object) regId);
+			return true;
+		}
+		return false;
+	}
 }

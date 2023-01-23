@@ -11,6 +11,7 @@ import com.database.TrainsData;
 import com.reservation_system.Booking;
 import com.reservation_system.Station;
 import com.reservation_system.Train;
+import com.reservation_system.TrainFactory;
 
 public interface Searchable {
 	default void  pnrSearch() {
@@ -89,5 +90,12 @@ public interface Searchable {
 		
 		
 	}
-	
-}
+	default List<Integer> findTrains(int trainNo) {
+		if (!TrainFactory.getInstance().validateTrain(trainNo)) {
+			return null;
+		}
+		List<Integer> trainsRegIds = TrainFactory.getInstance().getTrainsRegIds(trainNo);
+		return trainsRegIds;
+	}
+
+	}

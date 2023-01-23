@@ -10,7 +10,7 @@ public class TrainTimingAtStation { // Schedule At Station stores information fo
 	private LocalTime arrivalTime ;
 	private boolean isStop;
 	private  List<DayOfWeek> scheduleDays ;
-	private LocalTime departureTime;
+	private final LocalTime departureTime;
 	public TrainTimingAtStation(LocalTime arrivalTime, LocalTime departureTime, boolean isStop, List<DayOfWeek> scheduleDays) {
 		this.arrivalTime = arrivalTime;
 		this.departureTime = departureTime;

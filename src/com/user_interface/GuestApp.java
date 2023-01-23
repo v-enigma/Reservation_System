@@ -9,6 +9,7 @@ public class GuestApp  implements Application , Searchable{
 		
 		while(run) {
 			System.out.println(PrintStatements.GUEST_OPTIONS);
+			System.out.println(PrintStatements.GET_OPTION);
 			int option = Helper.getIntegerInput();
 			switch(option) {
 				case 1:

@@ -48,4 +48,15 @@ public class UserFactory {
 	  return bookingsInString;
    }
 
+   public String getUserProfile(String userId) {
+	   StringBuilder details = new StringBuilder();
+	   Customer customer = ((Customer) UserFactory.getInstance().getUser(userId));
+	   details.append(customer.getUserDetails().getName()+"\t");
+	   details.append(customer.getUserDetails().getAge()+"\t");
+	   details.append(customer.getUserDetails().getGender()+"\t");
+	   details.append(customer.getMailId()+"\t");
+	   details.append(customer.getPhoneNumber()+"\t");
+	   return details.toString();
+   }
+
 }

@@ -8,12 +8,12 @@ import com.database.NetworkStorage;
 import com.database.StationsData;
 import com.database.TrainsData;
 import com.enums.SeatType;
-import sun.rmi.runtime.NewThreadAction;
+
 
 
 public class TrainFactory {
 	private final static TrainFactory TRAIN_FACTORY = new TrainFactory();
-	private static int helperId =1000;
+
 	private TrainFactory() {
 		
 	}
@@ -62,11 +62,8 @@ public class TrainFactory {
 		return seating;
 	}
 	public boolean ensureRouteExistence(String sourceName, String destinationName){
-		List<String>stations =NetworkStorage.getInstance().getAvailableRouteBetweenStations(sourceName, destinationName);
-		if(stations!= null)
-			return true;
-		else
-			return false;
+		List<String>stations = NetworkStorage.getInstance().getAvailableRouteBetweenStations(sourceName, destinationName);
+		return stations!= null;
 	}
 	private List<Integer> generateDistance(int count){
 		Random rand = new Random();
@@ -81,7 +78,6 @@ public class TrainFactory {
 	public boolean createTrain(int trainId,String name, int acCoachCount,Station source, Station destination, int sleeperCoachCount ,int acCoachSeatCount , int sleeperCoachSeatCount) {
 	    Train train =null;
 		boolean hasCreated = false;
-	    int id = trainId;
 		List<String> stationsNames = NetworkStorage.getInstance().getAvailableRouteBetweenStations(source.getName(), destination.getId());
 		List<Integer> allDistances = generateDistance(stationsNames.size());
 		//System.out.println(stationsNames);
@@ -89,9 +85,9 @@ public class TrainFactory {
 		Route route = buildRoute(stations, allDistances);
 	    Seating sleeperSeating = buildCoaches(sleeperCoachCount, "S",  sleeperCoachSeatCount);
 	    Seating acSeating = buildCoaches(acCoachCount,"B", acCoachSeatCount);
-	    train = new Train(id,name,route, acSeating, sleeperSeating,TrainsData.getHelperId());
+	    train = new Train(trainId,name,route, acSeating, sleeperSeating,TrainsData.getHelperId());
 	    hasCreated = TrainsData.getInstance().addTrain(train);
-	    return true;
+	    return  hasCreated;
 	}
 	public List<Integer> getTrainsRegIds(int trainNo){
 		return TrainsData.getInstance().getAllTrainRegIdsMappedToTrainNo(trainNo);
@@ -101,13 +97,12 @@ public class TrainFactory {
 
 	}
 	public boolean validateTrain(int TrainNo){
-		if(TrainsData.getInstance().findTrainById(TrainNo)!= null){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return (TrainsData.getInstance().findTrainById(TrainNo)!= null);
 
+
+	}
+	public boolean deleteTrain(int regId,int trainNo){
+		return TrainsData.getInstance().removeTrain(regId,trainNo);
 	}
 
 }

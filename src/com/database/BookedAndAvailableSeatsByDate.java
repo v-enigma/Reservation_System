@@ -8,11 +8,11 @@ import com.enums.SeatType;
 
 
 
-public class BookedAndAvailableSeatsByDate{ // Store booked seats and available seats for a given date
+public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and available seats for a given date
 	private int numCoaches;
-	private int seatsPerCoach;
+	private final int seatsPerCoach;
 	
-	private final HashMap<String, ArrayList<Integer >> bookedSeatMap = new HashMap<>(); // destinationCode is key  and all passenger seat Ids that get down will be the values
+	private final HashMap<String, ArrayList<Integer >> destinationSeatMap = new HashMap<>(); // destinationCode is key  and all passenger seat Ids that get down will be the values
 	private final HashMap<Integer, ArrayList<String>> seatDestinationMap = new HashMap<>();
 	private final HashMap<Integer, ArrayList<String>> seatAndSourceMap = new HashMap<>();
 	private int numAvailableSeats;
@@ -50,13 +50,13 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 		init(numAvailableSeats);
 		//berthAvailability = new int[]{(numAvailableSeats % 8) * 2, (numAvailableSeats % 8) * 2, (numAvailableSeats % 8) * 2, (numAvailableSeats % 8), (numAvailableSeats % 8)};
 	}
-	private void updateBookedSeatMap(String stationCode, int seatNo){
-		if(bookedSeatMap.containsKey(stationCode)){
-			bookedSeatMap.get(stationCode).add(seatNo);
+	private void updateDestinationSeatMap(String stationCode, int seatNo){
+		if(destinationSeatMap.containsKey(stationCode)){
+			destinationSeatMap.get(stationCode).add(seatNo);
 		}else{
 			ArrayList<Integer> seatList = new ArrayList<>();
 			seatList.add(seatNo);
-			bookedSeatMap.put(stationCode, seatList);
+			destinationSeatMap.put(stationCode, seatList);
 		}
 	}
 	private void updateSeatDestinationMap(String stationCode, int seatNo){
@@ -79,7 +79,7 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 		}
 	}
 	private void updateSeatStorage(int seatNo,String sourceCode,String destinationCode){
-		updateBookedSeatMap(destinationCode, seatNo);
+		updateDestinationSeatMap(destinationCode, seatNo);
 		updateSeatDestinationMap(destinationCode,seatNo);
 		updateSeatAndSourceMapping(sourceCode,seatNo);
 
@@ -93,16 +93,14 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 
 	public int getAvailableSeats() {
 		int avlSeats =0;
-		for(Stack temp : bb){
+		for(Stack<Integer> temp : bb){
 			avlSeats+=temp.size();
 		}
 
 		return avlSeats;
 	}
-	public HashMap<String, ArrayList<Integer>> getBookedSeats(){
-		return bookedSeatMap;
-	}
-	public List<List<Integer>> findAvailableSeatsInBookedMap(int index, String sourceCode, String destinationCode, List<String>stopsCodes){
+
+	public List<List<Integer>> findAvailableSeatsInDestinationMap(int index, String sourceCode, String destinationCode, List<String>stopsCodes){
 		int sPointer = stopsCodes.indexOf(sourceCode);
 		int dPointer = stopsCodes.indexOf(destinationCode);
 		List<Integer> matchedPreference = new ArrayList<>();
@@ -113,7 +111,7 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 		boolean found = false;
 		while(sPointer >= 0 && !found) {
 			sourceCode = stopsCodes.get(sPointer);
-			List<Integer>potentialSeatNumbers = bookedSeatMap.get(sourceCode);
+			List<Integer>potentialSeatNumbers = destinationSeatMap.get(sourceCode);
 			if(potentialSeatNumbers!= null)
 				for(Integer seatNo: potentialSeatNumbers) {
 					List<String>multipleDestinations = seatDestinationMap.get(seatNo);
@@ -135,14 +133,14 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 								if(potentialSeatSourceIndex < dPointer) {
 									// already booked seat
 									currentStationPointer =-1;
-									break;
+
 								}
 								else{
 									currentStationPointer = stopsCodes.size();
 								}
 
 							}
-							break; //why break here?
+							break; //
 
 						}
 						currentStationPointer++;
@@ -168,7 +166,7 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 					}
 
 				}
-				sPointer--;
+			sPointer--;
 
 			}
 		if(matchedPreference.size() > 0 || otherSeats.size() > 0) {
@@ -223,7 +221,7 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 			}
 		}
 	}
-	public Integer findAvailableSeatFromUnoccupied(int index,String sourceCode, String destinationCode) {
+	public Integer findAvailableSeatFromUnoccupied(int index) {
 		int seat =-1;
 		if(index == -1) {
 			index = 0;
@@ -267,13 +265,13 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 			index = 3;
 		else if (seatPreference == SeatType.SLB)
 			index = 4;
-		List<List<Integer>> seatFromBookedSeats = findAvailableSeatsInBookedMap(index, sourceCode, destinationCode, stopCodes);
+		List<List<Integer>> seatFromBookedSeats = findAvailableSeatsInDestinationMap(index, sourceCode, destinationCode, stopCodes);
 		if( seatFromBookedSeats.size() > 0 ) {
 			seat = getSeatFromBookedSeats(index, seatFromBookedSeats);
 
 		}
 		if(seat < 0){
-			seat = findAvailableSeatFromUnoccupied(index, sourceCode,destinationCode);
+			seat = findAvailableSeatFromUnoccupied(index);
 		}
 		if(seat < 0 && index != -1 && seatFromBookedSeats.get(1).size()>0)
 			seat  = seatFromBookedSeats.get(1).get(0);
@@ -281,7 +279,7 @@ public class BookedAndAvailableSeatsByDate{ // Store booked seats and available 
 	  return seat;
 	}
 	public void freeSeat(String sourceCode, String destinationCode, int seatNo){
-		bookedSeatMap.get(destinationCode).remove((Object)seatNo);
+		destinationSeatMap.get(destinationCode).remove((Object)seatNo);
 		if(isSeatHasOneBooking(seatNo)){
 			int index = -1 ;
 			switch(seatNo%8){

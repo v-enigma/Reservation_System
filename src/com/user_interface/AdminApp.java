@@ -9,12 +9,9 @@ import java.util.regex.Pattern;
 import com.database.AuthenticationData;
 import com.database.StationsData;
 import com.enums.StationType;
-import com.reservation_system.BookingFactory;
-import com.reservation_system.ScheduleHelper;
-import com.reservation_system.Station;
-import com.reservation_system.TrainFactory;
+import com.reservation_system.*;
 
-public class AdminApp implements Application, Authenticable{
+public class AdminApp implements Application, Authenticable,Searchable{
 	String adminId= null;
 	public void init() {
 
@@ -24,8 +21,8 @@ public class AdminApp implements Application, Authenticable{
 		
 	
 	public void signIn() {
-		adminId = "Venu1297"; // update the code
-		String password = "QWzx0945@";// update the code;
+		adminId = "ADMIN001";
+		String password = "QWzx0945@";
 		boolean success = AuthenticationData.getInstance().adminAuthenticate(adminId, password);
 		if(success) {
 			System.out.println("Welcome "+ adminId);
@@ -39,8 +36,8 @@ public class AdminApp implements Application, Authenticable{
 	private void menu() {
 		boolean run = true;
 		while(run) {
-			System.out.println("1.Add Train\n2.Schedule Train\n3.Remove Train\n4. Print Chart.\n5. Exit\n");
-			System.out.println("Enter your option ");
+			System.out.println(PrintStatements.ADMIN_OPTIONS);
+			System.out.println(PrintStatements.GET_OPTION);
 			int option = Helper.getIntegerInput(); // has to be updated
 			switch (option) {
 				case 1:
@@ -79,10 +76,39 @@ public class AdminApp implements Application, Authenticable{
 		
 	}
 
+	private  void printer(List<Integer> trainRegIds){
+		int index =0;
+		for(int trainRegId :trainRegIds){
+			System.out.println(index+"\t"+trainRegId);
+		}
 
+	}
 	private void removeTrain() {
-		
-		
+		System.out.println(PrintStatements.REMOVE_TRAIN);
+		int trainNo = Helper.getIntegerInput();
+		System.out.println(PrintStatements.TRAINS_AVAILABLE);
+		List<Integer> trainRegIds = findTrains(trainNo);
+		if(trainRegIds.size() == 0){
+			System.out.println(PrintStatements.TRAIN_NUMBER_ERROR);
+			return;
+		}
+
+		printer(trainRegIds);
+		System.out.println("Enter the number ");
+		int regId = Helper.getIntegerInput();
+		while(!trainRegIds.contains(regId)){
+			System.out.println(PrintStatements.REG_ID_ERROR);
+			regId = Helper.getIntegerInput();
+		}
+		boolean hasRemoved =TrainFactory.getInstance().deleteTrain(regId, trainNo);
+		if(hasRemoved){
+			System.out.println("Removed Successfully");
+
+		}
+		else{
+			System.out.println("Failure Occurred");
+		}
+
 	}
 	private DayOfWeek getDay(String day){
 		DayOfWeek dayOfWeek = null;
@@ -110,7 +136,7 @@ public class AdminApp implements Application, Authenticable{
 				dayOfWeek = DayOfWeek.SUNDAY;
 				break;
 			default:
-				System.out.println("Please Enter valid day of the week.");
+				System.out.println(PrintStatements.WEEK_ERROR);
 				break;
 
 
@@ -118,7 +144,7 @@ public class AdminApp implements Application, Authenticable{
 		return dayOfWeek;
 	}
 	private DayOfWeek InputValidDay(){
-		System.out.println("Enter Name of the day in week period");
+		System.out.println(PrintStatements.DAY_NAME);
 		String day = Helper.getStringInput();
 		day = day.toUpperCase();
 		DayOfWeek dayOfWeek = getDay(day);

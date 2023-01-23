@@ -87,12 +87,10 @@ public class Helper {
 			String pattern = "^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.[@#$%^&+=])(?=\\S+$).{8,16}$";
 			password = scan.nextLine();
 			if (!Pattern.matches(pattern, password))
-				throw new PasswordPatternException();
-		} catch (InputMismatchException e) {
-			System.out.println("Please enter only Strings");
-			password = getPassword();
+				throw new PasswordPatternException(PrintStatements.PASSWORD_RULES);
+
 		} catch (PasswordPatternException p) {
-			System.out.println(PrintStatements.PASSWORD_RULES);
+
 			password = getPassword();
 		}
 		return password;
@@ -158,7 +156,7 @@ public class Helper {
 				throw new Exception();
 
 		}catch(Exception e){
-			System.out.println("Phone number cannot be greater than 10 digits. It cannot contain characters");
+			System.out.println(PrintStatements.PHONE_ERROR);
 			phone = getPhoneNumber();
 		}
 		return phone;
@@ -166,7 +164,7 @@ public class Helper {
 	static Gender getGender(){
 		Gender gender = Gender.MALE;
 		try{
-			System.out.println("Enter gender.\nM for Male.\nF for Female.\nO for Others.");
+			System.out.println(PrintStatements.GENDER_OPTIONS);
 			char gen = getCharacterInput();
 			switch(gen){
 				case 'M':
@@ -216,4 +214,5 @@ public class Helper {
 		}
 		return seatType;
 	}
+
 }

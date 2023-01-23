@@ -2,10 +2,10 @@ package com.reservation_system;
 
 public class Train {
 	
-	private int id;
+	private final int id;
 	private final int regId; // stores the number of the object created using train Class
-	private String name;
-	private Route route;
+	private final String name;
+	private final Route route;
 	private Schedule schedule;
 	
 	private final Seating acSeating ;

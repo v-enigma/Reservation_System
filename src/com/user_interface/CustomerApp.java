@@ -144,7 +144,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		while(repeat){
 
 			System.out.println(PrintStatements.CUSTOMER_OPTIONS);
-			System.out.println("Enter your option ");
+			System.out.println(PrintStatements.GET_OPTION);
 			int option = Helper.getIntegerInput();
 			switch(option) {
 				case 1:
@@ -168,8 +168,11 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 					updateProfile();
 					break;
 				case 7:
+					displayProfile();
+				case 8:
 					repeat = false;
 					break;
+
 			}
 		}
 	}
@@ -204,6 +207,10 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 				break;
 		}
 
+	}
+	private void displayProfile(){
+		String details = UserFactory.getInstance().getUserProfile(userId);
+		System.out.println(details);
 	}
 
 	
