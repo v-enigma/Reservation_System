@@ -51,11 +51,11 @@ public class UserFactory {
    public String getUserProfile(String userId) {
 	   StringBuilder details = new StringBuilder();
 	   Customer customer = ((Customer) UserFactory.getInstance().getUser(userId));
-	   details.append(customer.getUserDetails().getName()+"\t");
-	   details.append(customer.getUserDetails().getAge()+"\t");
-	   details.append(customer.getUserDetails().getGender()+"\t");
-	   details.append(customer.getMailId()+"\t");
-	   details.append(customer.getPhoneNumber()+"\t");
+	   details.append((customer.getUserDetails().getName()).concat("\t"));
+	   details.append((customer.getUserDetails().getAge()));
+	   details.append("\t".concat(customer.getUserDetails().getGender().toString()).concat("\t"));
+	   details.append((customer.getMailId()).concat("\t"));
+	   details.append((customer.getPhoneNumber()).concat("\t"));
 	   return details.toString();
    }
 
