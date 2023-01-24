@@ -60,7 +60,7 @@ public interface Searchable {
 		LocalDate dateOfJourney = (LocalDate)objects.get(2);
 		List<Train> trains = new ArrayList<>();
 		//System.out.println("I entered into");
-		if(sStation == null || dStation == null)
+		if(sStation == null || dStation == null || source.equalsIgnoreCase(destination))
 			if(sStation == null)
 				System.out.println("Invalid source station");
 			else

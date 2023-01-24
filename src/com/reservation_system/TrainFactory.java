@@ -98,8 +98,6 @@ public class TrainFactory {
 	}
 	public boolean validateTrain(int TrainNo){
 		return (TrainsData.getInstance().findTrainById(TrainNo)!= null);
-
-
 	}
 	public boolean deleteTrain(int regId,int trainNo){
 		return TrainsData.getInstance().removeTrain(regId,trainNo);
