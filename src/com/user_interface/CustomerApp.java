@@ -170,6 +170,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 					break;
 				case 7:
 					displayProfile();
+					break;
 				case 8:
 					repeat = false;
 					break;
