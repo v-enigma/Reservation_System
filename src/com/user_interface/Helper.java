@@ -52,7 +52,7 @@ public class Helper {
 	static char getCharacterInput() {
 		char character = '\n';
 		try{
-			character = scan.next().charAt(0);
+			character = scan.nextLine().charAt(0);
 		} catch (Exception e){
 			character = getCharacterInput();
 		}
@@ -99,7 +99,7 @@ public class Helper {
 		LocalDate journeyDate = null;
 		try {
 			String regex = "[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}";
-			String date = getStringInput();
+			String date = getLineInput();
 			if(!Pattern.matches(regex, date))
 				throw new Exception();
 			journeyDate = LocalDate.parse(date);
@@ -191,7 +191,7 @@ public class Helper {
 	}
 	static SeatType getSeatType(){
 		System.out.println(PrintStatements.SEAT_PREFERENCE );
-		String seatInput = Helper.getStringInput();
+		String seatInput = Helper.getLineInput();
 		SeatType seatType = null;
 		try {
 			if(seatInput.equalsIgnoreCase("LB"))

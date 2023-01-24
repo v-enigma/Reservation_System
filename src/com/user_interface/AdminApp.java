@@ -77,7 +77,8 @@ public class AdminApp implements Application, Authenticable,Searchable{
 	}
 
 	private  void printer(List<Integer> trainRegIds){
-		int index =0;
+		System.out.println("SLNO\tTrain Id");
+		int index =1;
 		for(int trainRegId :trainRegIds){
 			System.out.println(index+"\t"+trainRegId);
 		}

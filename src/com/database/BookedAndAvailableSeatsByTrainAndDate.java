@@ -44,18 +44,24 @@ public class BookedAndAvailableSeatsByTrainAndDate {
     	    return trainBookings.get(trainNo).getACSeating(train,dateOfJourney);
     	  }
     	}
+	int findSeatInBookedAndAvailableSeats(int trainNo, LocalDate dateOfJourney, int seatClass, SeatType seatType,String sourceCode, String destinationCode, List<String>stopsCodes){
+		 return  trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findAppropriateSeat(seatType, sourceCode, destinationCode, stopsCodes);
+		}
+	int findRACSeatInBookedAndAvailableSeats(int trainNo, LocalDate dateOfJourney, int seatClass, SeatType seatType,String sourceCode, String destinationCode, List<String>stopsCodes){
+		return trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findRACSeats();
+	}
 	public String getSeatForTrainAndDate(Train train, LocalDate dateOfJourney, int seatClass, SeatType seatType, String sourceCode, String destinationCode,  List<String> stopsCodes) {
 		String stringSeatNo = null;
 		int trainNo = train.getId();
 		int seatNo = -1;
 		ensureSeatStoreExists(train,dateOfJourney,seatClass);
 
-		seatNo = trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findAppropriateSeat(seatType, sourceCode, destinationCode, stopsCodes);
+		seatNo = findSeatInBookedAndAvailableSeats(trainNo,dateOfJourney,seatClass,seatType,sourceCode,destinationCode,stopsCodes);
 		if(seatNo >0){
 
 			return "C"+seatNo;
 		}
-		seatNo = trainBookings.get(trainNo).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).findRACSeats();
+		seatNo = findRACSeatInBookedAndAvailableSeats(trainNo,dateOfJourney,seatClass,seatType,sourceCode,destinationCode,stopsCodes);
 			if(seatNo > 0){
 				return "R"+seatNo;
 			}

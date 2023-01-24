@@ -27,9 +27,9 @@ public interface Searchable {
 	}
 	default List<Object> getJourneyDetails() {
 		System.out.println("Enter the source station name");
-		String source = Helper.getStringInput();
+		String source = Helper.getLineInput();
 		System.out.println("Enter the destination station name");
-		String destination= Helper.getStringInput();
+		String destination= Helper.getLineInput();
 		System.out.println("Enter date of journey.Enter the date in YYYY-MM-DD format");
 		LocalDate dateOfJourney = Helper.getJourneyDate();
 

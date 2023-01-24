@@ -50,5 +50,7 @@ package com.user_interface;
 	 static final String GET_OPTION = "Enter your option ";
 	 static final String GENDER_OPTIONS = "Enter gender.\nM for Male.\nF for Female.\nO for Others.";
 	 static final String PHONE_ERROR = "Phone number cannot be greater than 10 digits. It cannot contain characters";
+
+
  }
 
