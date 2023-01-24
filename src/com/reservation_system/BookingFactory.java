@@ -180,7 +180,7 @@ public class BookingFactory {
 				switch (status){
 					case RAC:
 						removeRAC(PNR, passengerIndex, seat.getId(),seatClass);
-						BookingsData.getInstance().checkRACSeatAvailabilityForWaitingListBookings(booking.getTrain().getId(),booking.getJourneyDate());
+						BookingsData.getInstance().checkRACSeatAvailabilityForWaitingListBookings(booking.getTrain().getId(),booking.getJourneyDate(),seatClass);
 						break;
 					case CNF:
 						freeConfirmedSeat(PNR, passengerIndex, seat.getId(), seatClass);
@@ -192,11 +192,11 @@ public class BookingFactory {
 			passengerIndex++;
 		}
 		BookingsData.getInstance().cancelBooking(PNR);
-		findVacantSeatsForRAC(booking.getTrain().getId(),booking.getJourneyDate(), passengerIndex);
+		findVacantSeatsForRAC(booking.getTrain().getId(),booking.getJourneyDate(), passengerIndex,seatClass);
 
 	}
-	private void findVacantSeatsForRAC(int trainNo, LocalDate dateOfJourney, int cancelledCount){
-		BookingsData.getInstance().checkSeatAvailabilityForRACBookings(trainNo, dateOfJourney, cancelledCount);
+	private void findVacantSeatsForRAC(int trainNo, LocalDate dateOfJourney, int cancelledCount,int seatClass){
+		BookingsData.getInstance().checkSeatAvailabilityForRACBookings(trainNo, dateOfJourney, cancelledCount, seatClass);
 
 	}
 	private void addBooking(Booking booking, User user) {

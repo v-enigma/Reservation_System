@@ -103,20 +103,20 @@ public class BookingsData {
 			}
 			return matchedBookings;
 	}
-	private List<RACRecord> filterByTrainAndDate(List<RACRecord>racList, int trainNo, LocalDate date){
+	private List<RACRecord> filterByTrainAndDate(List<RACRecord>racList, int trainNo, LocalDate date,int seatClass){
 
 		List<RACRecord> matchedRecords = new ArrayList<>();
 		for(RACRecord racRecord: racList){
 			long PNR = racRecord.getPNR();
-			if(bookings.containsKey(PNR) && bookings.get(PNR).getTrain().getId() == trainNo && bookings.get(PNR).getJourneyDate().equals(date)){
+			if(bookings.containsKey(PNR) && bookings.get(PNR).getTrain().getId() == trainNo && bookings.get(PNR).getJourneyDate().equals(date) && racRecord.getSeatClass() == seatClass){
 				matchedRecords.add(racRecord);
 			}
 		}
 		return matchedRecords;
 	}
-	public void checkSeatAvailabilityForRACBookings(int trainNo, LocalDate dateOfJourney, int cancelledCount){
+	public void checkSeatAvailabilityForRACBookings(int trainNo, LocalDate dateOfJourney, int cancelledCount,int seatClass){
 
-		List<RACRecord> racBookingsForTrainOnADay = filterByTrainAndDate( racList,trainNo,dateOfJourney);
+		List<RACRecord> racBookingsForTrainOnADay = filterByTrainAndDate( racList,trainNo,dateOfJourney,seatClass);
 		if(racBookingsForTrainOnADay.size() == 0)
 			return;
 		for(RACRecord racRecord: racBookingsForTrainOnADay){
@@ -130,7 +130,7 @@ public class BookingsData {
 			List<String>stopCodes = booking.getTrain().getSchedule().getStopsCodes();
 			String sourceCode = booking.getSource().getId();
 			String destinationCode = booking.getDestination().getId();
-			int seatClass = racRecord.getSeatClass();
+
 			int seatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance() .findSeatInBookedAndAvailableSeats(booking.getTrain().getId(),dateOfJourney,seatClass,
 					booking.getPassenger().get(racRecord.getPassengerIndex()).getSeatPreference(),sourceCode, destinationCode,stopCodes);
 			if(seatNo > 0 ){
@@ -151,12 +151,12 @@ public class BookingsData {
 			}
 		}
 		if(cancelledCount > 0){
-			checkSeatAvailabilityForWaitingListBookings(trainNo,dateOfJourney, cancelledCount);
+			checkSeatAvailabilityForWaitingListBookings(trainNo,dateOfJourney, cancelledCount,seatClass);
 		}
 
 	}
-	public void checkSeatAvailabilityForWaitingListBookings(int trainNo, LocalDate dateOfJourney, int cancelledCount){
-		List<RACRecord> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney );
+	public void checkSeatAvailabilityForWaitingListBookings(int trainNo, LocalDate dateOfJourney, int cancelledCount,int seatClass){
+		List<RACRecord> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
 		if(matchedRecords.size() == 0 )
 			return;
 		for(RACRecord waitingRecord: waitingList){
@@ -169,7 +169,6 @@ public class BookingsData {
 			List<String>stopCodes = booking.getTrain().getSchedule().getStopsCodes();
 			String sourceCode = booking.getSource().getId();
 			String destinationCode = booking.getDestination().getId();
-			int seatClass = waitingRecord.getSeatClass();
 
 			int seatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance() .findSeatInBookedAndAvailableSeats(booking.getTrain().getId(),dateOfJourney,seatClass,
 					booking.getPassenger().get(waitingRecord.getPassengerIndex()).getSeatPreference(),sourceCode, destinationCode,stopCodes);
@@ -190,8 +189,8 @@ public class BookingsData {
 
 		}
 	}
-	public void checkRACSeatAvailabilityForWaitingListBookings(int trainNo, LocalDate dateOfJourney){
-		List<RACRecord> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney );
+	public void checkRACSeatAvailabilityForWaitingListBookings(int trainNo, LocalDate dateOfJourney,int seatClass){
+		List<RACRecord> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
 		if(matchedRecords.size() == 0 )
 			return;
 		for(RACRecord waitingRecord: waitingList) {
@@ -204,7 +203,7 @@ public class BookingsData {
 			List<String> stopCodes = booking.getTrain().getSchedule().getStopsCodes();
 			String sourceCode = booking.getSource().getId();
 			String destinationCode = booking.getDestination().getId();
-			int seatClass = waitingRecord.getSeatClass();
+
 			int seatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance().findRACSeatInBookedAndAvailableSeats(booking.getTrain().getId(),dateOfJourney,seatClass,
 					booking.getPassenger().get(waitingRecord.getPassengerIndex()).getSeatPreference(),sourceCode, destinationCode,stopCodes);
 			if(seatNo > 0 ){
@@ -220,4 +219,5 @@ public class BookingsData {
 
 		}
 	}
+	
 }
