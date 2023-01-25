@@ -80,13 +80,7 @@ public class BookedAndAvailableSeatsByTrainAndDate {
 
 		trainBookings.get(train.getId()).getBookedAndAvailableSeatsByDateStore(dateOfJourney, seatClass).freeSeat(sourceCode,destinationCode,seatNo);
 	}
-	
-   public void getBookingsByDate(int trainNo, LocalDate dateOfJourney){
-		Train train = TrainsData.getInstance().findTrainById(trainNo);
-		BookedAndAvailableSeatsByDate allocatedAcSeats= trainBookings.get(trainNo).getACSeating(train,dateOfJourney);
-		BookedAndAvailableSeatsByDate allocatedSleeperSeats = trainBookings.get(trainNo).getSleeperSeating(train,dateOfJourney);
 
-   }
 	/*
 	 * public static void main(String[] args) { BookingDB b = new BookingDB();
 	 * System.out.println(b.generateId());

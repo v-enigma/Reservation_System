@@ -4,6 +4,7 @@ package com.database;
     private Long pnr;
     private int passengerIndex;
     private int seatClass;
+    private int currentNumber;
     RACRecord(long pnr, int passengerIndex, int seatClass){
         this.pnr = pnr;
         this.passengerIndex = passengerIndex;

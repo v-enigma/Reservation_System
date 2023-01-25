@@ -35,7 +35,12 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 			else if(index == 7)
 				bb[3].add(i);
 			else {
-				
+				if((i%seatsPerCoach)/8 == 1 || (i%seatsPerCoach)/8 == 2
+						|| (i%seatsPerCoach)/8 == (seatsPerCoach/8) || (i%seatsPerCoach)/8 == (seatsPerCoach/8)-1) {
+					bb[5].add(i);
+					bb[5].add(i);
+				}
+				else
 					bb[4].add(i);
 			}
 
@@ -186,10 +191,10 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 		return -1;
 	}
 	public int findRACSeats(){
-		int index = 4;
+		int index = 5;
 		int potentialRACSeat = -1;
 		if(bb[index].size()>0 ){
-			if(bb[index].peek()%8 == 1){
+			/*if(bb[index].peek()%8 == 1){
 				potentialRACSeat = bb[index].pop();
 				potentialRACSeat--;
 			}
@@ -203,7 +208,8 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 				while(popped.size()> 0){
 					bb[index].push(popped.pop());
 				}
-			}
+			}*/
+			potentialRACSeat = bb[index].pop();
 		}
 		return potentialRACSeat;
 	}
@@ -239,12 +245,10 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 			}
 		}
 	
-		int tempSeat = bb[index].pop();
-
-		if(index == 4 && tempSeat%8 == 1 ){
-				bb[index].push(tempSeat);
-				tempSeat =-1;
-			}
+		int tempSeat = -1;
+		if(	bb[index].size() > 0){
+			tempSeat = bb[index].pop();
+		}
 
 		seat = tempSeat;
 
@@ -277,7 +281,7 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 		if(seat < 0){
 			seat = findAvailableSeatFromUnoccupied(index);
 		}
-		if(seat < 0 && index != -1 && seatFromBookedSeats.get(1).size()>0)
+		if(seat < 0 && index != -1 && seatFromBookedSeats.size()> 0 && seatFromBookedSeats.get(1).size()>0)
 			seat  = seatFromBookedSeats.get(1).get(0);
 		updateSeatStorage(seat, sourceCode,destinationCode);
 	  return seat;
@@ -302,7 +306,12 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 					break;
 
 				case 0 :
-					index = 4;
+					if((seatNo%seatsPerCoach)/8 == 1 || (seatNo%seatsPerCoach)/8 == 2
+							|| (seatNo%seatsPerCoach)/8 == (seatsPerCoach/8) || (seatNo%seatsPerCoach)/8 == (seatsPerCoach/8)-1) {
+						index = 5;
+					}
+					else
+					 index = 4;
 					break;
 
 			}
@@ -315,8 +324,14 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 
 	}
 
-	private boolean isSeatHasOneBooking(int seatNo){
-		return seatAndDestinationMap.get(seatNo).size() == 1 ;
+	private boolean isSeatHasOneBooking(int seatNo) {
+		boolean case1 = ( seatAndDestinationMap.get(seatNo).size() == 1);
+		boolean case2 = false;
+		if ((seatNo % seatsPerCoach) / 8 == 1 || (seatNo % seatsPerCoach) / 8 == 2
+				|| (seatNo % seatsPerCoach) / 8 == (seatsPerCoach / 8) || (seatNo % seatsPerCoach) / 8 == (seatsPerCoach / 8) - 1) {
+			case2 = true;
+		}
+		return case1||case2;
 	}
 }
  

@@ -31,7 +31,7 @@ public class Helper {
 				throw new Exception();
 			value = Integer.parseInt(integer);
 		}catch(Exception e) {
-			System.out.println(PrintStatements.VALID_INTEGER_INPUT);
+			//System.out.println(PrintStatements.VALID_INTEGER_INPUT);
 			value = getIntegerInput();
 		}
 		return value;
@@ -121,7 +121,7 @@ public class Helper {
 	static LocalDate getDateInput(){
 		LocalDate date = null;
 		try {
-			String regex = "[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}";
+			String regex = "^[1-9][0-9]{3}-(([0-1][0-2])|[0-9])-(([0-2][0-9])|3[01])$";
 			String dateOfBirth = getStringInput();
 			if(!Pattern.matches(regex, dateOfBirth))
 				throw new Exception();
