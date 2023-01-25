@@ -16,13 +16,14 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 	private final HashMap<Integer, ArrayList<String>> seatAndDestinationMap = new HashMap<>();
 	private final HashMap<Integer, ArrayList<String>> seatAndSourceMap = new HashMap<>();
 	private int numAvailableSeats;
-	private final  Stack<Integer>[] bb = new Stack[5];
+	private final  Stack<Integer>[] bb = new Stack[6];
 	private void init(int numAvailableSeats){
 		bb[0] = new Stack<>();
 		bb[1] = new Stack<>();
 		bb[2] = new Stack<>();
 		bb[3] = new Stack<>();
 		bb[4] = new Stack<>();
+		bb[5] = new Stack<>();
 		for(int i=1;i <= numAvailableSeats; i++){
 			int index = i%8;
 			if(index == 1 || index == 4)
@@ -33,8 +34,10 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 				bb[2].add(i);
 			else if(index == 7)
 				bb[3].add(i);
-			else
-				bb[4].add(i);
+			else {
+				
+					bb[4].add(i);
+			}
 
 		}
 	}

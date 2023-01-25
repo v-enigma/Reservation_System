@@ -65,7 +65,7 @@ public class AdminApp implements Application, Authenticable,Searchable{
 			LocalDate dateOfJourney;
 			do {
 				System.out.println("Enter date of journey in YYYY-MM-DD");
-				String dateInStringForm = Helper.getStringInput();
+				String dateInStringForm = Helper.getLineInput();
 
 				 dateOfJourney = LocalDate.parse(dateInStringForm);
 
@@ -146,7 +146,7 @@ public class AdminApp implements Application, Authenticable,Searchable{
 	}
 	private DayOfWeek InputValidDay(){
 		System.out.println(PrintStatements.DAY_NAME);
-		String day = Helper.getStringInput();
+		String day = Helper.getLineInput();
 		day = day.toUpperCase();
 		DayOfWeek dayOfWeek = getDay(day);
 		if( dayOfWeek == null){
@@ -168,10 +168,10 @@ public class AdminApp implements Application, Authenticable,Searchable{
 		return scheduledDaysInWeek;
 	}
 	private String validateTimeFormat(String time){
-		String regex = "[0-9]{2}:[0-9]{2}";
+		String regex = "^([01][0-9]|2[0-3]):[0-5][0-9]$";
 		do{
 			System.out.println(PrintStatements.TIME_FORMAT);
-			time = Helper.getStringInput();
+			time = Helper.getLineInput();
 		}while(!Pattern.matches(regex,time));
 		return time;
 	}
@@ -285,14 +285,14 @@ public class AdminApp implements Application, Authenticable,Searchable{
 		System.out.println(PrintStatements.TRAIN_NUMBER);
 		int trainId = Helper.getIntegerInput();
 		System.out.println(PrintStatements.TRAIN_NAME);
-		String trainName = Helper.getStringInput();
+		String trainName = Helper.getLineInput();
 		System.out.println(PrintStatements.TRAIN_SOURCE);
 
-		String source = Helper.getStringInput().toUpperCase();
+		String source = Helper.getLineInput().toUpperCase();
 
 		Station sStation = validateStationExistence(source);
 		System.out.println(PrintStatements.TRAIN_DESTINATION);
-		String destination = Helper.getStringInput().toUpperCase();
+		String destination = Helper.getLineInput().toUpperCase();
 		Station desStation = validateStationExistence(destination);
 		boolean hasRoute = TrainFactory.getInstance().ensureRouteExistence(source, destination);
 
@@ -302,7 +302,7 @@ public class AdminApp implements Application, Authenticable,Searchable{
 			int acCoachCount = Helper.getIntegerInput();
 			System.out.println(PrintStatements.SLEEPER_COACH_COUNT);
 			int sleeperCount = Helper.getIntegerInput();
-			hasAdded = TrainFactory.getInstance().createTrain(trainId, trainName, acCoachCount, sStation, desStation, sleeperCount, 64, 72);
+			hasAdded = TrainFactory.getInstance().createTrain(trainId, trainName, acCoachCount, sStation, desStation, sleeperCount, 8, 8);
 			if (hasAdded) {
 				System.out.println("Added Successfully");
 			} else {

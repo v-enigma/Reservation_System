@@ -10,12 +10,12 @@ package com.user_interface;
 	 static final String LOGIN_FAILURE = "Login failure. Please try agian";
 	 static final String DATE_VALIDATION = "Enter a valid Date. You are allowed to book only 4 months ahead from today";
 
-	 static final String CUSTOMER_OPTIONS = "1. Search Train\n 2.BookTicket \n 3.Cancel \n 4.Past Bookings \n 5.PNR Status\n 6.Update Details\n 7.Display User Profile 8.Exit  ";
+	 static final String CUSTOMER_OPTIONS = "1. Search Train\n 2.BookTicket \n 3.Cancel \n 4.Past Bookings \n 5.PNR Status\n 6.Update Details\n 7.Display User Profile\n 8.Exit  ";
 	 static final String DETAILS_UPDATE = "Enter the option for which you want to update the details.\n1.to update name.\n2.To update email\n.3.To update phone number.\n 4.To update seat Preference \n 5.To update date of birth";
 
 	 static final String USER_NOT_FOUND = "UserId is not Available. Please try another userId ";
 
-	 static final String TRAIN_INDEX = "Enter the index of the train printed above to find available seats ";
+	 static final String TRAIN_INDEX = "Enter the index of the train printed above to book seats ";
 
 	 static final String STATION_NOT_FOUND = "There is no such station in my storage.\n Do you like to add new station? If yes press 'Y' else 'N'." ;
 	 static final String STATION_TYPE = "Enter station type .\n J for Junction.\n T for Terminus.\n C for Central.\n  S for station. \n";
@@ -41,16 +41,16 @@ package com.user_interface;
 	 static final String VALID_STATION = "Enter valid  station";
 	 static final String TIME_FORMAT = "Enter time(HH:MM) in 24HRS format";
 	 static final String WEEK_DAY = "Enter the name of the day the train will run in a week ?";
-	 static final String OPTIONS = "Enter your code\n1.SignIn\n2.SignUp\n3.Exit\n";
+	 static final String OPTIONS = "Enter your code\n1.SignIn\n2.SignUp\n3.Exit";
 	 static final String EMPTY_BOOKINGS = "PAST BOOKINGS ARE EMPTY.";
 	 static final String REMOVE_TRAIN = "Enter the train No you want to remove";
 	 static final String WEEK_ERROR = "Please Enter valid day of the week.";
 	 static final String DAY_NAME = "Enter Name of the day in week period";
-	 static final String ADMIN_OPTIONS = "1.Add Train\n2.Schedule Train\n3.Remove Train\n4.Print Chart.\n5.Exit\n";
+	 static final String ADMIN_OPTIONS = "1.Add Train\n2.Schedule Train\n3.Remove Train\n4.Print Chart.\n5.Exit";
 	 static final String GET_OPTION = "Enter your option ";
 	 static final String GENDER_OPTIONS = "Enter gender.\nM for Male.\nF for Female.\nO for Others.";
 	 static final String PHONE_ERROR = "Phone number cannot be greater than 10 digits. It cannot contain characters";
-
+	 static final String VALID_INTEGER_INPUT ="Please enter valid integer input";
 
  }
 

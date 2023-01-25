@@ -84,7 +84,7 @@ public class TrainFactory {
 	    List<Station> stations = StationsData.getInstance().getStationListFromNameList(stationsNames);
 		Route route = buildRoute(stations, allDistances);
 	    Seating sleeperSeating = buildCoaches(sleeperCoachCount, "S",  sleeperCoachSeatCount);
-	    Seating acSeating = buildCoaches(acCoachCount,"B", acCoachSeatCount);
+	    Seating acSeating = buildCoaches(acCoachCount,"A", acCoachSeatCount);
 	    train = new Train(trainId,name,route, acSeating, sleeperSeating,TrainsData.getHelperId());
 	    hasCreated = TrainsData.getInstance().addTrain(train);
 	    return  hasCreated;

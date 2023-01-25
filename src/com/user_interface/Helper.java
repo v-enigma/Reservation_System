@@ -31,6 +31,7 @@ public class Helper {
 				throw new Exception();
 			value = Integer.parseInt(integer);
 		}catch(Exception e) {
+			System.out.println(PrintStatements.VALID_INTEGER_INPUT);
 			value = getIntegerInput();
 		}
 		return value;
