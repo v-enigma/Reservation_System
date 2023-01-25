@@ -231,30 +231,39 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 			}
 		}
 	}
+	private int findIndexOfAvailableSeatStack(int index) {
+		while ((index < 5 && bb[index].size() == 0)) {
+			System.out.println(index);
+			index++;
+		}
+		return index;
+	}
 	public Integer findAvailableSeatFromUnoccupied(int index) {
 		int seat =-1;
-		if(index == -1) {
-			index = 0;
-			while(! (index < 5 && bb[index].size() > 0)) {
-				index++;
-				if(index == 5)
-					break;
-			}
+		if(index == -1) { // When user dont have a preference loop over all types of seats till you find a available seat
+			index = 0 ;
+			index = findIndexOfAvailableSeatStack(index);
+
 			if(index == 5 ) {
 				return seat;
 			}
 		}
 	
 		int tempSeat = -1;
-		if(	bb[index].size() > 0){
+		if(	bb[index].size() > 0){ //User has a preference
 			tempSeat = bb[index].pop();
+		}
+		else{ // User has a preference but prefered seat is not available then look for other seat availability.
+			index  = 0;
+			index = findIndexOfAvailableSeatStack(index);
+			if(index < 5){
+				tempSeat = bb[index].pop();
+			}
 		}
 
 		seat = tempSeat;
 
-		/*if(seat > 0){
-            updateSeatStorage(seat, sourceCode,destinationCode);
-		}*/
+
 		return seat;
 	}
 
@@ -283,7 +292,8 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 		}
 		if(seat < 0 && index != -1 && seatFromBookedSeats.size()> 0 && seatFromBookedSeats.get(1).size()>0)
 			seat  = seatFromBookedSeats.get(1).get(0);
-		updateSeatStorage(seat, sourceCode,destinationCode);
+		if(seat > 0)
+			updateSeatStorage(seat, sourceCode,destinationCode);
 	  return seat;
 	}
 	public void freeSeat(String sourceCode, String destinationCode, int seatNo){

@@ -67,10 +67,10 @@ public class Booking {
 		StringBuilder details ;
 		int i=0;
 
-		String  topLevel ="CoachNo    SeatNo      Name\n";
+		String  topLevel ="CoachNo\tSeatNo\tStatus\tName\n";
 		details = new StringBuilder(topLevel);
 		for(UserDetails userdetails: passenger) {
-			String temp = coachIds.get(i)+"          " +allocatedSeats.get(i).getId()+"          "+ userdetails.getName()+"\n";
+			String temp = coachIds.get(i)+"\t\t\t" +allocatedSeats.get(i).getId()+"\t\t\t"+ status.get(i)+"\t\t\t"+ userdetails.getName()+"\n";
 			details.append(temp);
 			i++;
 		}

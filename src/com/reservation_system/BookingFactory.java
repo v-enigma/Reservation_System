@@ -90,14 +90,18 @@ public class BookingFactory {
 		List< Seat> allottedSeats = new ArrayList<>();
 		List<BookingStatus> status = new ArrayList<>();
 		List<String> coachNames = new ArrayList<>();
+		List<UserDetails> seatAllottedPassengers = new ArrayList<>();
 		long pnr = generateId();
 		int passengerIndex = 0;
+		Seat seat = null;
+
 		//LocalDate trainStartDate = train.get
 		while(passengersIterator.hasNext()) {
+
 			UserDetails ud = passengersIterator.next();
 			SeatType seatType = ud.getSeatPreference();
 			String stringSeatNo = BookedAndAvailableSeatsByTrainAndDate.getInstance().getSeatForTrainAndDate(train,dateOfJourney,seatClass,seatType, sourceCode, destinationCode, stopsCodes);
-			Seat seat = null;
+			seat = null;
 			if(stringSeatNo.charAt(0) == 'C'){
 				seatNo = Integer.parseInt(stringSeatNo.substring(1));
 				seat = getSeat(train, seatNo, seatClass);
@@ -122,13 +126,18 @@ public class BookingFactory {
 				BookingsData.getInstance().addWaitingList(pnr,passengerIndex,seatClass );
 			}
 
-			if(seat== null) {
-				return "SEATS ARE NOT AVAILABLE . REGRET THE INCONVENIENCE";
+			else if(stringSeatNo.charAt(0) == 'N') {
+				break;
 			}
+			seatAllottedPassengers.add(ud);
 		passengerIndex++;
 		}
-		booking = new Booking(user,passengers,train,dateOfJourney,source,destination,pnr,allottedSeats,status,coachNames);
-		addBooking(booking, user);
+		if(allottedSeats.size()> 0 ) {
+			booking = new Booking(user, seatAllottedPassengers, train, dateOfJourney, source, destination, pnr, allottedSeats, status, coachNames);
+			addBooking(booking, user);
+		}
+		if(passengersIterator.hasNext() || seat == null )
+			return "SEATS ARE NOT AVAILABLE . REGRET THE INCONVENIENCE\n";
 		return booking.toString();
 	}
 	private void removeWaitingListBooking(long pnr, int index){
