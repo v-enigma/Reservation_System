@@ -107,8 +107,10 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		}
 	}
 	private List<UserDetails> getPassengerDetails(){
+		System.out.println(PrintStatements.PASSENGERS_COUNT);
 		System.out.println("Enter passengers count");
-		int passengerCount = Helper.getIntegerInput();
+
+		int passengerCount = Helper.getIntegerInputInARange(1,6);
 	    List<UserDetails> passengers = new ArrayList<>();
 	    while(passengerCount> 0) {
 	    	System.out.println("Enter passengerName");

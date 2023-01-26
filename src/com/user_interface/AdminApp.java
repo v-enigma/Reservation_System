@@ -215,7 +215,7 @@ public class AdminApp implements Application, Authenticable,Searchable{
 		List<LocalTime> arrivalTimeList = new ArrayList<>();
 		arrivalTimeList.add(LocalTime.parse("00:00"));
 		System.out.println(PrintStatements.FREQUENCY);
-		int noOfDaysScheduled = Helper.getIntegerInput();// has to add code to validate the input will always be in range[1-7]
+		int noOfDaysScheduled = Helper.getIntegerInputInARange(1,7);// has to add code to validate the input will always be in range[1-7]
 		List<String> stationCodes = TrainFactory.getInstance().getTrain(regId).getRoute().getStationCodesInRoute();
 		//System.out.println(stationCodes);
 		boolean isFirstIteration = true;

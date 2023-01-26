@@ -21,6 +21,19 @@ public class Helper {
 		}
 		return string;
 	}
+	static int getIntegerInputInARange(int lowerBound , int upperBound){
+		int value =0;
+		try {
+			value = scan.nextInt();
+			if(value < lowerBound || value > upperBound )
+				throw new Exception();
+
+		}catch (Exception e){
+			System.out.println("Please enter value in the range of [" +lowerBound +"-"+ upperBound+"]  inclusively");
+			value = getIntegerInputInARange(lowerBound,upperBound);
+		}
+		return value;
+	}
 	static int getIntegerInput() {
 
 		int value = 0;

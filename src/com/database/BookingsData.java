@@ -5,6 +5,7 @@ import java.util.*;
 
 import com.reservation_system.Booking;
 import com.reservation_system.BookingFactory;
+import com.reservation_system.Record;
 import com.reservation_system.Seat;
 import com.enums.BookingStatus;
 
@@ -12,26 +13,26 @@ public class BookingsData {
 	private final HashMap<Long, Booking > bookings = new HashMap<>();
 	private static final BookingsData BookingData = new BookingsData();
 	private final HashMap<Long, Booking> cancelledBookings = new HashMap<>();
-	private final ArrayList<RACRecord> racList = new ArrayList<>();
-	private final ArrayList<RACRecord> waitingList = new ArrayList<>();
+	private final ArrayList<Record> racList = new ArrayList<>();
+	private final ArrayList<Record> waitingList = new ArrayList<>();
 	private BookingsData() {
 		
 	}
-	public RACRecord removeFromWaitingList(long pnr, int index){
-		Iterator<RACRecord> waitingListIterator = waitingList.iterator();
+	public Record removeFromWaitingList(long pnr, int index){
+		Iterator<Record> waitingListIterator = waitingList.iterator();
 		while(waitingListIterator.hasNext()){
-			RACRecord RACRecord = waitingListIterator.next();
-			if(RACRecord.getPNR() == pnr && RACRecord.getPassengerIndex() == index){
+			Record waitingListRecord = waitingListIterator.next();
+			if(waitingListRecord.getPNR() == pnr && waitingListRecord.getPassengerIndex() == index){
 				waitingListIterator.remove();
-				return RACRecord;
+				return waitingListRecord;
 			}
 		}
 		return null;
 	}
-	public RACRecord removeFromRAC(long pnr, int index){
-		Iterator<RACRecord> racIterator = racList.iterator();
+	public Record removeFromRAC(long pnr, int index){
+		Iterator<Record> racIterator = racList.iterator();
 		while(racIterator.hasNext()){
-			RACRecord RACRecord = racIterator.next();
+			Record RACRecord = racIterator.next();
 			if(RACRecord.getPNR() == pnr && RACRecord.getPassengerIndex() == index){
 				racIterator.remove();
 				return RACRecord;
@@ -41,12 +42,12 @@ public class BookingsData {
 		return null;
 	}
 	public void addRAC(long pnr, int passengerIndex, int seatClass){
-		RACRecord RACRecord = new RACRecord(pnr, passengerIndex, seatClass);
+		Record RACRecord = new Record(pnr, passengerIndex, seatClass);
 		racList.add(RACRecord);
 	}
 	public void addWaitingList(long pnr, int passengerIndex,int seatClass){
-		RACRecord RACRecord = new RACRecord(pnr, passengerIndex,seatClass);
-		waitingList.add(RACRecord);
+		Record waitingRecord = new Record(pnr, passengerIndex,seatClass);
+		waitingList.add(waitingRecord);
 	}
 	public static BookingsData getInstance() {
 		return BookingData;
@@ -103,23 +104,23 @@ public class BookingsData {
 			}
 			return matchedBookings;
 	}
-	private List<RACRecord> filterByTrainAndDate(List<RACRecord>racList, int trainNo, LocalDate date,int seatClass){
+	private List<Record> filterByTrainAndDate(List<Record>recordList, int trainNo, LocalDate date,int seatClass){
 
-		List<RACRecord> matchedRecords = new ArrayList<>();
-		for(RACRecord racRecord: racList){
-			long PNR = racRecord.getPNR();
-			if(bookings.containsKey(PNR) && bookings.get(PNR).getTrain().getId() == trainNo && bookings.get(PNR).getJourneyDate().equals(date) && racRecord.getSeatClass() == seatClass){
-				matchedRecords.add(racRecord);
+		List<Record> matchedRecords = new ArrayList<>();
+		for(Record record: recordList){
+			long PNR = record.getPNR();
+			if(bookings.containsKey(PNR) && bookings.get(PNR).getTrain().getId() == trainNo && bookings.get(PNR).getJourneyDate().equals(date) && record.getSeatClass() == seatClass){
+				matchedRecords.add(record);
 			}
 		}
 		return matchedRecords;
 	}
 	public void checkSeatAvailabilityForRACBookings(int trainNo, LocalDate dateOfJourney, int cancelledCount,int seatClass){
 
-		List<RACRecord> racBookingsForTrainOnADay = filterByTrainAndDate( racList,trainNo,dateOfJourney,seatClass);
+		List<Record> racBookingsForTrainOnADay = filterByTrainAndDate( racList,trainNo,dateOfJourney,seatClass);
 		if(racBookingsForTrainOnADay.size() == 0)
 			return;
-		for(RACRecord racRecord: racBookingsForTrainOnADay){
+		for(Record racRecord: racBookingsForTrainOnADay){
 
 			Booking booking = null;
 			long PNR = racRecord.getPNR();
@@ -156,10 +157,10 @@ public class BookingsData {
 
 	}
 	public void checkSeatAvailabilityForWaitingListBookings(int trainNo, LocalDate dateOfJourney, int cancelledCount,int seatClass){
-		List<RACRecord> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
+		List<Record> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
 		if(matchedRecords.size() == 0 )
 			return;
-		for(RACRecord waitingRecord: waitingList){
+		for(Record waitingRecord: waitingList){
 			Booking booking = null;
 			long PNR = waitingRecord.getPNR();
 			if(!bookings.containsKey(PNR)){
@@ -190,10 +191,10 @@ public class BookingsData {
 		}
 	}
 	public void checkRACSeatAvailabilityForWaitingListBookings(int trainNo, LocalDate dateOfJourney,int seatClass){
-		List<RACRecord> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
+		List<Record> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
 		if(matchedRecords.size() == 0 )
 			return;
-		for(RACRecord waitingRecord: waitingList) {
+		for(Record waitingRecord: waitingList) {
 			Booking booking = null;
 			long PNR = waitingRecord.getPNR();
 			if (!bookings.containsKey(PNR)) {
