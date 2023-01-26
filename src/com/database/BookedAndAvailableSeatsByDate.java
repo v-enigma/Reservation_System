@@ -233,7 +233,7 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 	}
 	private int findIndexOfAvailableSeatStack(int index) {
 		while ((index < 5 && bb[index].size() == 0)) {
-			System.out.println(index);
+			//System.out.println(index);
 			index++;
 		}
 		return index;
@@ -329,13 +329,15 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 			bb[index].push(seatNo);
 
 		}
-		seatAndDestinationMap.get(seatNo).remove(destinationCode);
-		seatAndSourceMap.get(seatNo).remove(sourceCode);
+		if(seatAndDestinationMap.containsKey(seatNo))
+			seatAndDestinationMap.get(seatNo).remove(destinationCode);
+		if(seatAndSourceMap.containsKey(seatNo))
+			seatAndSourceMap.get(seatNo).remove(sourceCode);
 
 	}
 
 	private boolean isSeatHasOneBooking(int seatNo) {
-		boolean case1 = ( seatAndDestinationMap.get(seatNo).size() == 1);
+		boolean case1 = (seatAndDestinationMap.containsKey(seatNo) && seatAndDestinationMap.get(seatNo).size() == 1);
 		boolean case2 = false;
 		if ((seatNo % seatsPerCoach) / 8 == 1 || (seatNo % seatsPerCoach) / 8 == 2
 				|| (seatNo % seatsPerCoach) / 8 == (seatsPerCoach / 8) || (seatNo % seatsPerCoach) / 8 == (seatsPerCoach / 8) - 1) {

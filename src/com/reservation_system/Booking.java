@@ -66,15 +66,16 @@ public class Booking {
 	public String toString() {
 		StringBuilder details ;
 		int i=0;
-
 		String  topLevel ="CoachNo\tSeatNo\tStatus\tName\n";
 		details = new StringBuilder(topLevel);
 		for(UserDetails userdetails: passenger) {
-			String temp = coachIds.get(i)+"\t\t\t" +allocatedSeats.get(i).getId()+"\t\t\t"+ status.get(i)+"\t\t\t"+ userdetails.getName()+"\n";
-			details.append(temp);
-			i++;
+           if(allocatedSeats.get(i)== null)
+			   break;
+		   String temp = coachIds.get(i) + "\t\t\t" + allocatedSeats.get(i).getId() + "\t\t\t" + status.get(i) + "\t\t\t" + userdetails.getName() + "\n";
+		   details.append(temp);
+		   i++;
+
 		}
-		
 		String ticket = "Source: "+ this.source.getName() +" Destination : "+ this.destination.getName() + "   PNR : " + this.PNR+" \n " ;
 		ticket+=details;
 		ticket+="\n";

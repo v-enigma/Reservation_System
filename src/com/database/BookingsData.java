@@ -35,6 +35,7 @@ public class BookingsData {
 			Record RACRecord = racIterator.next();
 			if(RACRecord.getPNR() == pnr && RACRecord.getPassengerIndex() == index){
 				racIterator.remove();
+
 				return RACRecord;
 			}
 

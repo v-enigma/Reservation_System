@@ -185,11 +185,10 @@ public class BookingFactory {
 			if(seat == null && status == BookingStatus.WL) {
 				removeWaitingListBooking(PNR, passengerIndex);
 			}
-			if(seat!= null ){
+			if(seat != null ){
 				switch (status){
 					case RAC:
 						removeRAC(PNR, passengerIndex, seat.getId(),seatClass);
-						BookingsData.getInstance().checkRACSeatAvailabilityForWaitingListBookings(booking.getTrain().getId(),booking.getJourneyDate(),seatClass);
 						break;
 					case CNF:
 						freeConfirmedSeat(PNR, passengerIndex, seat.getId(), seatClass);
@@ -202,6 +201,8 @@ public class BookingFactory {
 		}
 		BookingsData.getInstance().cancelBooking(PNR);
 		findVacantSeatsForRAC(booking.getTrain().getId(),booking.getJourneyDate(), passengerIndex,seatClass);
+		BookingsData.getInstance().checkRACSeatAvailabilityForWaitingListBookings(booking.getTrain().getId(),booking.getJourneyDate(),seatClass);
+
 
 	}
 	private void findVacantSeatsForRAC(int trainNo, LocalDate dateOfJourney, int cancelledCount,int seatClass){

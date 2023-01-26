@@ -24,11 +24,19 @@ public class Helper {
 	static int getIntegerInputInARange(int lowerBound , int upperBound){
 		int value =0;
 		try {
-			value = scan.nextInt();
+			 String data = scan.nextLine(); // use lineInput and add validation for checking data type
+			 String regex = "\\d+";
+			 if(!Pattern.matches(regex,data))
+				 throw new InputMismatchException();
+			 value = Integer.parseInt(data);
 			if(value < lowerBound || value > upperBound )
 				throw new Exception();
 
-		}catch (Exception e){
+		}catch(InputMismatchException m){
+			System.out.println("Enter only integer data type");
+			value = getIntegerInputInARange(lowerBound, upperBound);
+		}
+		catch (Exception e){
 			System.out.println("Please enter value in the range of [" +lowerBound +"-"+ upperBound+"]  inclusively");
 			value = getIntegerInputInARange(lowerBound,upperBound);
 		}
@@ -40,7 +48,7 @@ public class Helper {
 		try {
 			String integer = "";
 			integer = scan.nextLine();
-			if(!Pattern.matches("[0-9]+", integer))
+			if(!Pattern.matches("\\d+", integer))
 				throw new Exception();
 			value = Integer.parseInt(integer);
 		}catch(Exception e) {

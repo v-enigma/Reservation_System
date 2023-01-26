@@ -17,7 +17,9 @@ package com.reservation_system;
         return pnr;
     }
    public  int getSeatClass(){return seatClass;}
-
+   public int getcurrentNumber(){
+        return currentNumber;
+     }
     public  void setCurrentNumber(int currentNumber){
         this.currentNumber = currentNumber;
     }
