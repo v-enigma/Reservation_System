@@ -6,7 +6,7 @@ package com.user_interface;
 	 static final String APP_OPTIONS = "Choose your option \n 1.Customer  \n 2.Admin \n 3.Guest \n 4.Exit\n";
 	 static final String LOGIN_FAILURE = "Login failure. Please try agian";
 	 static final String GUEST_OPTIONS = "Enter your option \n 1.To search trains. \n 2. To PNR Search\n 3. To Exit\n";
-	 static final String USER_NOT_FOUND = "UserId is not Available. Please try another userId ";
+	 static final String USER_NOT_AVAILABLE = "UserId is not Available. Please try another userId ";
 	 static final String PASSWORD_RULES = "SHOULD CONTAIN AT LEAST 8 CHARACTERS LONG.\n. SHOULD CONTAIN CAPITAL LETTER , SMALL CASE LETTERS, SPECIAL CHARACTERS AND NUMBERS\n. SHOULD NOT CONTAIN WHITE SPACES ";
 	 static final String DATE_OF_BIRTH = "Enter Date of Birth in YYYY-MM-DD";
 	 static final String VALID_STATION = "Enter valid  station";

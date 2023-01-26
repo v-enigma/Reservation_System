@@ -56,14 +56,15 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 	}
 	 void signUp() {
 		System.out.println("Enter userId");
-		String userId = Helper.getStringInput();
+		String userId = Helper.getLineInput();
 		while(AuthenticationData.getInstance().isUserIdExists(userId)) {
-			System.out.println(PrintStatements.USER_NOT_FOUND);
-			userId = Helper.getStringInput();
+			System.out.println(PrintStatements.USER_NOT_AVAILABLE);
+			userId = Helper.getLineInput();
 		}
+		System.out.println("Please Enter password");
 		System.out.println(PrintStatements.PASSWORD_RULES);
 		String password = Helper.getPassword();
-		String name = Helper.getStringInput();
+		String name = Helper.getLineInput();
 		String mail = Helper.getEmailInput();
 		String phone = Helper.getPhoneNumber();
 		LocalDate dateOfBirth = Helper.getDateInput(); //Helper.get

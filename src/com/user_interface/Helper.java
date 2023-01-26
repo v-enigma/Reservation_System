@@ -98,13 +98,13 @@ public class Helper {
 	static String getPassword() {
 		String password = "";
 		try {
-			String pattern = "^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.[@#$%^&+=])(?=\\S+$).{8,16}$";
+			String pattern = "^(?=.[0-9]){1,}(?=.[a-z])(?=.[A-Z])(?=.[@#$%^&+=])(?=\\S+$).{8,16}$";
 			password = scan.nextLine();
 			if (!Pattern.matches(pattern, password))
 				throw new PasswordPatternException(PrintStatements.PASSWORD_RULES);
 
 		} catch (PasswordPatternException p) {
-
+			System.out.println(p);
 			password = getPassword();
 		}
 		return password;
