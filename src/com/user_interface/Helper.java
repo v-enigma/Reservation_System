@@ -98,7 +98,7 @@ public class Helper {
 	static String getPassword() {
 		String password = "";
 		try {
-			String pattern = "^(?=.[0-9]){1,}(?=.[a-z])(?=.[A-Z])(?=.[@#$%^&+=])(?=\\S+$).{8,16}$";
+			String pattern = "";
 			password = scan.nextLine();
 			if (!Pattern.matches(pattern, password))
 				throw new PasswordPatternException(PrintStatements.PASSWORD_RULES);
