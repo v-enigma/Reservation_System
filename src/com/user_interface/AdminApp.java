@@ -38,7 +38,7 @@ public class AdminApp implements Application, Authenticable,Searchable{
 		while(run) {
 			System.out.println(PrintStatements.ADMIN_OPTIONS);
 			System.out.println(PrintStatements.GET_OPTION);
-			int option = Helper.getIntegerInput(); // has to be updated
+			int option = Helper.getIntegerInput();
 			switch (option) {
 				case 1:
 					addTrain();
@@ -158,7 +158,7 @@ public class AdminApp implements Application, Authenticable,Searchable{
 	}
 	private List<DayOfWeek> setScheduledDaysInWeek(int noOfDays){
 		List<DayOfWeek> scheduledDaysInWeek = new ArrayList<>();
-		System.out.println(PrintStatements.WEEK_DAY); // update teh
+		System.out.println(PrintStatements.WEEK_DAY); // has to update logic to check duplicate days
 		//int noOfDays = Helper.getIntegerInput();
 		while(noOfDays > 0){
 			DayOfWeek dayofWeek = InputValidDay();
