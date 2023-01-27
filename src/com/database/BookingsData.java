@@ -22,18 +22,19 @@ public class BookingsData {
 		Iterator<Record> waitingListIterator = waitingList.iterator();
 		while(waitingListIterator.hasNext()){
 			Record waitingListRecord = waitingListIterator.next();
-			if(waitingListRecord.getPNR() == pnr && waitingListRecord.getPassengerIndex() == index){
+			if(waitingListRecord.getPNR() == pnr && waitingListRecord.getPassengerIndex() == index ) {
 				waitingListIterator.remove();
 				return waitingListRecord;
 			}
 		}
 		return null;
 	}
-	public Record removeFromRAC(long pnr, int index){
+
+	public Record removeFromRAC(long pnr, int index, int seatClass){
 		Iterator<Record> racIterator = racList.iterator();
 		while(racIterator.hasNext()){
 			Record RACRecord = racIterator.next();
-			if(RACRecord.getPNR() == pnr && RACRecord.getPassengerIndex() == index){
+			if(RACRecord.getPNR() == pnr && RACRecord.getPassengerIndex() == index && seatClass == RACRecord.getSeatClass()){
 				racIterator.remove();
 
 				return RACRecord;
@@ -81,12 +82,10 @@ public class BookingsData {
 		if(bookings.containsKey(PNR)) {
 			 booking = bookings.remove(PNR);
 			List<Seat> allocatedSeats = booking.getAllocatedSeats();
-			List<String>coachNames = booking.getCoachIds();
 			List<BookingStatus>seatStatus = booking.getStatus();
 			int index = 0;
 			while(index< allocatedSeats.size()) {
-				allocatedSeats.set(index, null);
-				coachNames.set(index, null);
+
 				seatStatus.set(index, BookingStatus.CAN);
 				index++;
 			}
@@ -143,6 +142,7 @@ public class BookingsData {
 					booking.getStatus().set(racRecord.getPassengerIndex(),BookingStatus.CNF);
 					Seat freedRACSeat = booking.getAllocatedSeats().set(racRecord.getPassengerIndex(), seat);
 					BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking.getTrain(),dateOfJourney,seatClass,sourceCode,destinationCode,freedRACSeat.getId());
+					removeFromRAC(racRecord.getPNR(),racRecord.getPassengerIndex(),seatClass);
 					cancelledCount--;
 				}
 
@@ -181,6 +181,7 @@ public class BookingsData {
 					booking.getCoachIds().set(waitingRecord.getPassengerIndex(), coachId);
 					booking.getStatus().set(waitingRecord.getPassengerIndex(),BookingStatus.CNF);
 					booking.getAllocatedSeats().set(waitingRecord.getPassengerIndex(), seat);
+					removeFromWaitingList(PNR,waitingRecord.getPassengerIndex());
 					cancelledCount--;
 				}
 
@@ -215,11 +216,15 @@ public class BookingsData {
 					booking.getCoachIds().set(waitingRecord.getPassengerIndex(), coachId);
 					booking.getStatus().set(waitingRecord.getPassengerIndex(),BookingStatus.RAC);
 					booking.getAllocatedSeats().set(waitingRecord.getPassengerIndex(), seat);
+					removeFromWaitingList(PNR,waitingRecord.getPassengerIndex());
+					addRAC(PNR,waitingRecord.getPassengerIndex(), waitingRecord.getSeatClass());
+
 				}
 
 			}
 
 		}
 	}
+
 
 }

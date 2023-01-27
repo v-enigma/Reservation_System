@@ -146,7 +146,7 @@ public class BookingFactory {
 		//BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking.getSource().getId(), booking.getDestination().getId(),);
 	}
 	private void removeRAC(long pnr, int passengerIndex, int seatNo, int seatClass){
-		BookingsData.getInstance().removeFromRAC(pnr, passengerIndex);
+		BookingsData.getInstance().removeFromRAC(pnr, passengerIndex,seatClass);
 		//BookingsData.getInstance().cancelBooking(pnr);
 		Booking booking = BookingsData.getInstance().findBooking(pnr);
 		BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking.getTrain(),booking.getJourneyDate(),seatClass,booking.getSource().getId(), booking.getDestination().getId(),seatNo);
