@@ -37,7 +37,7 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		userId = "Venu1297"; // update the code
 		String password = "QWzx0945@";// update the code;
 		try {
-		boolean success =AuthenticationData.getInstance().customerAuthenticate(userId, password);
+		boolean success = AuthenticationHelper.getInstance().validateCustomer(userId, password); //has to change
 		
 			if(success) {
 				System.out.println("Welcome "+ userId);
@@ -81,8 +81,8 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 		System.out.println(PrintStatements.JOURNEY_DETAILS);
 		List<Object> objects = getJourneyDetails();
 		LocalDate journeyDate = (LocalDate) objects.get(2);
-		Station jSource = StationsData.getInstance().findStation(objects.get(0).toString());
-		Station jDestination = StationsData.getInstance().findStation(objects.get(1).toString());
+		Station jSource = StationsData.getInstance().findStation(objects.get(0).toString());  //has to change
+		Station jDestination = StationsData.getInstance().findStation(objects.get(1).toString()); // has to change
 		/*LocalDate upperBoundDate = LocalDate.now().plusDays(120);
 
 		while ((journeyDate.isAfter(upperBoundDate) || journeyDate.isEqual(upperBoundDate) || journeyDate.isBefore(LocalDate.now()))) {

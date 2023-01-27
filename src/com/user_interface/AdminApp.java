@@ -23,7 +23,7 @@ public class AdminApp implements Application, Authenticable,Searchable{
 	public void signIn() {
 		adminId = "ADMIN001";
 		String password = "QWzx0945@";
-		boolean success = AuthenticationData.getInstance().adminAuthenticate(adminId, password);
+		boolean success = AuthenticationHelper.getInstance().validateAdmin(adminId, password);
 		if(success) {
 			System.out.println("Welcome "+ adminId);
 			menu();

@@ -32,5 +32,11 @@ public class UsersData {
 		}
 		return user;
 	}
+	public boolean validateCustomer(String userId, String password){
+		return AuthenticationData.getInstance().customerAuthenticate(userId, password);
+	}
+	public boolean validateAdmin(String userId, String password){
+		return AuthenticationData.getInstance().adminAuthenticate(userId, password);
+	}
 	
 }

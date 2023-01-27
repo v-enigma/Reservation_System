@@ -8,22 +8,13 @@ import com.database.BookingsData;
 import com.database.ScheduleData;
 import com.database.StationsData;
 import com.database.TrainsData;
-import com.reservation_system.Booking;
-import com.reservation_system.Station;
-import com.reservation_system.Train;
-import com.reservation_system.TrainFactory;
+import com.reservation_system.*;
 
 public interface Searchable {
     default void pnrSearch() {
         System.out.println(PrintStatements.PNR_SEARCH);
         Long pnr = Helper.getLongInput();
-        Booking booking = BookingsData.getInstance().findBooking(pnr);
-        if (booking == null)
-            System.out.println(PrintStatements.PNR_ERROR);
-
-        else {
-            System.out.println(booking);
-        }
+        //BookingFactory.getInstance().
     }
 
     default List<Object> getJourneyDetails() {
@@ -55,8 +46,8 @@ public interface Searchable {
 
         String source = objects.get(0).toString();
         String destination = objects.get(1).toString();
-        Station sStation = StationsData.getInstance().findStation(source);
-        Station dStation = StationsData.getInstance().findStation(destination);
+        Station sStation = StationsData.getInstance().findStation(source);// has to update
+        Station dStation = StationsData.getInstance().findStation(destination); // has to update
         //System.out.println("Enter date of journey.Enter the date in DD/MM/YYYY format");
         //String date = "";
         LocalDate dateOfJourney = (LocalDate) objects.get(2);
@@ -70,13 +61,13 @@ public interface Searchable {
 
         else {
 
-            List<Integer> trainNumbers = ScheduleData.getInstance().findTrainsBetweenStations(sStation, dStation, dateOfJourney);
+            List<Integer> trainNumbers = ScheduleHelper.getInstance().searchTrainsBetweenStations(sStation, dStation, dateOfJourney);// has to look for the
             if (trainNumbers.size() == 0)
                 System.out.println(PrintStatements.NO_TRAINS);
             int count = 0;
             for (int trainNumber : trainNumbers) {
                 count++;
-                Train train = TrainsData.getInstance().findTrainById(trainNumber);
+                Train train = TrainsData.getInstance().findTrainById(trainNumber); // has to update
                 System.out.println(PrintStatements.TOP_HEADING);
                 trainDetails(count, train);
                 trains.add(train);

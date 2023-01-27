@@ -4,6 +4,7 @@ import com.database.ScheduleData;
 import com.database.TrainsData;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,5 +51,9 @@ public class ScheduleHelper {
         ScheduleData.getInstance().addSchedule(schedule);
         TrainsData.getInstance().getTrainByRegId(id).setSchedule(schedule);
 
+    }
+    //ScheduleData.getInstance().findTrainsBetweenStations(sStation, dStation, dateOfJourney);
+    public List<Integer> searchTrainsBetweenStations(Station source, Station destination, LocalDate dateOfJourney){
+        return ScheduleData.getInstance().findTrainsBetweenStations(source,destination, dateOfJourney);
     }
 }
