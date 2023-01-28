@@ -1,11 +1,18 @@
 package com.reservation_system;
 
  public final class Record {
-    private Long pnr;
-    private int passengerIndex;
-    private int seatClass;
+    private final Long pnr;
+    private final int passengerIndex;
+    private final int seatClass;
     private int currentNumber;
-    public Record(long pnr, int passengerIndex, int seatClass){
+    public Record(long pnr,int passengerIndex, int seatClass){
+        this.currentNumber =0;
+        this.pnr = pnr;
+        this.passengerIndex = passengerIndex;
+        this.seatClass = seatClass;
+    }
+    public Record(int currentNumber,long pnr, int passengerIndex, int seatClass){
+        this.currentNumber = currentNumber;
         this.pnr = pnr;
         this.passengerIndex = passengerIndex;
         this.seatClass = seatClass;

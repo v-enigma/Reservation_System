@@ -42,9 +42,9 @@ public class UserFactory {
 	  List<Booking> bookings =  ((Customer)(UsersData.getInstance().getUser(userId))).getBookings();
 	  StringBuilder allBookings  = new StringBuilder();
 	  for(Booking booking : bookings){
-		  allBookings.append(booking.toString());
+		  allBookings.append( BookingFactory.getInstance().stringifyBooking(booking));
 	  }
-	  String bookingsInString =allBookings.toString();
+	  String bookingsInString = allBookings.toString();
 	  return bookingsInString;
    }
 

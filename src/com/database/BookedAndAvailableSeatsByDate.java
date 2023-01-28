@@ -99,7 +99,9 @@ public final class  BookedAndAvailableSeatsByDate{ // Store booked seats and ava
 		this.numAvailableSeats+=(numCoaches*seatsPerCoach);
 		
 	}
-
+	public void setCurrentWL(int currentWL){
+		this.currentWL = currentWL;
+	}
 	public int getAvailableSeats() {
 		int avlSeats =0;
 		for(Stack<Integer> temp : bb){

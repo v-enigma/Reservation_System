@@ -29,6 +29,8 @@ package com.user_interface;
 	 static final String BOOKING_CLASS = "Enter booking class.\n 1.Sleeper \n 2.AC  ";
 	 static final String EMPTY_BOOKINGS = "PAST BOOKINGS ARE EMPTY.";
 	 static final String PASSENGERS_COUNT = "You can book at max for 6 persons  at a time";
+	 static final String DESTINATION  = "Enter the destination station name";
+	 static final String SOURCE ="Enter the source station name";
 	 //------------------------------------------------------ADMIN RELATED MESSAGES---------------------------------------------------
 	 static final String TRAIN_INDEX = "Enter the index of the train printed above to book seats ";
 
@@ -44,6 +46,7 @@ package com.user_interface;
 	 static final String  TRAIN_NUMBER = "Enter the train number";
 	 static final String TRAIN_NAME = "Enter the name of the train";
 	 static final String TRAIN_SOURCE = "Enter the source  of the train ";
+
 	 static final String TRAIN_DESTINATION ="Enter the destination  of the train ";
 	 static final String AC_COACH_COUNT = "Enter no of AC coaches";
 	 static final String SLEEPER_COACH_COUNT = "Enter no of Sleeper coaches";
@@ -54,7 +57,7 @@ package com.user_interface;
 	 static final String DAY_NAME = "Enter Name of the day in week period";
 	 static final String ADMIN_OPTIONS = "1.Add Train\n2.Schedule Train\n3.Remove Train\n4.Print Chart.\n5.Exit";
 	 static final String GET_OPTION = "Enter your option ";
-
+	 static final String DATE_FORMAT = "Enter date of journey.Enter the date in YYYY-MM-DD format";
 
 
  }

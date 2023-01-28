@@ -14,15 +14,19 @@ public interface Searchable {
     default void pnrSearch() {
         System.out.println(PrintStatements.PNR_SEARCH);
         Long pnr = Helper.getLongInput();
-        //BookingFactory.getInstance().
+        String status = BookingFactory.getInstance().filterBooking(pnr);
+        if(status!= null)
+            System.out.println(status);
+        else
+            System.out.println(PrintStatements.PNR_ERROR);
     }
 
     default List<Object> getJourneyDetails() {
-        System.out.println("Enter the source station name");
+        System.out.println(PrintStatements.SOURCE);
         String source = Helper.getLineInput();
-        System.out.println("Enter the destination station name");
+        System.out.println(PrintStatements.DESTINATION);
         String destination = Helper.getLineInput();
-        System.out.println("Enter date of journey.Enter the date in YYYY-MM-DD format");
+        System.out.println(PrintStatements.DATE_FORMAT);
         LocalDate dateOfJourney = Helper.getJourneyDate();
 
         //System.out.println(dateOfJourney);
@@ -34,7 +38,7 @@ public interface Searchable {
     }
 
     default void search() {
-        System.out.println("Enter source, destination station  and  date of journey\n ");
+        System.out.println(PrintStatements.JOURNEY_DETAILS);
         List<Object> objects = getJourneyDetails();
         searchTrain(objects);
 

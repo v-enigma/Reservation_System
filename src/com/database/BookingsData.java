@@ -3,10 +3,7 @@ package com.database;
 import java.time.LocalDate;
 import java.util.*;
 
-import com.reservation_system.Booking;
-import com.reservation_system.BookingFactory;
-import com.reservation_system.Record;
-import com.reservation_system.Seat;
+import com.reservation_system.*;
 import com.enums.BookingStatus;
 
 public class BookingsData {
@@ -47,8 +44,8 @@ public class BookingsData {
 		Record RACRecord = new Record(pnr, passengerIndex, seatClass);
 		racList.add(RACRecord);
 	}
-	public void addWaitingList(long pnr, int passengerIndex,int seatClass){
-		Record waitingRecord = new Record(pnr, passengerIndex,seatClass);
+	public void addWaitingList(int seatNo,long pnr, int passengerIndex,int seatClass){
+		Record waitingRecord = new Record(seatNo,pnr, passengerIndex,seatClass);
 		waitingList.add(waitingRecord);
 	}
 	public static BookingsData getInstance() {
@@ -161,7 +158,9 @@ public class BookingsData {
 		List<Record> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
 		if(matchedRecords.size() == 0 )
 			return;
-		for(Record waitingRecord: waitingList){
+		Iterator<Record> waitingListIterator = waitingList.iterator();
+		while(waitingListIterator.hasNext()){
+			Record waitingRecord = waitingListIterator.next();
 			Booking booking = null;
 			long PNR = waitingRecord.getPNR();
 			if(!bookings.containsKey(PNR)){
@@ -192,15 +191,17 @@ public class BookingsData {
 
 		}
 	}
-	public void checkRACSeatAvailabilityForWaitingListBookings(int trainNo, LocalDate dateOfJourney,int seatClass){
+	public boolean checkRACSeatAvailabilityForWaitingListBookings(int trainNo, LocalDate dateOfJourney,int seatClass){
+		boolean assigned = false;
 		List<Record> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
 		if(matchedRecords.size() == 0 )
-			return;
-		for(Record waitingRecord: waitingList) {
+			return assigned;
+
+		for(Record waitingRecord: matchedRecords) {
 			Booking booking = null;
 			long PNR = waitingRecord.getPNR();
 			if (!bookings.containsKey(PNR)) {
-				return;
+				return assigned;
 			}
 			booking = bookings.get(PNR);
 			List<String> stopCodes = booking.getTrain().getSchedule().getStopsCodes();
@@ -216,15 +217,44 @@ public class BookingsData {
 					booking.getCoachIds().set(waitingRecord.getPassengerIndex(), coachId);
 					booking.getStatus().set(waitingRecord.getPassengerIndex(),BookingStatus.RAC);
 					booking.getAllocatedSeats().set(waitingRecord.getPassengerIndex(), seat);
-					removeFromWaitingList(PNR,waitingRecord.getPassengerIndex());
+					removeFromWaitingList(PNR,waitingRecord.getPassengerIndex()); // modifying a list while looping over the list cause exception 
 					addRAC(PNR,waitingRecord.getPassengerIndex(), waitingRecord.getSeatClass());
-
+					assigned = true;
 				}
 
 			}
 
 		}
+		return assigned;
 	}
+	public List<Record> findAllWaitingListRecordsOfABooking(Long PNR){
+		List<Record> waitingListRecords = new ArrayList<>();
+		for(Record waitingRecord: waitingList){
+			if(waitingRecord.getPNR() == PNR ){
+				waitingListRecords.add(waitingRecord);
+			}
+		}
+		return waitingListRecords;
+	}
+	public List<Record> filterWaitingListByTrainAndDate(Train train, LocalDate dateOfJourney, int seatClass){
+		List<Record> waitingListBookingsForATrainOnADate = new ArrayList<>();
+		for(Record waitingRecord: waitingList){
+			long pnr = waitingRecord.getPNR();
+			if(bookings.get(pnr).getTrain().getId() == train.getId() && dateOfJourney == bookings.get(pnr).getJourneyDate() && seatClass == waitingRecord.getSeatClass()){
+				waitingListBookingsForATrainOnADate.add(waitingRecord);
+			}
+		}
+		return waitingListBookingsForATrainOnADate;
+	}
+	public void updateWaitingListBookingStatus(Train train, LocalDate dateOfJourney, int seatClass){
+		List<Record> waitingListBookingsForATrainOnADate = filterWaitingListByTrainAndDate(train, dateOfJourney,seatClass);
+		int currentIndex =0;
+		for(Record waitingRecord : waitingListBookingsForATrainOnADate ){
+			currentIndex++;
+			waitingRecord.setCurrentNumber(currentIndex);
+		}
+		BookedAndAvailableSeatsByTrainAndDate.getInstance().getSeatStore(train, dateOfJourney,seatClass).setCurrentWL(currentIndex);
 
+	}
 
 }

@@ -36,7 +36,7 @@ public class BookedAndAvailableSeatsByTrainAndDate {
 		}
     	
     }
-    private BookedAndAvailableSeatsByDate getSeatStore(Train train, LocalDate dateOfJourney, int seatClass) {
+     BookedAndAvailableSeatsByDate getSeatStore(Train train, LocalDate dateOfJourney, int seatClass) {
     	  int trainNo = train.getId();
     	  if (seatClass == 1) {
     	    return trainBookings.get(trainNo).getSleeperSeating(train,dateOfJourney);

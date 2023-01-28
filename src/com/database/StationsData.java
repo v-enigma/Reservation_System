@@ -50,7 +50,7 @@ public class StationsData {
 	public static StationsData getInstance() {
 		return STATION_DB;
 	}
-	private final List<Station>stations = new ArrayList<>();
+	private final List<Station> stations = new ArrayList<>();
 	
 	public Station addStation(String name, String code,int noOfPlatforms, StationType stype ) {
 		Station station = new Station(name, code, noOfPlatforms, stype);

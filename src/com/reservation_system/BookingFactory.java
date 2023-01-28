@@ -119,11 +119,11 @@ public class BookingFactory {
 				BookingsData.getInstance().addRAC(pnr,passengerIndex,seatClass);
 
 			}else if(stringSeatNo.charAt(0) == 'W'){
-				seatNo = Integer.parseInt(stringSeatNo.substring(1));
+				int waitingIndex = Integer.parseInt(stringSeatNo.substring(1));
 				allottedSeats.add(seat);
 				status.add(BookingStatus.WL);
 				coachNames.add(null);
-				BookingsData.getInstance().addWaitingList(pnr,passengerIndex,seatClass );
+				BookingsData.getInstance().addWaitingList(waitingIndex,pnr,passengerIndex,seatClass );
 			}
 
 			else if(stringSeatNo.charAt(0) == 'N') {
@@ -136,8 +136,20 @@ public class BookingFactory {
 			booking = new Booking(user, seatAllottedPassengers, train, dateOfJourney, source, destination, pnr, allottedSeats, status, coachNames);
 			addBooking(booking, user);
 		}
-		if(passengersIterator.hasNext() || seat == null )
-			return "SEATS ARE NOT AVAILABLE . REGRET THE INCONVENIENCE\n";
+		if(passengersIterator.hasNext() && allottedSeats.size() > 0  ) {
+			String bookingDetailsAndSeatUnavailable = booking.toString();
+			bookingDetailsAndSeatUnavailable+="\n FOR SOME PASSENGERS SEATS ARE NOT AVAILABLE . REGRET THE INCONVENIENCE\n";
+			return bookingDetailsAndSeatUnavailable;
+		}
+		else if(!passengersIterator.hasNext() && status.contains(BookingStatus.WL)){
+			String bookingDetailsAndWaitingList = booking.toString();
+			bookingDetailsAndWaitingList+="\n PASSENGERS ARE ALLOTTED WAITING LIST \n ";
+			return bookingDetailsAndWaitingList;
+		}
+
+		else if(passengersIterator.hasNext() && allottedSeats.size() == 0){
+			return "\nSEATS ARE NOT AVAILABLE.REGRET THE INCONVENIENCE\n";
+		}
 		return booking.toString();
 	}
 	private void removeWaitingListBooking(long pnr, int index){
@@ -152,7 +164,7 @@ public class BookingFactory {
 		BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking.getTrain(),booking.getJourneyDate(),seatClass,booking.getSource().getId(), booking.getDestination().getId(),seatNo);
 
 	}
-	private void freeConfirmedSeat(long pnr,int passengerIndex , int seatNo, int seatClass ){
+	private void freeConfirmedSeat(long pnr, int seatNo, int seatClass ){
 		Booking booking = BookingsData.getInstance().findBooking(pnr);
 		//BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking);
 		BookedAndAvailableSeatsByTrainAndDate.getInstance().freeSeat(booking.getTrain(),booking.getJourneyDate(),seatClass,booking.getSource().getId(), booking.getDestination().getId(),seatNo);
@@ -191,7 +203,7 @@ public class BookingFactory {
 						removeRAC(PNR, passengerIndex, seat.getId(),seatClass);
 						break;
 					case CNF:
-						freeConfirmedSeat(PNR, passengerIndex, seat.getId(), seatClass);
+						freeConfirmedSeat(PNR, seat.getId(), seatClass);
 						break;
 
 				}
@@ -201,8 +213,10 @@ public class BookingFactory {
 		}
 		BookingsData.getInstance().cancelBooking(PNR);
 		findVacantSeatsForRAC(booking.getTrain().getId(),booking.getJourneyDate(), passengerIndex,seatClass);
-		BookingsData.getInstance().checkRACSeatAvailabilityForWaitingListBookings(booking.getTrain().getId(),booking.getJourneyDate(),seatClass);
-
+		boolean hasChanged = BookingsData.getInstance().checkRACSeatAvailabilityForWaitingListBookings(booking.getTrain().getId(),booking.getJourneyDate(),seatClass);
+		if(hasChanged){
+			BookingsData.getInstance().updateWaitingListBookingStatus(booking.getTrain(),booking.getJourneyDate(),seatClass);
+		}
 
 	}
 	private void findVacantSeatsForRAC(int trainNo, LocalDate dateOfJourney, int cancelledCount,int seatClass){
@@ -245,6 +259,43 @@ public class BookingFactory {
 		for(Booking booking : bookings){
 			System.out.println(booking);
 		}
+	}
+	public String filterBooking(Long PNR){
+		Booking booking = BookingsData.getInstance().findBooking(PNR);
+		if(booking!= null)
+			return stringifyBooking(booking);
+		return null;
+	}
+	 String stringifyBooking(Booking booking){
+
+		List<String> coachIds = booking.getCoachIds();
+		List<Seat> allocatedSeats = booking.getAllocatedSeats();
+		List<BookingStatus>statusList = booking.getStatus();
+		List<UserDetails> passenger = booking.getPassenger();
+		StringBuilder bookingDetails = new StringBuilder();
+
+		List<Record> waitingListRecords = null;
+		Iterator<Record> waitingListIterator = null ;
+		int i = 0;
+		String journeyDetails =  "Source: "+ booking.getSource().getName() +" Destination : "+ booking.getDestination().getName() + "   PNR : " + booking.getPNR()+" \n " ;
+		for(BookingStatus status : statusList){
+			String temp ="";
+			if(status == BookingStatus.CNF || status == BookingStatus.RAC){
+				temp = coachIds.get(i) + "\t\t\t" + allocatedSeats.get(i).getId() + "\t\t\t" + status + "\t\t\t" + passenger.get(i).getName() + "\n";
+			}
+			else if(status == BookingStatus.WL){
+				if(waitingListRecords == null) {
+					waitingListRecords = BookingsData.getInstance().findAllWaitingListRecordsOfABooking(booking.getPNR());
+					waitingListIterator = waitingListRecords.iterator();
+				}
+				Record waitingRecord = waitingListIterator.next();
+				temp = "--\t\t\t"+ waitingRecord.getcurrentNumber()+"\t\t\t"+ status + "\t\t\t"+ passenger.get(i).getName()+ "\n";
+
+			}
+			bookingDetails.append(temp);
+			i++;
+		}
+		return bookingDetails.toString();
 	}
 
 }
