@@ -120,7 +120,7 @@ public class Helper {
 	static LocalDate getJourneyDate(){
 		LocalDate journeyDate = null;
 		try {
-			String regex = "[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}";
+			String regex = "^[1-9][0-9]{3}-(([0-1][1-2])|0[1-9])-(([0-2][1-9])|3[01])$";
 			String date = getLineInput();
 			if(!Pattern.matches(regex, date))
 				throw new Exception();
@@ -142,7 +142,7 @@ public class Helper {
 	static LocalDate getDateInput(){
 		LocalDate date = null;
 		try {
-			String regex = "^[1-9][0-9]{3}-(([0-1][0-2])|0[0-9])-(([0-2][0-9])|3[01])$";
+			String regex = "^[1-9][0-9]{3}-(([0-1][1-2])|0[1-9])-(([0-2][1-9])|3[01])$";
 			String dateOfBirth = getStringInput();
 			if(!Pattern.matches(regex, dateOfBirth))
 				throw new Exception();

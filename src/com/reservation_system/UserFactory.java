@@ -38,13 +38,23 @@ public class UserFactory {
    public User getUser(String userId){
 	   return UsersData.getInstance().getUser(userId);
    }
+   private void appendAllBookings(List<Booking>bookings , StringBuilder allBookings){
+	   for(Booking booking : bookings){
+		   allBookings.append( BookingFactory.getInstance().stringifyBooking(booking));
+	   }
+   }
    public String getBookings(String userId){
+
 	  List<Booking> bookings =  ((Customer)(UsersData.getInstance().getUser(userId))).getBookings();
 	  StringBuilder allBookings  = new StringBuilder();
-	  for(Booking booking : bookings){
-		  allBookings.append( BookingFactory.getInstance().stringifyBooking(booking));
-	  }
+	  String heading = "------------------------------------- CONFIRMED BOOKINGS ------------------------------------- \n";
+	  allBookings.append(heading);
+	  appendAllBookings(bookings, allBookings);
 	  String bookingsInString = allBookings.toString();
+	  heading = "\n------------------------------------- CANCELLED BOOKINGS  ------------------------------------- \n ";
+	  allBookings.append(heading);
+	  bookings = ((Customer)(UsersData.getInstance().getUser(userId))).getCancelledBookings();
+	  appendAllBookings(bookings, allBookings);
 	  return bookingsInString;
    }
 

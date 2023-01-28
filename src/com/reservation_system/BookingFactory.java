@@ -277,7 +277,9 @@ public class BookingFactory {
 		List<Record> waitingListRecords = null;
 		Iterator<Record> waitingListIterator = null ;
 		int i = 0;
-		String journeyDetails =  "Source: "+ booking.getSource().getName() +" Destination : "+ booking.getDestination().getName() + "   PNR : " + booking.getPNR()+" \n " ;
+		String journeyDetails =  "Source: "+ booking.getSource().getName() +" Destination : "+ booking.getDestination().getName()
+				+ "   PNR : " + booking.getPNR()+"\t DateOFJourney :" + booking.getJourneyDate()+"\n"  ;
+		bookingDetails.append(journeyDetails) ;
 		for(BookingStatus status : statusList){
 			String temp ="";
 			if(status == BookingStatus.CNF || status == BookingStatus.RAC){
@@ -292,6 +294,7 @@ public class BookingFactory {
 				temp = "--\t\t\t"+ waitingRecord.getcurrentNumber()+"\t\t\t"+ status + "\t\t\t"+ passenger.get(i).getName()+ "\n";
 
 			}
+
 			bookingDetails.append(temp);
 			i++;
 		}
