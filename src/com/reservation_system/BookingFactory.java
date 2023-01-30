@@ -228,11 +228,7 @@ public class BookingFactory {
 		((Customer)(user)).addBooking(booking);
 	}
 	
-	public void getBookings(String userId) {
-		Customer user = (Customer) UsersData.getInstance().getUser(userId);
-		List<Booking> bookings =user.getBookings();
 
-	}
 	public BookedAndAvailableSeatsByDate  getBookedAndAvailableSeatsByDate(Train train, int seatClass) { // seating can be AC or sleeper
 		BookedAndAvailableSeatsByDate seatAllocationHelper = null;
 		int numCoaches =-1;

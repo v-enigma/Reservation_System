@@ -196,8 +196,9 @@ public class BookingsData {
 		List<Record> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
 		if(matchedRecords.size() == 0 )
 			return assigned;
-
-		for(Record waitingRecord: matchedRecords) {
+		Iterator<Record> waitingRecordIterator = matchedRecords.iterator();
+		while(waitingRecordIterator.hasNext()) {
+			Record waitingRecord = waitingRecordIterator.next();
 			Booking booking = null;
 			long PNR = waitingRecord.getPNR();
 			if (!bookings.containsKey(PNR)) {
@@ -217,7 +218,7 @@ public class BookingsData {
 					booking.getCoachIds().set(waitingRecord.getPassengerIndex(), coachId);
 					booking.getStatus().set(waitingRecord.getPassengerIndex(),BookingStatus.RAC);
 					booking.getAllocatedSeats().set(waitingRecord.getPassengerIndex(), seat);
-					removeFromWaitingList(PNR,waitingRecord.getPassengerIndex()); // modifying a list while looping over the list cause exception 
+					removeFromWaitingList(PNR,waitingRecord.getPassengerIndex());
 					addRAC(PNR,waitingRecord.getPassengerIndex(), waitingRecord.getSeatClass());
 					assigned = true;
 				}

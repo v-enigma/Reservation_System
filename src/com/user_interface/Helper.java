@@ -106,7 +106,7 @@ public class Helper {
 	static String getPassword() {
 		String password = "";
 		try {
-			String pattern = "";
+			String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
 			password = scan.nextLine();
 			if (!Pattern.matches(pattern, password))
 				throw new PasswordPatternException(PrintStatements.PASSWORD_RULES);
@@ -157,7 +157,7 @@ public class Helper {
 		return date;
 	}
 	static String getEmailInput(){
-		String email= "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+		String email= "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 		try {
 			email = getStringInput();
 			String pattern = "";
@@ -173,7 +173,7 @@ public class Helper {
 		String phone ="";
 		try{
 			phone = getStringInput();
-			String phonePattern = "[1-9][0-9]{9}";
+			String phonePattern = "[6-9][0-9]{9}";
 			if(!Pattern.matches(phonePattern, phone))
 				throw new Exception();
 
