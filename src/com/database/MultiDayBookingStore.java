@@ -5,7 +5,7 @@ import com.reservation_system.Train;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-public class MultiDayBookingStore { // 120 Days Ahead occupied seats and unoccupied seats  Including Today storage 
+public final class MultiDayBookingStore { // 120 Days Ahead occupied seats and unoccupied seats  Including Today storage
 	public MultiDayBookingStore(){
 		
 	}

@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.reservation_system.Train;
 
-public class TrainsData {
+public final class TrainsData {
 	private static int helperId =1;
 	private final static TrainsData TRAIN_DB = new TrainsData();
 	private final Map<Integer, Train>allTrains = new HashMap<>();

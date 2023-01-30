@@ -4,7 +4,7 @@ import com.reservation_system.Station;
 
 import java.util.*;
 
-public class NetworkStorage {
+public final class NetworkStorage {
     private List<List<String>> allRoutes = new ArrayList<>();
 
     private final static NetworkStorage ROUTE_DATA = new NetworkStorage();

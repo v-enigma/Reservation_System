@@ -14,7 +14,7 @@ import com.reservation_system.Station;
 
 
 
-public class ScheduleData {
+public final class ScheduleData {
 	private List<Schedule> schedules = new ArrayList<>();
 	
 	private static ScheduleData SCHEDULE_TB = new ScheduleData();

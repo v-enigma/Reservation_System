@@ -3,7 +3,7 @@ package com.database;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuthenticationData {
+public final class AuthenticationData {
 	private final static AuthenticationData authenticationDB = new AuthenticationData();;
 	Map<String , String> customerCred = new HashMap<>();
 	Map<String, String>adminCred = new HashMap<>();

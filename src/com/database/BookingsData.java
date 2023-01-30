@@ -6,7 +6,7 @@ import java.util.*;
 import com.reservation_system.*;
 import com.enums.BookingStatus;
 
-public class BookingsData {
+public final class BookingsData {
 	private final HashMap<Long, Booking > bookings = new HashMap<>();
 	private static final BookingsData BookingData = new BookingsData();
 	private final HashMap<Long, Booking> cancelledBookings = new HashMap<>();

@@ -49,13 +49,13 @@ public class Customer extends User {
 	
 	private Booking getBookingById(long PNR) {
 		Booking booking = null;
-		boolean found =false;
+
 		Iterator<Booking> bookingIterator = confirmedBookings.iterator();
 		while(bookingIterator.hasNext()) {
 			booking = bookingIterator.next();
 			if(booking.getPNR() == PNR) {
 				bookingIterator.remove();
-				found = true;
+
 				break;
 			}
 				

@@ -6,7 +6,7 @@ import com.reservation_system.Station;
 import com.enums.StationType;
 import sun.security.provider.certpath.AdjacencyList;
 
-public class StationsData {
+public final class StationsData {
 	private static final StationsData STATION_DB = new StationsData();
 	//private final String[] stationCodes = {};
 

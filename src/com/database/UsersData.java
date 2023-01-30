@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.reservation_system.User;
 
-public class UsersData {
+public final class UsersData {
 	private final static UsersData USER_DB = new UsersData();
 	private Set<User> users;
 	private UsersData() {

@@ -11,7 +11,7 @@ import com.enums.SeatType;
 
 
 
-public class BookedAndAvailableSeatsByTrainAndDate {
+public final class BookedAndAvailableSeatsByTrainAndDate {
 	
 	private final static BookedAndAvailableSeatsByTrainAndDate allocatedSeatsByTrain = new BookedAndAvailableSeatsByTrainAndDate();
 	private final Map<Integer,MultiDayBookingStore > trainBookings = new HashMap<>(); //Stores the train number as the key and multiple days ahead booking as the value.
