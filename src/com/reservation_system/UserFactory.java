@@ -50,12 +50,12 @@ public class UserFactory {
 	  String heading = "------------------------------------- CONFIRMED BOOKINGS ------------------------------------- \n";
 	  allBookings.append(heading);
 	  appendAllBookings(bookings, allBookings);
-	  String bookingsInString = allBookings.toString();
+
 	  heading = "\n------------------------------------- CANCELLED BOOKINGS  ------------------------------------- \n ";
 	  allBookings.append(heading);
 	  bookings = ((Customer)(UsersData.getInstance().getUser(userId))).getCancelledBookings();
 	  appendAllBookings(bookings, allBookings);
-	  return bookingsInString;
+	  return allBookings.toString();
    }
 
    public String getUserProfile(String userId) {
