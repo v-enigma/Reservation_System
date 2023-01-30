@@ -1,6 +1,7 @@
 package com.user_interface;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import com.database.AuthenticationData;
@@ -119,6 +120,14 @@ public class CustomerApp implements Application, Authenticable, Searchable{
 			//System.out.println(name);
 	    	System.out.println(PrintStatements.DATE_OF_BIRTH);
 	    	LocalDate dateOfBirth = Helper.getDateInput();
+			LocalDate today = LocalDate.now();
+			Period fiveYears = Period.between(dateOfBirth, today);
+			if(fiveYears.getYears() <= 5){
+				System.out.println("For 5 years old or below you don't need a ticket");
+				passengerCount--;
+				continue;
+			}
+
 	    	//System.out.println("Enter Gender");
 	    	Gender gender = Helper.getGender();
 	    	SeatType seatType = Helper.getSeatType();
