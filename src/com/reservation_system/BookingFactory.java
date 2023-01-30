@@ -278,7 +278,7 @@ public class BookingFactory {
 		bookingDetails.append(journeyDetails) ;
 		for(BookingStatus status : statusList){
 			String temp ="";
-			if(status == BookingStatus.CNF || status == BookingStatus.RAC){
+			if(status == BookingStatus.CNF || status == BookingStatus.RAC|| status == BookingStatus.CAN){
 				temp = coachIds.get(i) + "\t\t\t" + allocatedSeats.get(i).getId() + "\t\t\t" + status + "\t\t\t" + passenger.get(i).getName() + "\n";
 			}
 			else if(status == BookingStatus.WL){

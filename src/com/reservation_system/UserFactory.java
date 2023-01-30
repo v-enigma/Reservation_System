@@ -51,9 +51,12 @@ public class UserFactory {
 	  allBookings.append(heading);
 	  appendAllBookings(bookings, allBookings);
 
+
+	  bookings = ((Customer)(UsersData.getInstance().getUser(userId))).getCancelledBookings();
+	  if(bookings == null || bookings.size() == 0)
+		  return allBookings.toString();
 	  heading = "\n------------------------------------- CANCELLED BOOKINGS  ------------------------------------- \n ";
 	  allBookings.append(heading);
-	  bookings = ((Customer)(UsersData.getInstance().getUser(userId))).getCancelledBookings();
 	  appendAllBookings(bookings, allBookings);
 	  return allBookings.toString();
    }

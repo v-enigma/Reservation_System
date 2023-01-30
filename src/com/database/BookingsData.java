@@ -158,7 +158,7 @@ public final class BookingsData {
 		List<Record> matchedRecords = filterByTrainAndDate(waitingList,trainNo,dateOfJourney,seatClass );
 		if(matchedRecords.size() == 0 )
 			return;
-		Iterator<Record> waitingListIterator = waitingList.iterator();
+		Iterator<Record> waitingListIterator = matchedRecords.iterator();
 		while(waitingListIterator.hasNext()){
 			Record waitingRecord = waitingListIterator.next();
 			Booking booking = null;
